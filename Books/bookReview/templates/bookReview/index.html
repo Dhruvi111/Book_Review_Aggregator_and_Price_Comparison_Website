@@ -2,6 +2,12 @@
 
 {% block title %}Home Page{% endblock title %}
 
+{% block css %}
+{% load static %}
+<link rel="stylesheet" href= "{% static 'bookReview/css/landing_css.css' %}">
+{% endblock css %}
+
 {% block body %}
 <h3>Landing page</h3>
+
 {% endblock body %}
