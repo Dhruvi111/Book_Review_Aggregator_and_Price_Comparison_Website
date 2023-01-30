@@ -1,11 +1,11 @@
-.col-md-3 {
+.col-lg-2 {
     display: inline-block;
     margin-left: -4px;
 }
 
-.col-md-3 img {
-    max-width: 286px;
-    height: 250px;
+.col-lg-2 img {
+    max-width: 130px;
+    height: 209px;
 }
 
 body .carousel-indicators {
@@ -17,17 +17,40 @@ body .carousel-indicators {
 
 }
 
-body .carousel-indicator li {
-    background-color: blue;
+/* change the color of unactive carousel indicators to grey -- idk how to do that  */
+
+.carousel-indicators button {
+    box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.5); 
 }
 
 body .carousel-control-prev-icon,
 body .carousel-control-next-icon {
-   background-color: blue; 
-    /* filter: invert(1); */
+    filter: invert(1);
+    /* padding-top: 20px; */
+
 }
 
+body .carousel-indicators{
+    bottom: -50px;
+    }
+
 .carousel-control-next, .carousel-control-prev {
-   top: auto;
-   bottom: auto;
+   top: -20px;
+   /* bottom: auto; */
+   /* padding-top: 20px; */
+}
+
+.carousel-control-next {
+    right: -100px;
+}
+.carousel-control-prev {
+    left: -100px;
+}
+
+.card {
+    border: none;
+}
+
+.card-title, .card-text {
+    text-align: center;
 }
