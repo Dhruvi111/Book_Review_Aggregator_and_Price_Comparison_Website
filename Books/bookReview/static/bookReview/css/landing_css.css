@@ -1,4 +1,33 @@
-h3 {
-    /* background-image: url(''); */
-    padding-top: 20px;
+.col-md-3 {
+    display: inline-block;
+    margin-left: -4px;
+}
+
+.col-md-3 img {
+    max-width: 286px;
+    height: 250px;
+}
+
+body .carousel-indicators {
+    bottom:0;
+}
+
+.carousel-indicators .active {
+    background-color: blue;
+
+}
+
+body .carousel-indicator li {
+    background-color: blue;
+}
+
+body .carousel-control-prev-icon,
+body .carousel-control-next-icon {
+   background-color: blue; 
+    /* filter: invert(1); */
+}
+
+.carousel-control-next, .carousel-control-prev {
+   top: auto;
+   bottom: auto;
 }
