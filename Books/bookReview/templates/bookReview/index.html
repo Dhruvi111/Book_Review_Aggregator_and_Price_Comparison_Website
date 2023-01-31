@@ -4,7 +4,7 @@
 
 {% block css %}
 {% load static %}
-<link rel="stylesheet" href= "{% static 'bookReview/css/landing_css.css' %}">
+<link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
 {% endblock css %}
 
 {% block body %}
@@ -13,7 +13,7 @@
     
   {% comment %} <button onclick="clearCart()">click me</button> {% endcomment %}
   {% for product, range, nSlides in allBooks %}
-    <h5 class="mt-4">{{product.0.category}}</h5>
+    <h4 class="mt-4 mb-4 category_title">{{product.0.category | upper}}</h4>
     
   <div class="row">
     <div id="demo{{forloop.counter}}" class="col carousel slide mt-1" data-ride="carousel">
@@ -37,13 +37,12 @@
                         <h6 class="card-text">{{i.author}}</h6>
                       </div>
                   </div>
-              </div>  
+              </div>
 
               {% if forloop.counter|divisibleby:6 and forloop.counter > 0 and not forloop.last%}
           </div><div class="carousel-item">
               {% endif %}
               {% endfor %}
-; 
       </div>
     </div> 
 
@@ -53,7 +52,7 @@
     <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-bs-slide="next">
       <span class="carousel-control-next-icon"></span>
     </a>
-  </div> 
+  </div> <hr>
   {% endfor %}
 </div>
 

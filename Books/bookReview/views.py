@@ -27,3 +27,10 @@ def index(request):
     params={'allBooks':allBooks }
     # print(allBooks)
     return render(request, "bookReview/index.html", params)
+
+
+def about(request):
+    return render(request, "bookReview/about.html")
+
+def contact(request):
+    return render(request, "bookReview/contact.html")

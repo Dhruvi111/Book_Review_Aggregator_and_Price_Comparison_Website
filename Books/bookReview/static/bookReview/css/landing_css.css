@@ -1,3 +1,7 @@
+body {   
+    font-family: 'Lexend', sans-serif;
+}
+
 .col-lg-2 {
     display: inline-block;
     margin-left: -4px;
@@ -12,16 +16,14 @@ body .carousel-indicators {
     bottom:0;
 }
 
-.carousel-indicators .active {
+/* .carousel-indicators .active {
     background-color: blue;
 
 }
 
-/* change the color of unactive carousel indicators to grey -- idk how to do that  */
-
 .carousel-indicators button {
     box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.5); 
-}
+} */
 
 body .carousel-control-prev-icon,
 body .carousel-control-next-icon {
@@ -51,6 +53,16 @@ body .carousel-indicators{
     border: none;
 }
 
-.card-title, .card-text {
+.card-title, .card-text, .category_title {
     text-align: center;
+    /* background-color: brown; */
+}
+
+.card-img-top {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+.footer {
+   display: inline-block;
 }
