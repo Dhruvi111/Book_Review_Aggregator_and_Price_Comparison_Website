@@ -1,0 +1,54 @@
+{% extends 'bookReview/basic.html' %}
+
+{% block title %}Dropdown - genre{% endblock title %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
+<style>
+    h4 {
+        text-align: center;
+    }
+</style>
+{% endblock css %}
+
+{% block body %}
+<div class="row">
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+        <div class="container carousel-inner">
+            <div class="carousel-item active">
+               {% if Fiction in category %}
+
+                <h4 class="mt-5 mb-5">{{gen|upper}} "{{query|upper}}"</h4>
+
+                    {% for i in length %} 
+                
+                        {% load filters %}
+                    
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
+                            <div class="card align-items-center" style="width: 13rem;">
+                                <img src="{{pic|index:i}}" class="card-img-top" alt="Picture not available">
+                                <div class="card-body">
+                                    <h5 class="card-title" id="namepr{{i.book_id}}">{{titles|index:i}}</h5>
+                                    <h6 class="card-text">{{author | index:i | join:", "}}</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% if forloop.counter|divisibleby:6 and forloop.counter > 0 and not forloop.last%}
+                        <hr class="pb-4">
+                    {% endif %}        
+                    {% endfor %} 
+                
+                {% else %}
+                        
+                                   
+               {% endif %}
+
+            </div>
+    
+        </div>
+    </div>
+</div>
+    
+{% endblock body %}

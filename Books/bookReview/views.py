@@ -1,8 +1,62 @@
+import requests
 from django.shortcuts import render, HttpResponse
 from .models import Book
 from math import ceil
 
+    
 # Create your views here.
+def api(query, data):
+    titles = []
+    pic = []
+    author = []
+    category = []
+
+    if len(query) >= 3:
+        json_data = data.json()
+        results = json_data['totalItems']
+        list_items = json_data['items']
+
+        for i in range(len(list_items)):
+            volInfo = list_items[i]['volumeInfo']
+            # Titles
+            if('title' in volInfo):
+                arr = volInfo['title'] 
+                titles.append(arr)      
+            else:
+                titles.append("Title Not Available")
+            
+            # Images
+            if('imageLinks' in volInfo):
+                arr1 = volInfo['imageLinks']['thumbnail']
+                pic.append(arr1)
+            else:
+                pic.append("/static/bookReview/images/coverNF.png")
+
+            #Authors
+            if('authors' in volInfo):
+                arr2 = volInfo['authors'] 
+                author.append(arr2)      
+            else:
+                author.append(["Author Info Not Available"])
+
+            #Categories
+            if ('categories' in volInfo):
+                arr3 = volInfo['categories']
+                category.append(arr3)
+            else:
+                category.append(["Category Info Not Available"])
+
+        length = range(len(titles))
+        params = {'titles': titles, 'pic':pic, 'length': length, 'author': author, 'results':results, 'msg':"Search Results", 'gen':'Genre: ', 'category':category, 'query':query}
+   
+
+    elif len(query) == 0 or len(query) < 3:
+        params={'msg':"Please Enter More Than 3 Letters !"}
+
+    else:
+        params = {'msg': "No Results Found :)"}
+    return params
+
 def index(request):
     allBooks = []
     # run the folowing two lines and for loop one by one in shell and print the variables to get the idea of what is happening
@@ -34,3 +88,19 @@ def about(request):
 
 def contact(request):
     return render(request, "bookReview/contact.html")
+
+def search(request):
+    # The API provides maximum 40 results -- search by booknames
+    query = request.GET.get('book_name')
+    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query+"&maxResults=40")
+
+    x = api(query=query, data=data)  # x has the value of params
+    return render(request, "bookReview/search.html", x)
+
+# not working properly
+def genre(request):
+    query ="Fiction"
+    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + query+"&maxResults=40")
+    x = api(query=query, data=data)
+    print("function exec")
+    return render(request, "bookReview/genre.html", x)

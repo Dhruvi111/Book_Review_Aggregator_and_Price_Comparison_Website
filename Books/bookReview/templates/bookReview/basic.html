@@ -34,7 +34,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'Home' %}">Lit<sub>Club</sub></a>
         <button
@@ -62,11 +62,12 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Dropdown
+                Genres
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="/genre" name="genre">Fiction</a></li>
+                <li><a class="dropdown-item" href="#">Non-Fiction</a></li>
+                <li><a class="dropdown-item" href="#">Mystery</a></li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
                   <a class="dropdown-item" href="#">Something else here</a>
@@ -85,20 +86,27 @@
               <a class="nav-link" href="/contact">Contact Us</a>
             </li>
           </ul>
-          <form class="d-flex" role="search">
+          <form class="d-flex" role="search" action="/search">
             <input
               class="form-control me-2"
               type="search"
-              placeholder="Search"
+              placeholder="Enter book name"
               aria-label="Search"
+              name = "book_name"
+            
             />
-            <button class="btn btn-outline-success" type="submit">
-              Search
+
+            <button class="btn" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg>
             </button>
-            <button class="btn btn-success mx-2">
-              Login
-            </button>
+      
           </form>
+
+          <button class="btn btn-success mx-2">
+            Login
+          </button>
         </div>
       </div>
     </nav>
@@ -119,7 +127,7 @@
         <div class="col footer">
           <h5>Genres</h5>
           <ul>
-            <li><a href="#">Fiction</a></li>
+            <li><a href="/genre">Fiction</a></li>
             <li><a href="#">Non-Fiction</a></li>
             <li><a href="#">Mystery</a></li>
           </ul>
@@ -127,5 +135,6 @@
       </div>
     </footer>
     
+    {% block js %}{% endblock js %}
   </body>
 </html>

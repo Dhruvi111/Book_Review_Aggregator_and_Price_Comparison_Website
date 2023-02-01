@@ -1,5 +1,6 @@
 body {   
     font-family: 'Lexend', sans-serif;
+    /* background-image: url('/static/bookReview/images/bg.jpg'); */
 }
 
 .col-lg-2 {
@@ -55,7 +56,6 @@ body .carousel-indicators{
 
 .card-title, .card-text, .category_title {
     text-align: center;
-    /* background-color: brown; */
 }
 
 .card-img-top {
@@ -65,4 +65,8 @@ body .carousel-indicators{
 
 .footer {
    display: inline-block;
+}
+
+.bookImage {
+    border-radius: 7px;
 }
