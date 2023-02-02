@@ -63,7 +63,7 @@ body .carousel-indicators{
 }
 
 .footer {
-    background: linear-gradient(0deg, rgba(67,67,67,1) 0%, rgba(255,255,255,1) 55%);
+    background: radial-gradient(ellipse at right bottom, #EEB1BF 5%, #d42dab 25%, #4d1d63 50%, #030243 100%);
     color: #fff;
     padding: 40px 0;
     width: 100%;
