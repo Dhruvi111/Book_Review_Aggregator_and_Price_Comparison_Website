@@ -2,7 +2,7 @@ import requests
 from django.shortcuts import render, HttpResponse
 from .models import Book
 from math import ceil
-
+from bs4 import BeautifulSoup
     
 # Create your views here.
 def api(query, data):
@@ -57,6 +57,16 @@ def api(query, data):
         params = {'msg': "No Results Found :)"}
     return params
 
+# def gettext():
+#     url = 'http://127.0.0.1:8000/'
+#     r = requests.get(url)
+#     htmlContent = r.content
+#     soup = BeautifulSoup(htmlContent, 'html.parser')
+#     text = []
+#     for tag in soup.find_all('a',{"class":"dropdown-item"}):
+#         text.append(tag.text)
+#     return text
+
 def index(request):
     allBooks = []
     # run the folowing two lines and for loop one by one in shell and print the variables to get the idea of what is happening
@@ -92,15 +102,19 @@ def contact(request):
 def search(request):
     # The API provides maximum 40 results -- search by booknames
     query = request.GET.get('book_name')
-    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query+"&maxResults=40")
+    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query+"&printType=books&maxResults=36")
 
     x = api(query=query, data=data)  # x has the value of params
     return render(request, "bookReview/search.html", x)
 
-# not working properly
+# not working fully
+
+
 def genre(request):
-    query ="Fiction"
-    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + query+"&maxResults=40")
+    
+    query = 'mystery'
+    # if query in text:
+    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + query+"&printType=books&maxResults=36")
     x = api(query=query, data=data)
-    print("function exec")
+    #  print(x)
     return render(request, "bookReview/genre.html", x)

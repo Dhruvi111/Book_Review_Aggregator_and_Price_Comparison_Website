@@ -65,9 +65,9 @@
                 Genres
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/genre" name="genre">Fiction</a></li>
-                <li><a class="dropdown-item" href="#">Non-Fiction</a></li>
-                <li><a class="dropdown-item" href="#">Mystery</a></li>
+                <li><a class="dropdown-item" href="/genre" id="fiction">Fiction</a></li>
+                <li><a class="dropdown-item" href="/genre" id="Non-Fiction">Non-Fiction</a></li>
+                <li><a class="dropdown-item" href="/genre">Mystery</a></li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
                   <a class="dropdown-item" href="#">Something else here</a>
@@ -128,13 +128,18 @@
           <h5>Genres</h5>
           <ul>
             <li><a href="/genre">Fiction</a></li>
-            <li><a href="#">Non-Fiction</a></li>
-            <li><a href="#">Mystery</a></li>
+            <li><a href="/genre">NonFiction</a></li>
+            <li><a href="/genre">Mystery</a></li>
           </ul>
         </div>
       </div>
     </footer>
     
-    {% block js %}{% endblock js %}
+    {% block js %}
+      <script>
+        fiction = document.getElementById('fiction').innerHTML;
+        console.log(fiction)
+      </script>
+    {% endblock js %}
   </body>
 </html>

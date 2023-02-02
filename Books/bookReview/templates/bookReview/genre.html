@@ -17,7 +17,7 @@
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
         <div class="container carousel-inner">
             <div class="carousel-item active">
-               {% if Fiction in category %}
+               {% comment %} {% if "Fiction" in category %} {% endcomment %}
 
                 <h4 class="mt-5 mb-5">{{gen|upper}} "{{query|upper}}"</h4>
 
@@ -40,10 +40,10 @@
                     {% endif %}        
                     {% endfor %} 
                 
-                {% else %}
+                {% comment %} {% else %}
                         
                                    
-               {% endif %}
+               {% endif %} {% endcomment %}
 
             </div>
     
