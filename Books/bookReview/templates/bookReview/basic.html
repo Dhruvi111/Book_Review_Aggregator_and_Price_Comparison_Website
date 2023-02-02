@@ -113,27 +113,40 @@
 
     {% block body %}{% endblock body %}
 
-    <footer class="col-xs-3 col-sm-3 col-md-3">
-      <div>
-        <div class="col footer pt-5">
-          <h5>Quick Links</h5>
-          <ul>
-            <li><a href="{% url 'Home' %}">Home</a></li>
-            <li><a href="{% url 'About' %}">About Us</a></li>
-            <li><a href="{% url 'Contact' %}">Contact Us</a></li>
-          </ul>
+  
+      <footer class="footer">
+        <div class="container">
+          <div class="footer-content">
+            <div class="quick-links">
+              <h4>Quick Links</h4>
+              <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+              </ul>
+            </div>
+            <div class="contact-info">
+              <h4>Contact Info</h4>
+              <ul>
+                <li>Address: 123 Main Street</li>
+                <li>Phone: 123-456-7890</li>
+                <li>Email: info@example.com</li>
+              </ul>
+            </div>
+            <div class="social-media">
+              <h4>Follow Us</h4>
+              <ul>
+                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+              </ul>
+            </div>
+          </div>
         </div>
-
-        <div class="col footer">
-          <h5>Genres</h5>
-          <ul>
-            <li><a href="/genre">Fiction</a></li>
-            <li><a href="/genre">NonFiction</a></li>
-            <li><a href="/genre">Mystery</a></li>
-          </ul>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    
     
     {% block js %}
       <script>

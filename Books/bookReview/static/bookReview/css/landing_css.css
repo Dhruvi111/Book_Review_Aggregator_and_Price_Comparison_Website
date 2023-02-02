@@ -62,10 +62,49 @@ body .carousel-indicators{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-
 .footer {
-   display: inline-block;
-}
+    background-color: #333;
+    color: #fff;
+    padding: 40px 0;
+    width: 100%;
+  }
+  
+  .footer .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer .quick-links h4,
+  .footer .contact-info h4,
+  .footer .social-media h4 {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  
+  .footer li {
+    margin-right: 20px;
+  }
+  
+  .footer a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .footer .fa {
+    font-size: 20px;
+    margin-right: 10px;
+  }  
 
 .bookImage {
     border-radius: 7px;
