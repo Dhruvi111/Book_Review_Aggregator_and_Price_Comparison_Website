@@ -107,12 +107,11 @@ def search(request):
     x = api(query=query, data=data)  # x has the value of params
     return render(request, "bookReview/search.html", x)
 
-# not working fully
 
 
-def genre(request):
+def genre(request, category):
     
-    query = 'mystery'
+    query = category
     # if query in text:
     data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + query+"&printType=books&maxResults=36")
     x = api(query=query, data=data)

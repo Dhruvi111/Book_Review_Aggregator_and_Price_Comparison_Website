@@ -1,6 +1,11 @@
 body {   
     font-family: 'Lexend', sans-serif;
-    /* background-image: url('/static/bookReview/images/bg.jpg'); */
+    background: linear-gradient(#92bee140, rgba(0, 0, 0, 0));
+}
+
+
+.navbar {
+    background-color: transparent;
 }
 
 .col-lg-2 {
@@ -52,7 +57,9 @@ body .carousel-indicators{
 
 .card {
     border: none;
+    background: linear-gradient(#1218c040, rgba(0, 0, 0, 0));
 }
+
 
 .card-title, .card-text, .category_title {
     text-align: center;

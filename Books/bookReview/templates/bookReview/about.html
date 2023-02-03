@@ -3,11 +3,8 @@
 {% block title %}About Page{% endblock title %}
 
 {% block css %}
-<style>
-    body {   
-        font-family: 'Lexend', sans-serif;
-    }
-</style>
+{% load static %}
+<link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
 
 {% endblock css %}
 

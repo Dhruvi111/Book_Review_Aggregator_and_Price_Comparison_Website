@@ -17,12 +17,12 @@
     
   <div class="row">
     <div id="demo{{forloop.counter}}" class="col carousel slide mt-1" data-ride="carousel">
-      <div class="carousel-indicators">
+      {% comment %} <div class="carousel-indicators">
         <button type="button" data-bs-target="#demo{{forloop.counter}}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
         {% for i in range %}
           <button type="button" data-bs-target="#demo{{forloop.counter}}" data-bs-slide-to="{{i}}" aria-label="Slide 2"></button>
         {% endfor %}
-      </div>
+      </div> {% endcomment %}
 
       <div class="container carousel-inner no-padding">
           <div class="carousel-item active">
@@ -30,10 +30,16 @@
               
               {% for i in product%}
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
-                  <div class="card align-items-center" style="width: 13rem;">
+                  <div class="card align-items-center pt-3" style="width: 12rem;" id="cardHover{{i.book_id}}">
                       <img src="/media/{{i.image}}" class="card-img-top bookImage" alt="Image Empty">
-                      <div class="card-body">
-                        <h5 class="card-title" id="namepr{{i.book_id}}">{{i.title}}</h5>
+                      <div class="card-body ">
+                        <h5 class="card-title">
+                          {% if i.title|length >= 25 %}
+                            {{i.title|slice:":25"}}...
+                          {% else %}
+                            {{i.title}}
+                          {% endif %}
+                          </h5>
                         <h6 class="card-text">{{i.author}}</h6>
                       </div>
                   </div>
@@ -57,3 +63,16 @@
 </div>
 
 {% endblock body %}
+
+{% block js %}
+{% comment %} <script type='text/javascript'>
+
+  $('.card').click (function(){
+      var idstr = this.id.toString();
+      console.log("clicked")
+      console.log(idstr)
+      var content = document.getElementsByClassName('book').innerHTML ;
+      console.log(content);
+  });
+</script> {% endcomment %}
+{% endblock js %}

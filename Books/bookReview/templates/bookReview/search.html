@@ -25,10 +25,17 @@
                             {% load filters %}
                         
                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
-                                <div class="card align-items-center" style="width: 13rem;">
+                                <div class="card align-items-center pt-3" style="width: 13rem;">
                                     <img src="{{pic|index:i}}" class="card-img-top" alt="Picture not available">
                                     <div class="card-body">
-                                        <h5 class="card-title" id="namepr{{i.book_id}}">{{titles|index:i}}</h5>
+                                        <h5 class="card-title">
+                                            {% if titles|index:i|length >= 25 %}
+                                                {{titles|index:i|slice:":25"}}...
+                                            {% else %}
+                                                {{titles|index:i}}  
+                                            {% endif %}
+                                            
+                                        </h5>
                                         <h6 class="card-text">{{author | index:i | join:", "}}</h6>
                                     </div>
                                 </div>
