@@ -60,7 +60,6 @@ body .carousel-indicators{
     background: linear-gradient(#1218c040, rgba(0, 0, 0, 0));
 }
 
-
 .card-title, .card-text, .category_title {
     text-align: center;
 }
@@ -115,4 +114,8 @@ body .carousel-indicators{
 
 .bookImage {
     border-radius: 7px;
+}
+
+.dropdown-menu {
+    columns: 4;
 }

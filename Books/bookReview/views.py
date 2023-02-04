@@ -11,9 +11,10 @@ def api(query, data):
     author = []
     category = []
 
-    if len(query) >= 3:
-        json_data = data.json()
-        results = json_data['totalItems']
+    json_data = data.json()
+    results = json_data['totalItems']
+    if len(query) >= 3 and results != 0:
+        
         list_items = json_data['items']
 
         for i in range(len(list_items)):
@@ -54,7 +55,7 @@ def api(query, data):
         params={'msg':"Please Enter More Than 3 Letters !"}
 
     else:
-        params = {'msg': "No Results Found :)"}
+        params = {'msg': "No Results Found", 'query': query}
     return params
 
 # def gettext():

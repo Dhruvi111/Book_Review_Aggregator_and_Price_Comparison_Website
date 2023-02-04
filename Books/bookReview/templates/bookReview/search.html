@@ -61,7 +61,7 @@
 
 {% block js %}
 <script>
-    {% if msg != "Search Results" and msg != "No Results Found :)" %}
+    {% if msg != "Search Results" and msg != "No Results Found" %}
         alert('{{msg}}')
         window.location.href = '/'
     {% endif %}

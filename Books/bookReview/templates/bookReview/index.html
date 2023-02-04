@@ -30,7 +30,7 @@
               
               {% for i in product%}
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
-                  <div class="card align-items-center pt-3" style="width: 12rem;" id="cardHover{{i.book_id}}">
+                  <div class="card align-items-center pt-3 book" style="width: 12rem;" id="cardHover{{i.book_id}}">
                       <img src="/media/{{i.image}}" class="card-img-top bookImage" alt="Image Empty">
                       <div class="card-body ">
                         <h5 class="card-title">
@@ -60,19 +60,22 @@
     </a>
   </div> <hr>
   {% endfor %}
+
 </div>
 
 {% endblock body %}
 
 {% block js %}
-{% comment %} <script type='text/javascript'>
+ <script type='text/javascript'>
 
-  $('.card').click (function(){
+  {% comment %} $('.card').hover (function(){
       var idstr = this.id.toString();
-      console.log("clicked")
+      console.log("clicked") 
       console.log(idstr)
-      var content = document.getElementsByClassName('book').innerHTML ;
-      console.log(content);
-  });
-</script> {% endcomment %}
+      document.getElementById(idstr).innerHTML = ``;
+      
+  }); {% endcomment %}
+  
+  
+</script> 
 {% endblock js %}
