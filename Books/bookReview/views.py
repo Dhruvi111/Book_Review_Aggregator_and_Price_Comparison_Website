@@ -118,3 +118,7 @@ def genre(request, category):
     x = api(query=query, data=data)
     #  print(x)
     return render(request, "bookReview/genre.html", x)
+
+
+def login(request):
+    return render(request, "bookReview/login.html")

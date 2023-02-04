@@ -8,5 +8,6 @@ urlpatterns = [
     path('contact/', views.contact, name="Contact"),
     path('search/', views.search, name="Search"),
     path('genre/<str:category>/', views.genre, name="Genre"),
-    
+    path('login/', views.login, name="Login"),
+
 ]
