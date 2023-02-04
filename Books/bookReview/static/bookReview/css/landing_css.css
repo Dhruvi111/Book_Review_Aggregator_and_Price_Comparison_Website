@@ -123,3 +123,25 @@ body .carousel-indicators {
 .dropdown-menu {
     columns: 5;
 }
+
+.about-section{
+    background: url(./static/images/books.avif) no-repeat left;
+    background-size: 55%;
+    overflow: hidden;
+    padding: 100px 0;
+}
+
+.inner-container{
+    width: 55%;
+    float: right;
+    background-color: #fdfdfd;
+    padding: 150px;
+}
+
+.text{
+    font-size: 14px;
+    color: #545454;
+    line-height: 30px;
+    text-align: justify;
+    margin-bottom: 40px;
+}
