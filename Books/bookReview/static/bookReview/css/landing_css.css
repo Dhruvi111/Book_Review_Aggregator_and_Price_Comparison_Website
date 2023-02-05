@@ -90,10 +90,12 @@ body .carousel-indicators {
 }
 
 .footer {
-    background: radial-gradient(ellipse at right bottom, #EEB1BF 5%, #d42dab 25%, #4d1d63 50%, #030243 100%);
+    background: rgb(72, 81, 137);
     color: #fff;
     padding: 40px 0;
     width: 100%;
+    margin: 30px 0 0 -10px;
+    top: 0%;
 }
 
 .footer .footer-content {
@@ -102,11 +104,13 @@ body .carousel-indicators {
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
+    width: 100%;
 }
 
 .footer .quick-links h4,
 .footer .contact-info h4,
-.footer .social-media h4 {
+.footer .social-media h4,
+.footer .copyright h4 {
     color: #fff;
     font-size: 18px;
     margin-bottom: 20px;
@@ -117,10 +121,15 @@ body .carousel-indicators {
     padding: 0;
     margin: 0;
     display: flex;
+    vertical-align: middle;
 }
 
 .footer li {
     margin-right: 20px;
+}
+
+#footer-content{
+    width: 100%;
 }
 
 .footer a {
