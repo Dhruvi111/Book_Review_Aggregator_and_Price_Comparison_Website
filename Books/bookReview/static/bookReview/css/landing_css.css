@@ -1,11 +1,13 @@
 body {
     font-family: 'Lexend', sans-serif;
-    background: linear-gradient(#92bee140, rgba(0, 0, 0, 0));
+    background: linear-gradient(to bottom right, #ffcbf290, #f3c4fb90, #ecbcfd90, #e5b3fe90, #e2afff90, #d8bbff90, #d0d1ff90, #c8e7ff90, #c0fdff90);
+    background-attachment: fixed;
 }
 
 
 .navbar {
-    background-color: transparent;
+    /* background-color: transparent; */
+    background: #5A59AD;
 }
 
 .col-lg-2 {
@@ -25,9 +27,9 @@ body .carousel-indicators {
 /* .carousel-indicators .active {
     background-color: blue;
 
-}
+} */
 
-.carousel-indicators button {
+/* .carousel-indicators button {
     box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.5); 
 } */
 
@@ -60,6 +62,8 @@ body .carousel-indicators {
 .card {
     border: none;
     background: linear-gradient(#1218c040, rgba(0, 0, 0, 0));
+    height: 22rem;
+    /*new  */
 }
 
 .card-title,
@@ -124,21 +128,21 @@ body .carousel-indicators {
     columns: 5;
 }
 
-.about-section{
+.about-section {
 
     background-size: 55%;
     overflow: hidden;
     padding: 100px 0;
 }
 
-.inner-container{
+.inner-container {
     width: 55%;
     float: right;
     background-color: #fdfdfd;
     padding: 150px;
 }
 
-.text{
+.text {
     font-size: 14px;
     color: #545454;
     line-height: 30px;
