@@ -102,7 +102,7 @@ def contact(request):
 
 def search(request):
     # The API provides maximum 40 results -- search by booknames
-    query = request.GET.get('book_name')
+    query = request.GET.get('text')
     data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query+"&printType=books&maxResults=36")
 
     x = api(query=query, data=data)  # x has the value of params
