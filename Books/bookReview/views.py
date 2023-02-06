@@ -59,16 +59,6 @@ def api(query, data):
         params = {'msg': "No Results Found", 'query': query}
     return params
 
-# def gettext():
-#     url = 'http://127.0.0.1:8000/'
-#     r = requests.get(url)
-#     htmlContent = r.content
-#     soup = BeautifulSoup(htmlContent, 'html.parser')
-#     text = []
-#     for tag in soup.find_all('a',{"class":"dropdown-item"}):
-#         text.append(tag.text)
-#     return text
-
 def index(request):
     allBooks = []
     # run the folowing two lines and for loop one by one in shell and print the variables to get the idea of what is happening
@@ -103,9 +93,10 @@ def contact(request):
       # gets the details through 'name' attribute
       first_name = request.POST.get('fname')
       last_name = request.POST.get('lname')
-      email = request.POST.get('email')     
-      message = request.POST.get('message')
-      contact = Contact(first_name=first_name,last_name=last_name, email=email, message=message)
+      email = request.POST.get('email')  
+      subject = request.POST.get('subject')   
+      text = request.POST.get('text')
+      contact = Contact(first_name=first_name,last_name=last_name, email=email,subject=subject, text=text)
       contact.save()
       messages.success(request, 'Your message has been sent sucessfully!')
     return render(request, "bookReview/contact.html")
@@ -129,6 +120,9 @@ def genre(request, category):
     #  print(x)
     return render(request, "bookReview/genre.html", x)
 
+def details(request):
+    return render(request, "bookReview/details.html")
 
 def login(request):
     return render(request, "bookReview/login.html")
+

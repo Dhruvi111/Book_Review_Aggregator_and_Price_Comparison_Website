@@ -10,7 +10,7 @@
         font-size: 18px;
     }
     h1{
-        padding-top:1rem;
+        padding-top:5rem;
         padding-bottom:1.5rem;
     }
     .form{
@@ -18,7 +18,8 @@
         border-radius: .5rem;
         box-shadow: var(--box-shadow);
         border:.1rem solid rgb(72, 81, 137);
-        background:#F7E1F8ff;
+       /* background:#F7E1F8ff; */
+        background: none;
         padding:2rem;
         padding-top:.5rem;
         margin-left:auto;
@@ -45,28 +46,29 @@
 
 {% block body %}
 
-<div class="container">
+<div class="container pb-4">
     <h1 class="text-center" >We're here to help</h1>
-    <form class="row g-3 form">
+    <form class="row g-3 form" action="/contact/" method="POST">
+        {% csrf_token %}
         <div class="col-md-6">
             <label for="fname" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="fname">
+            <input type="text" class="form-control" id="fnameId" name="fname" placeholder="Enter Name" required>
         </div>
         <div class="col-md-6">
             <label for="lname" class="form-label">Last Name</label>
-            <input type="text" class="form-control" id="lname">
+            <input type="text" class="form-control" id="lnameId" name="lname" placeholder="Enter Surname" required>
         </div>
         <div class="col-12">
             <label for="useremail" class="form-label">Email-Id</label>
-            <input type="email" class="form-control" id="useremail">
+            <input type="email" class="form-control" id="useremailId" name="email" placeholder="Enter Email Address" required>
         </div>
         <div class="col-12">
             <label for="subject" class="form-label">Subject</label>
-            <input type="text" class="form-control" id="subject">
+            <input type="text" class="form-control" id="subjectId" name="subject" placeholder="Text" required>
         </div>
         <div class="col-12">
             <label for="message" class="form-label">Your Message</label>
-            <textarea class="form-control" id="message" rows="3"></textarea>
+            <textarea class="form-control" id="textId" name="text" rows="3" placeholder="Text" required></textarea>
         </div>
         <div class="col-12">
             <button type="submit" class="btn btn-primary msg-btn">Send message </button>
@@ -74,3 +76,6 @@
   </form>
 </div>
 {% endblock body %}
+
+{% block js %}{% endblock js %}
+

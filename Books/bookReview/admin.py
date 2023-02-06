@@ -8,4 +8,4 @@ class BookAdmin(admin.ModelAdmin):
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
-    list_display = ('msg_id', 'fullname', 'email', 'message')
+    list_display = ('msg_id', 'fullname', 'email','subject', 'text')

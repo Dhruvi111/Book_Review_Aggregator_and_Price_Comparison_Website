@@ -9,5 +9,5 @@ urlpatterns = [
     path('search/', views.search, name="Search"),
     path('genre/<str:category>/', views.genre, name="Genre"),
     path('login/', views.login, name="Login"),
-
+    path('details/', views.details, name="Details"),
 ]

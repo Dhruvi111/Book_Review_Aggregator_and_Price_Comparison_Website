@@ -22,7 +22,8 @@ class Contact(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
-    message = models.CharField(max_length=700)
+    subject = models.CharField(max_length=300, default="")
+    text = models.CharField(max_length=700, default="")
 
     @property
     def fullname(self):
