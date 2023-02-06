@@ -6,40 +6,71 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
 <style>
-    .form-group .contact {
-        padding-left:220px;
-        width: 1000px;
+    .container{
+        font-size: 18px;
     }
-    
-    #formSubmit {
-        margin-left: 50%;
-        
+    h1{
+        padding-top:1rem;
+        padding-bottom:1.5rem;
     }
+    .form{
+        width: 50%;
+        border-radius: .5rem;
+        box-shadow: var(--box-shadow);
+        border:.1rem solid rgb(72, 81, 137);
+        background:#F7E1F8ff;
+        padding:2rem;
+        padding-top:.5rem;
+        margin-left:auto;
+        margin-right:auto;
+        text-align:left;
+    }
+    .msg-btn{
+        width:100%;
+        background-color:rgb(72, 81, 137);
+        border: 2px solid rgb(72, 81, 137);
+    }
+    .msg-btn:hover{
+        background-color:rgba(72, 81, 137,0.4);
+        border: 2px solid rgb(72, 81, 137);
+        color:rgb(72, 81, 137);
+    }
+    @media screen and (max-width: 800px) {
+        .form {
+            width: 90%;
+        }
+      }
 </style>
 {% endblock css %}
 
 {% block body %}
+
 <div class="container">
-    <h1 class="text-center" >Contact Us</h1>
-    <form  method="post" action="/contact/">
-    {% csrf_token %}
-        <div class="form-group contact">
-            <label for="name">First Name: </label>
-            <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter your name">
+    <h1 class="text-center" >We're here to help</h1>
+    <form class="row g-3 form">
+        <div class="col-md-6">
+            <label for="fname" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="fname">
         </div>
-        <div class="form-group contact">
-            <label for="name">Last Name: </label>
-            <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter your surname">
+        <div class="col-md-6">
+            <label for="lname" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="lname">
         </div>
-        <div class="form-group contact">
-          <label for="email">Email address</label>
-          <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+        <div class="col-12">
+            <label for="useremail" class="form-label">Email-Id</label>
+            <input type="email" class="form-control" id="useremail">
         </div>
-        <div class="form-group contact">
-            <label for="message">Type your message here: </label>
-            <textarea type="desc" class="form-control" id="message" rows="3" name="message"></textarea>
-          </div>
-        <button type="submit" class="btn btn-primary" id="formSubmit">Submit</button>
-      </form>
-</div>   
+        <div class="col-12">
+            <label for="subject" class="form-label">Subject</label>
+            <input type="text" class="form-control" id="subject">
+        </div>
+        <div class="col-12">
+            <label for="message" class="form-label">Your Message</label>
+            <textarea class="form-control" id="message" rows="3"></textarea>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary msg-btn">Send message </button>
+        </div>
+  </form>
+</div>
 {% endblock body %}
