@@ -5,9 +5,41 @@
 {% block css %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
-
+<style>
+    .form-group .contact {
+        padding-left:220px;
+        width: 1000px;
+    }
+    
+    #formSubmit {
+        margin-left: 50%;
+        
+    }
+</style>
 {% endblock css %}
 
 {% block body %}
-<p>This is contact page</p>
+<div class="container">
+    <h1 class="text-center" >Contact Us</h1>
+    <form  method="post" action="/contact/">
+    {% csrf_token %}
+        <div class="form-group contact">
+            <label for="name">First Name: </label>
+            <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter your name">
+        </div>
+        <div class="form-group contact">
+            <label for="name">Last Name: </label>
+            <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter your surname">
+        </div>
+        <div class="form-group contact">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+        </div>
+        <div class="form-group contact">
+            <label for="message">Type your message here: </label>
+            <textarea type="desc" class="form-control" id="message" rows="3" name="message"></textarea>
+          </div>
+        <button type="submit" class="btn btn-primary" id="formSubmit">Submit</button>
+      </form>
+</div>   
 {% endblock body %}

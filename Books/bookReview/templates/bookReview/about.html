@@ -10,8 +10,14 @@
 
 {% block body %}
 
-<div class="about-section" style="background: url('/static/bookReview/images/books.avif') no-repeat left;  background-size: 55%;  overflow: hidden;  padding: 100px 0;">
+
+{% comment %} <img class="img1" src="/static/bookReview/images/books.avif" > {% endcomment %}
+
+{% comment %} <div style="background: url('/static/bookReview/images/books.avif') no-repeat left;  overflow: hidden;">  {% endcomment %}
+<div class="about-section" style="background: url('/static/bookReview/images/books.avif') no-repeat left;  overflow: hidden;">
+    {% comment %}  {% endcomment %}
     <div class="inner-container">
+
         <h1>About Us</h1>
         <p class="text">
             Welcome to our books website!
@@ -32,6 +38,7 @@ designed to support readers and help them find their next great read.
 <p class="text">Thank you for choosing our books website. We can't wait to help you discover your next favorite book!</p>    
         </p>
     </div>
+</div>
 </div>
 
 {% endblock body %}

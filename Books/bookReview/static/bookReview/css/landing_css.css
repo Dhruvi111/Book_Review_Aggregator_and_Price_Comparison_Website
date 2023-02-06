@@ -89,7 +89,7 @@ body .carousel-indicators {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.footer {
+/* .footer {
     background: rgb(72, 81, 137);
     color: #fff;
     padding: 40px 0;
@@ -109,7 +109,6 @@ body .carousel-indicators {
 
 .footer .quick-links h4,
 .footer .contact-info h4,
-.footer .social-media h4,
 .footer .copyright h4 {
     color: #fff;
     font-size: 18px;
@@ -135,12 +134,8 @@ body .carousel-indicators {
 .footer a {
     color: #fff;
     text-decoration: none;
-}
+} */
 
-.footer .fa {
-    font-size: 20px;
-    margin-right: 10px;
-}
 
 .bookImage {
     border-radius: 7px;
@@ -155,7 +150,7 @@ body .carousel-indicators {
 } */
 
 .inner-container {
-    width: 55%;
+    width: 69.7%;
     float: right;
     background-color: #fdfdfd;
     padding: 150px;

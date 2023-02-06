@@ -1,8 +1,9 @@
 import requests
 from django.shortcuts import render, HttpResponse
-from .models import Book
+from .models import Book, Contact
 from math import ceil
-from bs4 import BeautifulSoup
+from django.contrib import messages
+# from bs4 import BeautifulSoup
     
 # Create your views here.
 def api(query, data):
@@ -98,6 +99,15 @@ def about(request):
     return render(request, "bookReview/about.html")
 
 def contact(request):
+    if request.method == "POST":
+      # gets the details through 'name' attribute
+      first_name = request.POST.get('fname')
+      last_name = request.POST.get('lname')
+      email = request.POST.get('email')     
+      message = request.POST.get('message')
+      contact = Contact(first_name=first_name,last_name=last_name, email=email, message=message)
+      contact.save()
+      messages.success(request, 'Your message has been sent sucessfully!')
     return render(request, "bookReview/contact.html")
 
 def search(request):
