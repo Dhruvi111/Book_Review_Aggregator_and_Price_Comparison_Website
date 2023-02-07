@@ -61,9 +61,11 @@ def api(query, data):
 
 def index(request):
     allBooks = []
-    # run the folowing two lines and for loop one by one in shell and print the variables to get the idea of what is happening
     category_books = Book.objects.values('category', 'book_id')
+    # print("Category_books", category_books)
     cats = {item['category'] for item in category_books}
+    # print("Cats", cats)
+
 
     # Display books by subcategory
     # subcategory_books = Book.objects.values('subcategory', 'book_id')
@@ -74,6 +76,8 @@ def index(request):
         n = len(product)
         nSlides = n//6 + ceil((n/6) - (n//6))
         allBooks.append([product, range(1, nSlides), nSlides])
+    # print("Product", product)
+    # print("Allbooks", allBooks) 
 
     # for sub_cat in sub_cats:
     #     product = Book.objects.filter(subcategory=sub_cat)
@@ -114,7 +118,6 @@ def search(request):
 def genre(request, category):
     
     query = category
-    # if query in text:
     data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + query+"&printType=books&maxResults=36")
     x = api(query=query, data=data)
     #  print(x)
