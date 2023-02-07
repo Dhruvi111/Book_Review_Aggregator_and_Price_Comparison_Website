@@ -84,7 +84,7 @@ body .carousel-indicators {
 .footer {
     background: rgb(72, 81, 137);
     color: #fff;
-    padding: 40px 0;
+    padding: 12px 0;
     width: 100%;
     margin: 30px 0 0 -10px;
     top: 0%;
@@ -103,7 +103,7 @@ body .carousel-indicators {
 .footer .contact-info h4,
 .footer .copyright h4 {
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 20px;
     display: inline-block;
 }
@@ -113,6 +113,7 @@ body .carousel-indicators {
     padding: 0;
     margin: 0;
     display: block;
+    font-size: 15px;
     /* vertical-align: middle; */
 }
 
@@ -204,7 +205,7 @@ body .carousel-indicators {
     width: 100%;
     z-index: -10;
 }
-.company-heading h1 {
+.company-heading h2 {
     margin-bottom: 40px;
     line-height: 80px;
     color: #fff;
@@ -212,18 +213,20 @@ body .carousel-indicators {
     text-align: center;
 }
 .seo-header, .product-header, .intro-type .container h1.white, .company-heading h1 {
-    font-family: 'Raleway', sans-serif;
-    font-weight: 100 !important;
+    /* font-family: 'Raleway', sans-serif; */
+    /* font-weight: 100 !important; */
     text-transform: capitalize;
     font-size: 65px;
     margin-bottom: 20px;
 }
-.company-sections h2, .careers-sections h2, .perks-section h2 {
+.company-sections h2, .careers-sections, .perks-section h2 {
     font-weight: 800;
     font-size: 50px;
+    text-align: center;
+    
 }
 
-.red-border {
+/* .red-border {
     border-right-width: 50%;
     border-left-width: 50%;
     border-bottom: 1px solid #d2282e;
@@ -231,17 +234,17 @@ body .carousel-indicators {
     height: 16px;
     text-align: center;
     
-}
+} */
 
 .ct-u-size22 {
     font-size: 22px;
 }
 
 .marginTop40 {
-    margin-top: 40px !important;
+    margin-top: 10px !important;
 }
 .ct-u-paddingBoth100 {
-    padding: 100px 15px;
+    padding: 50px 15px;
 }
 
 .col-md-8{

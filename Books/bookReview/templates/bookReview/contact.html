@@ -9,7 +9,7 @@
     .container{
         font-size: 18px;
     }
-    h1{
+    h2{
         padding-top:5rem;
         padding-bottom:1.5rem;
     }
@@ -46,21 +46,21 @@
 
 {% block body %}
 
-<div class="container pb-4">
-    <h1 class="text-center" >We're here to help</h1>
+<div class="container pb-3">
+    <h2 class="text-center" >WE ARE HERE TO HELP</h2>
     <form class="row g-3 form" action="/contact/" method="POST">
         {% csrf_token %}
         <div class="col-md-6">
             <label for="fname" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="fnameId" name="fname" placeholder="Enter Name" required>
+            <input type="text" class="form-control" id="fnameId" name="fname" placeholder="Jerry" required>
         </div>
         <div class="col-md-6">
             <label for="lname" class="form-label">Last Name</label>
-            <input type="text" class="form-control" id="lnameId" name="lname" placeholder="Enter Surname" required>
+            <input type="text" class="form-control" id="lnameId" name="lname" placeholder="Richards" required>
         </div>
         <div class="col-12">
             <label for="useremail" class="form-label">Email-Id</label>
-            <input type="email" class="form-control" id="useremailId" name="email" placeholder="Enter Email Address" required>
+            <input type="email" class="form-control" id="useremailId" name="email" placeholder="JRichards123@gmail.com" required>
         </div>
         <div class="col-12">
             <label for="subject" class="form-label">Subject</label>

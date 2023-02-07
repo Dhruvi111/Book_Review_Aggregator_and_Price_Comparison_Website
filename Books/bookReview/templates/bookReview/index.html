@@ -11,7 +11,6 @@
 
 <div class="container">
     
-  {% comment %} <button onclick="clearCart()">click me</button> {% endcomment %}
   {% for product, range, nSlides in allBooks %}
     <h4 class="my-4 category_title">{{product.0.category | upper}}</h4>
     
@@ -64,16 +63,4 @@
 {% endblock body %}
 
 {% block js %}
- <script type='text/javascript'>
-
-  {% comment %} $('.card').click (function(){
-      var idstr = this.id.toString();
-      console.log("clicked") 
-      console.log(idstr)
-      document.getElementById('cover'+idstr) = `<button class="btn btn-primary">Quickview</button>`;
-      
-  });  {% endcomment %}
-  
-  
-</script> 
 {% endblock js %}

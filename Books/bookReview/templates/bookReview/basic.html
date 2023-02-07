@@ -14,10 +14,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend&display=swap" rel="stylesheet">
-    
     {% load static %}
     <link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}"> 
     {% block css %}{% endblock css %}
+    <link rel="icon" href="/static/bookReview/images/icon.png" type="image/x-icon" sizes="60x60">
     
   </head>
 
@@ -141,38 +141,38 @@
     {% block body %}{% endblock body %}
 
   
-     <footer class="footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="quick-links">
-            <h4>Quick Links</h4>
-            <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Services</a></li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-          </div>
-          
-          <div class="copyright">
-            <h4>Company</h4>
-            <ul>
-              <li>Rules</li>
-              <li>Policies</li>
-              <li>Terms</li>
-              <li>Help</li>
-            </ul>
-          </div>
+    <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="quick-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="{% url 'Home' %}">Home</a></li>
+            <li><a href="{% url 'About' %}">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="{% url 'Contact' %}">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="copyright">
+          <h4>Company</h4>
+          <ul>
+            <li>Rules</li>
+            <li>Policies</li>
+            <li>Terms</li>
+            <li>Help</li>
+          </ul>
+        </div>
 
-          <div class="contact-info">
-            <h4>Contact Info</h4>
-            <ul>
-              <li>Email: books@books.com</li>
-            </ul>
-          </div>
+        <div class="contact-info">
+          <h4>Contact Info</h4>
+          <ul>
+            <li>Email: books@books.com</li>
+          </ul>
         </div>
       </div>
-    </footer> 
+    </div>
+  </footer> 
     
     <script
     src="https://code.jquery.com/jquery-3.6.3.js"
@@ -191,10 +191,6 @@
     ></script>
 
     {% block js %}{% endblock js %}
-      {% comment %} <script>
-        fiction = document.getElementById('fiction').innerHTML;
-        console.log(fiction)
-      </script> {% endcomment %}
 
       <script>
         $(document).ready(function(){
