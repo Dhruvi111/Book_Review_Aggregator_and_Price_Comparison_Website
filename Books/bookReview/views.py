@@ -12,7 +12,9 @@ def api(query, data):
     author = []
     category = []
 
+    # print("Data:", data)   # gives status code
     json_data = data.json()
+    # print("Json Data:", json_data)   # gives data in json format
     results = json_data['totalItems']
     if len(query) >= 3 and results != 0:
         
@@ -112,18 +114,17 @@ def search(request):
 
     x = api(query=query, data=data)  # x has the value of params
     return render(request, "bookReview/search.html", x)
+  
 
 
-
-def genre(request, category):
-    
+def genre(request, category):   
     query = category
     data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + query+"&printType=books&maxResults=36")
     x = api(query=query, data=data)
     #  print(x)
     return render(request, "bookReview/genre.html", x)
 
-def details(request):
+def details(request):  
     return render(request, "bookReview/details.html")
 
 def login(request):

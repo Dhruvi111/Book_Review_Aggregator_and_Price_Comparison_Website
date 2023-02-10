@@ -18,7 +18,11 @@
         <div class="container carousel-inner">
             <div class="carousel-item active">
                 {% if results != 0 %}
-                    <h4 class="mt-5 mb-5">{{msg|upper}} FOR "{{query|upper}}"</h4>
+                    <h4 class="mt-5 mb-5">
+                        {% if msg == "Search Results" or msg == "No Results Found" %}
+                            {{msg|upper}} FOR "{{query|upper}}"
+                        {% endif %} 
+                    </h4>
 
                         {% for i in length %} 
                     
@@ -53,7 +57,7 @@
 
                 {% endif %}
             </div>
-            
+             
         </div>
     </div>
 </div>
