@@ -9,6 +9,14 @@
 {% endblock css %}
 
 {% block body %}
-<p>Details page</p>
+<p>Details page -- For test purpose</p>
+
+{% load filters %}
+{% for i in length %}
+
+<p>{{titles|index:i}}</p>
+<p>{{author | index:i | join:", "}}</p>
+{% endfor %}
+
 {% endblock body %}
 
