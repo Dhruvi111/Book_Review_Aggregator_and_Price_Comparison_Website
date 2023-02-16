@@ -122,7 +122,7 @@ def contact(request):
 def search(request):
     # The API provides maximum 40 results -- search by booknames
     query = request.GET.get('text')
-    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query+"&printType=books&maxResults=36")
+    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=inauthor:" + query + "&printType=books&maxResults=36")
 
     x = api(query=query, data=data)  # x has the value of params
     return render(request, "bookReview/search.html", x)
@@ -131,6 +131,8 @@ def search(request):
 
 def genre(request, category):   
     query = category
+    global genre
+    genre = category
     data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + query+"&printType=books&maxResults=36")
     x = api(query=query, data=data)
     #  print(x)
@@ -147,3 +149,19 @@ def details(request):
 def login(request):
     return render(request, "bookReview/login.html")
 
+def pages(request, digit):
+    index = digit
+    if index == 1:
+        startIndex = "0"
+        print("index=1")
+    elif index == 2:
+        startIndex = "37"
+        print("index=2")
+
+    elif index == 3:
+        startIndex = "73"
+        print("index 3")
+
+    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + genre + "&startIndex=" + startIndex +"&printType=books&maxResults=36")
+    x = api(query=genre, data=data)
+    return render(request, "bookReview/page.html", x)
