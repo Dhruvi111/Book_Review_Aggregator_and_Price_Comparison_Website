@@ -12,6 +12,7 @@ def api(query, data):
     author = []
     category = []
     isbn = []
+    identifiers = []
 
     # print("Data:", data)   # gives status code
     json_data = data.json()
@@ -52,19 +53,26 @@ def api(query, data):
                 category.append(["Category Info Not Available"])
 
             #ISBN
-            if ('industryIdentifiers' in volInfo):
-                isbn_type = volInfo['industryIdentifiers'][0]['type']
-                if isbn_type == "ISBN_13" or isbn_type == "ISBN_10":
-                    arr4 = volInfo['industryIdentifiers'][0]['identifier']
-                    isbn.append(arr4)
+            # if ('industryIdentifiers' in volInfo):
+            #     isbn_type = volInfo['industryIdentifiers'][0]['type']
+            #     if isbn_type == "ISBN_13" or isbn_type == "ISBN_10":
+            #         arr4 = volInfo['industryIdentifiers'][0]['identifier']
+            #         isbn.append(arr4)
                 
-                else:
-                    isbn.append('isbn not found')
+            #     else:
+            #         isbn.append('isbn not found')
+            # else:
+            #     isbn.append("industry identifiers unavailable")
+
+            #id
+            if ('id' in list_items[i]):
+                arr5 = list_items[i]['id']
+                identifiers.append(arr5)
             else:
-                isbn.append("industry identifiers unavailable")
+                category.append("id not found")
         length = range(len(titles))
-        params = {'titles': titles, 'pic':pic, 'length': length, 'author': author, 'results':results, 'msg':"Search Results", 'gen':'Genre: ', 'category':category, 'query':query, 'isbn':isbn}
-        # print(">>>>>>>>",len(isbn))  
+        params = {'titles': titles, 'pic':pic, 'length': length, 'author': author, 'results':results, 'msg':"Search Results", 'gen':'Genre: ', 'category':category, 'query':query, 'isbn':isbn, 'identifiers':identifiers}
+        print(">>>>>>>>",identifiers)
 
     elif len(query) == 0 or len(query) < 3:
         params={'msg':"Please Enter More Than 3 Letters !"}
@@ -122,7 +130,7 @@ def contact(request):
 def search(request):
     # The API provides maximum 40 results -- search by booknames
     query = request.GET.get('text')
-    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=inauthor:" + query + "&printType=books&maxResults=36")
+    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query + "&printType=books&maxResults=36")
 
     x = api(query=query, data=data)  # x has the value of params
     return render(request, "bookReview/search.html", x)
@@ -139,9 +147,9 @@ def genre(request, category):
     return render(request, "bookReview/genre.html", x)
 
 def details(request): 
-    num = request.GET.get('isbn')
+    num = request.GET.get('id')
     book_title = request.GET.get('title')
-    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + num)
+    data = requests.get("https://www.googleapis.com/books/v1/volumes/" + num)
     x = api(query=book_title, data=data)
 
     return render(request, "bookReview/details.html", x)
@@ -151,15 +159,18 @@ def login(request):
 
 def pages(request, digit):
     index = digit
+
+    if index == -1:
+        pass  
     if index == 1:
         startIndex = "0"
         print("index=1")
     elif index == 2:
-        startIndex = "37"
+        startIndex = "36"
         print("index=2")
 
     elif index == 3:
-        startIndex = "73"
+        startIndex = "71"
         print("index 3")
 
     data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + genre + "&startIndex=" + startIndex +"&printType=books&maxResults=36")
