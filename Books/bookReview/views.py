@@ -11,6 +11,7 @@ def api(query, data):
     pic = []
     author = []
     category = []
+    isbn = []
 
     # print("Data:", data)   # gives status code
     json_data = data.json()
@@ -50,9 +51,20 @@ def api(query, data):
             else:
                 category.append(["Category Info Not Available"])
 
+            #ISBN
+            if ('industryIdentifiers' in volInfo):
+                isbn_type = volInfo['industryIdentifiers'][0]['type']
+                if isbn_type == "ISBN_13" or isbn_type == "ISBN_10":
+                    arr4 = volInfo['industryIdentifiers'][0]['identifier']
+                    isbn.append(arr4)
+                
+                else:
+                    isbn.append('isbn not found')
+            else:
+                isbn.append("industry identifiers unavailable")
         length = range(len(titles))
-        params = {'titles': titles, 'pic':pic, 'length': length, 'author': author, 'results':results, 'msg':"Search Results", 'gen':'Genre: ', 'category':category, 'query':query}
-   
+        params = {'titles': titles, 'pic':pic, 'length': length, 'author': author, 'results':results, 'msg':"Search Results", 'gen':'Genre: ', 'category':category, 'query':query, 'isbn':isbn}
+        # print(">>>>>>>>",len(isbn))  
 
     elif len(query) == 0 or len(query) < 3:
         params={'msg':"Please Enter More Than 3 Letters !"}
@@ -110,7 +122,7 @@ def contact(request):
 def search(request):
     # The API provides maximum 40 results -- search by booknames
     query = request.GET.get('text')
-    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query+"&printType=books&maxResults=36")
+    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=inauthor:" + query + "&printType=books&maxResults=36")
 
     x = api(query=query, data=data)  # x has the value of params
     return render(request, "bookReview/search.html", x)
@@ -119,14 +131,37 @@ def search(request):
 
 def genre(request, category):   
     query = category
+    global genre
+    genre = category
     data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + query+"&printType=books&maxResults=36")
     x = api(query=query, data=data)
     #  print(x)
     return render(request, "bookReview/genre.html", x)
 
-def details(request):  
-    return render(request, "bookReview/details.html")
+def details(request): 
+    num = request.GET.get('isbn')
+    book_title = request.GET.get('title')
+    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + num)
+    x = api(query=book_title, data=data)
+
+    return render(request, "bookReview/details.html", x)
 
 def login(request):
     return render(request, "bookReview/login.html")
 
+def pages(request, digit):
+    index = digit
+    if index == 1:
+        startIndex = "0"
+        print("index=1")
+    elif index == 2:
+        startIndex = "37"
+        print("index=2")
+
+    elif index == 3:
+        startIndex = "73"
+        print("index 3")
+
+    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + genre + "&startIndex=" + startIndex +"&printType=books&maxResults=36")
+    x = api(query=genre, data=data)
+    return render(request, "bookReview/page.html", x)

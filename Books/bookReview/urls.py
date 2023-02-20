@@ -10,4 +10,5 @@ urlpatterns = [
     path('genre/<str:category>/', views.genre, name="Genre"),
     path('login/', views.login, name="Login"),
     path('details/', views.details, name="Details"),
+    path('page/<int:digit>', views.pages, name="page")
 ]
