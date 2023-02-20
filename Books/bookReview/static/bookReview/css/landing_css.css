@@ -4,7 +4,67 @@ body {
     background-attachment: fixed;
   /* color: #555C8Bff; */
     color: rgb(72, 81, 137);
+    width: auto;
 }
+
+header {
+    background-color: rgb(206, 237, 235);
+  }
+  
+  .banner {
+    background: url("/pic.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .banner-content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 50px;
+    color: black;
+  }
+
+  .heading{
+    margin-top: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  h1 {
+    font-size: 50px;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 20px;
+    margin-bottom: 40px;
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 40px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-primary {
+    background-color: burlywood;
+    color: #fff;
+    border: none;
+    margin-bottom: 40px;
+  }
+  
+  .btn-primary:hover {
+    background-color: lightpink;
+  }
 
 
 .navbar {
