@@ -64,12 +64,13 @@ def api(query, data):
             # else:
             #     isbn.append("industry identifiers unavailable")
 
+           
             #id
             if ('id' in list_items[i]):
                 arr5 = list_items[i]['id']
                 identifiers.append(arr5)
             else:
-                category.append("id not found")
+                identifiers.append("id not found")
         length = range(len(titles))
         params = {'titles': titles, 'pic':pic, 'length': length, 'author': author, 'results':results, 'msg':"Search Results", 'gen':'Category: ', 'category':category, 'query':query, 'isbn':isbn, 'identifiers':identifiers}
         # print(">>>>>>>>",identifiers)
@@ -212,7 +213,8 @@ def login(request):
     return render(request, "bookReview/login.html")
 
 
-# for pagination
+# for pagination -- wont work for previous and next buttons yet
+# pretty static as of now
 def pages(request, digit):
     index = digit
 
