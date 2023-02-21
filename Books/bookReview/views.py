@@ -17,7 +17,7 @@ def api(query, data):
     # print("Data:", data)   # gives status code
     json_data = data.json()
     # print("Json Data:", json_data)   # gives data in json format
-    results = json_data['totalItems']
+    results = json_data['totalItems'] 
     if len(query) >= 3 and results != 0:
         
         list_items = json_data['items']
@@ -71,16 +71,62 @@ def api(query, data):
             else:
                 category.append("id not found")
         length = range(len(titles))
-        params = {'titles': titles, 'pic':pic, 'length': length, 'author': author, 'results':results, 'msg':"Search Results", 'gen':'Genre: ', 'category':category, 'query':query, 'isbn':isbn, 'identifiers':identifiers}
-        print(">>>>>>>>",identifiers)
+        params = {'titles': titles, 'pic':pic, 'length': length, 'author': author, 'results':results, 'msg':"Search Results", 'gen':'Category: ', 'category':category, 'query':query, 'isbn':isbn, 'identifiers':identifiers}
+        # print(">>>>>>>>",identifiers)
 
     elif len(query) == 0 or len(query) < 3:
         params={'msg':"Please Enter More Than 3 Letters !"}
 
     else:
         params = {'msg': "No Results Found", 'query': query}
+
     return params
 
+
+def specificBook(data):
+    json_data = data.json()
+    volInfo = json_data['volumeInfo']
+    if('title' in volInfo):
+        title = volInfo['title']
+    else:
+        title = "Oopsie! Title Not Available"
+
+    if('authors' in volInfo):    
+        author_list = volInfo['authors']
+    else:
+        author_list = ["Oopsie! Author Info Not Available"]
+    
+    if('publisher' in volInfo):
+        publisher = volInfo['publisher']
+    else:
+        publisher = "Oopsie! Publisher Info Not Available"
+
+    if('publishedDate' in volInfo):
+        edition = volInfo['publishedDate']
+    else:
+        edition = "Oopsie! Info Not Available"
+
+    if('description' in volInfo):
+        desc = volInfo['description']
+    else:
+        desc = "Oopsie! Description Not Available"
+
+    if('imageLinks' in volInfo):
+        image = volInfo['imageLinks']['thumbnail']
+    else:
+        image = "/static/bookReview/images/coverNF.png"
+        
+    if('pageCount' in volInfo):
+        no_pages = volInfo['pageCount']
+    else:
+        no_pages = "Oopsie! Info Not Available"
+
+    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages}
+
+    return display
+
+
+# for landing page
 def index(request):
     allBooks = []
     category_books = Book.objects.values('category', 'book_id')
@@ -111,9 +157,12 @@ def index(request):
     return render(request, "bookReview/index.html", params)
 
 
+# for about page
 def about(request):
     return render(request, "bookReview/about.html")
 
+
+# for contact page
 def contact(request):
     if request.method == "POST":
       # gets the details through 'name' attribute
@@ -127,6 +176,8 @@ def contact(request):
       messages.success(request, 'Your message has been sent sucessfully!')
     return render(request, "bookReview/contact.html")
 
+
+# for search page
 def search(request):
     # The API provides maximum 40 results -- search by booknames
     query = request.GET.get('text')
@@ -136,7 +187,7 @@ def search(request):
     return render(request, "bookReview/search.html", x)
   
 
-
+# for respective genres
 def genre(request, category):   
     query = category
     global genre
@@ -146,17 +197,22 @@ def genre(request, category):
     #  print(x)
     return render(request, "bookReview/genre.html", x)
 
+
+# for detailed view
 def details(request): 
     num = request.GET.get('id')
-    book_title = request.GET.get('title')
     data = requests.get("https://www.googleapis.com/books/v1/volumes/" + num)
-    x = api(query=book_title, data=data)
+    y = specificBook(data=data)
+    
+    return render(request, "bookReview/details.html", y)
 
-    return render(request, "bookReview/details.html", x)
+
 
 def login(request):
     return render(request, "bookReview/login.html")
 
+
+# for pagination
 def pages(request, digit):
     index = digit
 
