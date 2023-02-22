@@ -33,7 +33,7 @@
               
               {% for i in product%}
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
-                  <div class="card align-items-center pt-3 book" style="width: 12rem;" id="{{i.book_id}}">
+                  <div class="card align-items-center pt-3 book" style="width: 12rem;">
                       <img src="/media/{{i.image}}" class="card-img-top bookImage" alt="Image Empty" id="cover{{i.book_id}}">
                       <div class="card-body ">
                         <h5 class="card-title">
@@ -46,7 +46,7 @@
                         <h6 class="card-text mb-3">{{i.author}}</h6>
                       </div>
                       
-                    <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='#'">Details</button>
+                    <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id}}'">Details</button>
                   </div>
               </div>
 
@@ -71,6 +71,3 @@
 
 
 {% endblock body %}
-
-{% block js %}
-{% endblock js %}

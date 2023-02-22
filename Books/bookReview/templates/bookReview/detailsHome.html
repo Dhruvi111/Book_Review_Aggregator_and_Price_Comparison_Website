@@ -1,0 +1,24 @@
+{% extends 'bookReview/basic.html' %}
+
+{% block title %}Story Shelves | Book Details{% endblock title %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
+
+{% endblock css %}
+
+{% block body %}
+<p>Details (landing page) </p>
+
+<img src="/media/{{image}}" alt="">
+<p><b>{{title}}</b></p>
+<p>Author: {{author}}</p>
+<p>Publisher : {{publisher}}</p>
+<p>Edition / Publish Date : {{publish_date}}</p>
+<p>Pages: {{no_pages}}</p>
+<p>Description: {{desc}}</p>
+
+
+{% endblock body %}
+
