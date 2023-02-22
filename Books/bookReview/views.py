@@ -208,6 +208,25 @@ def details(request):
     return render(request, "bookReview/details.html", y)
 
 
+def detailsHome(request):
+    id = request.GET.get('bookId')
+    
+    book = Book.objects.filter(book_id=id)    # gives queryset
+    bookInfo = book.values()     # gives all the values for a particular queryset
+    # print(">>>>>>", bookInfo)
+    for val in bookInfo:        # val gives dictionary
+        title = val['title']
+        author =  val['author']
+        publisher =  val['publisher']
+        publish_date = val['publish_date']
+        no_pages = val['pages']
+        image = val['image']
+        desc = val['description']
+        
+
+    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc}
+    return render(request, "bookReview/detailsHome.html", display)
+
 
 def login(request):
     return render(request, "bookReview/login.html")
