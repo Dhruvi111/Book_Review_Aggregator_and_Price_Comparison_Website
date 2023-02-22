@@ -40,9 +40,15 @@
                                             {% endif %}
                                             
                                         </h5>
-                                        <h6 class="card-text">{{author | index:i | join:", "}}</h6>
+                                        <h6 class="card-text">
+                                            {% if author|index:i|join:", "|escape|length >= 25 %}
+                                                {{author | index:i | join:", " | escape | slice:":35"}}...
+                                            {% else %}
+                                                {{author | index:i | join:", "}}
+                                            {% endif %}
+                                        </h6>
                                     </div>
-                                <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'Details' %}?isbn={{isbn|index:i}}&title={{titles|index:i}}'">Quickview</button>
+                                <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'Details' %}?id={{identifiers|index:i}}'">Details</button>
                                 </div>
                             </div>
 
@@ -61,7 +67,7 @@
         </div>
     </div>
 </div>
-    
+
 {% endblock body %}
 
 {% block js %}
