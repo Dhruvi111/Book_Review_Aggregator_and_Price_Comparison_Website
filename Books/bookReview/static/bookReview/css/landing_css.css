@@ -7,6 +7,7 @@ body {
     width: auto;
 }
 
+/* -------------------------- HEADER / BANNER ------------------------- */
 header {
     background-color: rgb(206, 237, 235);
 }
@@ -15,10 +16,11 @@ header {
     background: url("/pic.jpg");
     background-size: cover;
     background-position: center;
-    height: 300px;
+    height: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 40px;
 }
 
 .banner-content {
@@ -32,19 +34,16 @@ header {
 .heading {
     margin-top: 30px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-h1 {
     font-size: 50px;
     margin-bottom: 20px;
 }
 
-p {
+.header-para {
     font-size: 20px;
     margin-bottom: 40px;
 }
 
-.btn {
+.header-button, .card-hover-button  {
     display: inline-block;
     padding: 12px 30px;
     border-radius: 40px;
@@ -53,19 +52,17 @@ p {
     text-transform: uppercase;
     letter-spacing: 2px;
     transition: all 0.2s ease;
-}
-
-.btn-primary {
     background-color: burlywood;
     color: #fff;
     border: none;
     margin-bottom: 40px;
 }
 
-.btn-primary:hover {
+.header-button:hover {
     background-color: lightpink;
 }
 
+/* -------------------------- NAVBAR ------------------------------ */
 
 .navbar {
     background: rgb(72, 81, 137) !important;
@@ -85,6 +82,8 @@ p {
 .textColorNav {
     color: #E9EEF8ff !important;
 }
+
+/* ------------------------ LANDING PAGE ------------------------- */
 
 .col-lg-2 {
     display: inline-block;
@@ -137,6 +136,12 @@ body .carousel-control-next-icon {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.bookImage {
+    border-radius: 7px;
+} 
+
+/* ---------------------------- FOOTER ---------------------------- */
+
 .footer {
     background: rgb(72, 81, 137);
     color: #fff;
@@ -144,9 +149,6 @@ body .carousel-control-next-icon {
     width: 101%;
     margin: 30px 0 0 -10px;
     position: relative;
-    /* top: 0%; */
-    /* position: fixed;
-    bottom: 0; */
 }
 
 .footer .footer-content {
@@ -193,15 +195,19 @@ body .carousel-control-next-icon {
     text-decoration: none;
 }
 
-.bookImage {
-    border-radius: 7px;
+.allButFooter {
+    min-height: calc(100vh - 95px);
 }
+
+/* ----------------------------- DROP-DOWN ------------------------------- */
 
 .dropdown-menu {
     columns: 5;
 }
 
-.inner-container {
+
+/* ------------------------ REDUNDANT CHUNK (DOESN'T SEEM TO BE USED ANYWHERE) ---------------------*/
+/* .inner-container {
     width: 69.7%;
     float: right;
     background-color: #fdfdfd;
@@ -214,7 +220,10 @@ body .carousel-control-next-icon {
     line-height: 30px;
     text-align: justify;
     margin-bottom: 40px;
-}
+} */
+
+
+/* ----------------------------- DETAILS BUTTON ------------------------------ */
 
 .card-hover-button {
     display: none;
@@ -237,7 +246,7 @@ body .carousel-control-next-icon {
 }
 
 
-
+/* --------------------------- ABOUT PAGE ----------------------------- */
 .separator-type,
 .title-type,
 .intro-type,
@@ -259,7 +268,6 @@ body .carousel-control-next-icon {
         width: 1630px;
     }
 }
-
 
 .parallax {
     background-attachment: inherit !important;
@@ -334,6 +342,3 @@ body .carousel-control-next-icon {
     margin-left: 3%;
 }
 
-.allButFooter {
-    min-height: calc(100vh - 95px);
-}

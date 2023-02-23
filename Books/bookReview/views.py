@@ -208,12 +208,13 @@ def details(request):
     return render(request, "bookReview/details.html", y)
 
 
+# for detailed view (Landing page)
 def detailsHome(request):
     id = request.GET.get('bookId')
     
     book = Book.objects.filter(book_id=id)    # gives queryset
     bookInfo = book.values()     # gives all the values for a particular queryset
-    # print(">>>>>>", bookInfo)
+    
     for val in bookInfo:        # val gives dictionary
         title = val['title']
         author =  val['author']
