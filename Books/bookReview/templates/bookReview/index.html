@@ -13,8 +13,8 @@
   <div class="banner" style="background-image:url('/static/bookReview/images/pcs.jpg');">
     <div class="banner-content">
       <h1 class="heading">StoryShelves</h1>
-      <p>Start your book search today and discover your next favorite read with StoryShelves!</p>
-      <a href="#" class="btn btn-primary">Button for something idk</a>
+      <p class="header-para">Start your book search today and discover your next favorite read with StoryShelves!</p>
+      <a href="#" class="btn btn-primary header-button">Button for something idk</a>
     </div>
   </div>
 </header>
@@ -34,7 +34,11 @@
               {% for i in product%}
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
                   <div class="card align-items-center pt-3 book" style="width: 12rem;">
+<<<<<<< HEAD
                       <img src="/media/{{i.image}}" class="card-img-top bookImage" alt="Image Empty" id="cover{{i.book_id}}">
+=======
+                      <img src="/media/{{i.image}}" class="card-img-top bookImage" alt="Loading image.." id="cover{{i.book_id}}">
+>>>>>>> f091e25b70d862184f643503a4b790f5f6627841
                       <div class="card-body ">
                         <h5 class="card-title">
                           {% if i.title|length >= 25 %}
