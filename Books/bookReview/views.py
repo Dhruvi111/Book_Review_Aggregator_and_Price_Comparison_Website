@@ -1,6 +1,6 @@
 import requests
 from django.shortcuts import render, HttpResponse
-from .models import Book, Contact
+from .models import Book, Contact, UserSignup
 from math import ceil
 from django.contrib import messages
 # from bs4 import BeautifulSoup
@@ -208,20 +208,14 @@ def details(request):
     return render(request, "bookReview/details.html", y)
 
 
-<<<<<<< HEAD
-=======
 # for detailed view (Landing page)
->>>>>>> f091e25b70d862184f643503a4b790f5f6627841
 def detailsHome(request):
     id = request.GET.get('bookId')
     
     book = Book.objects.filter(book_id=id)    # gives queryset
     bookInfo = book.values()     # gives all the values for a particular queryset
-<<<<<<< HEAD
     # print(">>>>>>", bookInfo)
-=======
     
->>>>>>> f091e25b70d862184f643503a4b790f5f6627841
     for val in bookInfo:        # val gives dictionary
         title = val['title']
         author =  val['author']
@@ -239,6 +233,18 @@ def detailsHome(request):
 def login(request):
     return render(request, "bookReview/login.html")
 
+def signup(request):
+    if request.method == "POST":
+      # gets the details through 'name' attribute
+      first_name = request.POST.get('fname')
+      last_name = request.POST.get('lname')
+      email = request.POST.get('email')  
+      username= request.POST.get('uname')   
+     
+      user = UserSignup(first_name=first_name,last_name=last_name,username=username, email=email)
+      user.save()
+      messages.success(request, 'Your account has been created sucessfully!')
+    return render(request, "bookReview/signup.html")
 
 # for pagination -- wont work for previous and next buttons yet
 # pretty static as of now

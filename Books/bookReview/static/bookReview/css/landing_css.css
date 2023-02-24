@@ -5,28 +5,29 @@ body {
     /* color: #555C8Bff; */
     color: rgb(72, 81, 137);
     width: auto;
+    overflow-x: hidden;
 }
 
 /* -------------------------- HEADER / BANNER ------------------------- */
-header {
+/* header {
     background-color: rgb(206, 237, 235);
-}
+} */
 
 .banner {
-    background: url("/pic.jpg");
+    /* background: url("/pic.jpg"); */
     background-size: cover;
     background-position: center;
     height: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
-<<<<<<< HEAD
-=======
     margin-bottom: 40px;
->>>>>>> f091e25b70d862184f643503a4b790f5f6627841
 }
 
-.banner-content {
+#banner-prev {
+    left: -20px;
+}
+/* .banner-content {
     text-align: center;
     max-width: 600px;
     margin: 0 auto;
@@ -37,30 +38,20 @@ header {
 .heading {
     margin-top: 30px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-<<<<<<< HEAD
 }
 
 h1 {
-=======
->>>>>>> f091e25b70d862184f643503a4b790f5f6627841
     font-size: 50px;
     margin-bottom: 20px;
 }
 
-<<<<<<< HEAD
-p {
-=======
 .header-para {
->>>>>>> f091e25b70d862184f643503a4b790f5f6627841
     font-size: 20px;
     margin-bottom: 40px;
 }
+*/
 
-<<<<<<< HEAD
-.btn {
-=======
 .header-button, .card-hover-button  {
->>>>>>> f091e25b70d862184f643503a4b790f5f6627841
     display: inline-block;
     padding: 12px 30px;
     border-radius: 40px;
@@ -69,28 +60,19 @@ p {
     text-transform: uppercase;
     letter-spacing: 2px;
     transition: all 0.2s ease;
-<<<<<<< HEAD
-}
-
-.btn-primary {
-=======
->>>>>>> f091e25b70d862184f643503a4b790f5f6627841
     background-color: burlywood;
     color: #fff;
     border: none;
     margin-bottom: 40px;
-}
-<<<<<<< HEAD
+} *
 
-.btn-primary:hover {
+/*.btn-primary:hover {
     background-color: lightpink;
 }
-=======
->>>>>>> f091e25b70d862184f643503a4b790f5f6627841
 
 .header-button:hover {
     background-color: lightpink;
-}
+} */
 
 /* -------------------------- NAVBAR ------------------------------ */
 
@@ -276,11 +258,8 @@ body .carousel-control-next-icon {
 }
 
 
-<<<<<<< HEAD
 
-=======
 /* --------------------------- ABOUT PAGE ----------------------------- */
->>>>>>> f091e25b70d862184f643503a4b790f5f6627841
 .separator-type,
 .title-type,
 .intro-type,
@@ -296,15 +275,12 @@ body .carousel-control-next-icon {
 .intro-type .container {
     padding: 68px 15px 72px !important;
 }
-<<<<<<< HEAD
 
 @media (min-width: 1630px) {
     .container {
         width: 1630px;
     }
 }
-=======
->>>>>>> f091e25b70d862184f643503a4b790f5f6627841
 
 @media (min-width: 1630px) {
     .container {
@@ -385,9 +361,6 @@ body .carousel-control-next-icon {
     margin-left: 3%;
 }
 
-<<<<<<< HEAD
 .allButFooter {
     min-height: calc(100vh - 95px);
 }
-=======
->>>>>>> f091e25b70d862184f643503a4b790f5f6627841
