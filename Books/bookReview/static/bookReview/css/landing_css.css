@@ -24,9 +24,9 @@ body {
     margin-bottom: 40px;
 }
 
-#banner-prev {
+/* #banner-prev {
     left: -20px;
-}
+} */
 /* .banner-content {
     text-align: center;
     max-width: 600px;
@@ -126,11 +126,13 @@ body .carousel-control-next-icon {
 }
 
 .carousel-control-next {
-    right: -100px;
+    right: -60px;
+    padding-top: 50px;
 }
 
 .carousel-control-prev {
-    left: -100px;
+    left: -60px;
+    padding-top: 50px;
 }
 
 .card {
@@ -364,3 +366,55 @@ body .carousel-control-next-icon {
 .allButFooter {
     min-height: calc(100vh - 95px);
 }
+
+/* --------------------------- BOOK DETAILS ----------------------------- */
+
+
+.detaildesc{
+    font-size: large;
+}
+
+.detailcontainer {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .book-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+  }
+
+  .book-cover img {
+    max-width: 300px;
+    height: auto;
+  }
+
+  .book-info {
+    width: 60%;
+    margin-left: 50px;
+  }
+
+  .book-title {
+    font-size: 36px;
+    margin-top: 0;
+  }
+
+  .book-author {
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .book-description {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .btn btn-primary reviewButton{
+    size: 10px;
+  }
+
+  .detailreview{
+    padding-left: 20px;
+  }
