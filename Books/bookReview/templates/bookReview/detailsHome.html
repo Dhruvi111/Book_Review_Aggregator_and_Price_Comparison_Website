@@ -11,24 +11,24 @@
 {% block body %}
 
 <div class="detailcontainer">
-<div class="book-details">
-<!-- <p>Details (landing page) </p> -->
-<div class="book-cover">
-<img src="/media/{{image}}" alt="">
-</div>
-<div class="book-info">
-<h1 class="book-title"><b>{{title}}</b></h1>
-<p class="book-author">Author: {{author}}</p>
-<p>Publisher : {{publisher}}</p>
-<p>Edition / Publish Date : {{publish_date}}</p>
-<p>Pages: {{no_pages}}</p>
-<p class="book-description">Description: {{desc}}</p>
-</div>
+    <div class="book-details">
+        <div class="book-cover">
+            <img src="/media/{{image}}" alt="">
+        </div>
 
-<div class="detailreview">
-<p>READ REVIEWS FROM :</p>
-<button class="btn btn-primary reviewButton">Amazon</button>
-</div>
-</div>
+        <div class="book-info">
+            <h1 class="book-title"><b>{{title}}</b></h1>
+            <p class="book-author">Author: {{author}}</p>
+            <p>Publisher : {{publisher}}</p>
+            <p>Edition / Publish Date : {{publish_date}}</p>
+            <p>Pages: {{no_pages}}</p>
+            <p class="book-description">Description: {{desc}}</p>
+        </div>
+
+        <div class="detailreview">
+            <h5>READ REVIEWS FROM :</h5>
+            <button class="btn btn-primary reviewButton" onclick="location.href='{% url 'BNoble' %}'">Barnes & Noble</button>
+        </div>
+    </div>
 </div>
 {% endblock body %}
