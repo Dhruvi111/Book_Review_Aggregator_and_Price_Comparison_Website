@@ -5,9 +5,134 @@
 {% block css %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
+<style>
+    .grid{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        padding:0 12%;
+    }
+    #heading{
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row: 1;
+        padding:3rem 0;
+    }
+    #leftdiv{
+        grid-column: 1;
+        grid-row: 2;
+    }
+    #rightdiv{
+        grid-column: 2;
+        grid-row: 2;
+        background: rgb(72, 81, 137);
+        box-shadow: 2px 2px 5px 4px rgba(0, 0, 0, 0.2);
+        border:.1rem solid rgb(72, 81, 137);
+        position: relative;
+    }
+    .form{
+        font-size: 18px;
+        margin:0 auto;
+        width: 100%;
+        background-color: white;
+        padding:2rem;
+        text-align:left;
+        box-shadow: 2px 2px 5px 4px rgba(0, 0, 0, 0.2);
+        /* offset-x | offset-y | blur-radius | spread-radius | color */
+        border:.1rem solid rgb(72, 81, 137);
+    }
+    input[type=text], input[type=password]{
+        background: none;
+        border-radius: 0;
+        border: none;
+        border-bottom: 2px solid rgba(72, 81, 137, 0.5);
+    }
+    .login-btn{
+        width:100%;
+        border-radius:15px;
+        background-color:rgb(72, 81, 137);
+        border: 2px solid rgb(72, 81, 137);
+    }
+    .login-btn:hover{
+        background-color:rgba(72, 81, 137,0.4);
+        border: 2px solid rgb(72, 81, 137);
+        color:rgb(72, 81, 137);
+    }
+    #rightcard{
+        width:100%;
+        position: absolute;
+        top: 50%; 
+        transform: translateY(-50%);
+    }
+    #new-here{
+        padding-top:20px;
+        text-align:center;
+        color:white;
+    }
+    #rightcard p{
+        color:white;
+        text-align:center;
+    }
+    #rightcard a{
+        color: white;
+    }
+    @media screen and (max-width: 800px){
+        .grid{
+            padding: 0;
+        }
+        #leftdiv{
+            grid-column-start: 1;
+            grid-column-end: 3;
+            grid-row: 2;
+        }
+        #rightdiv{
+            grid-column-start: 1;
+            grid-column-end: 3;
+            grid-row: 3;
+        }
+      }
+</style>
 
 {% endblock css %}
 
 {% block body %}
-<p>This is login page</p>
+
+<div class="container">
+    <div class=grid>
+        <div id="heading">
+            <h2 class="text-center">Welcome back to your reading adventure!</h2>
+        </div>
+        <div id="leftdiv">
+            <form class="row g-3 form" action="/login" method="POST">
+                <h3 class="text-center" >Sign In</h3>
+                {% csrf_token %}
+                <div class="col-12">
+                    <label for="username" class="form-label">Username :</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="jerry_569" required>
+                </div>
+                <div class="col-12">
+                    <label for="pwd" class="form-label">Password :</label>
+                    <input type="password" class="form-control" id="pwd" name="pwd" placeholder="************" required>
+                </div>
+                
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary login-btn">Login </button>
+                </div>
+    
+                <a href="#">Forgot password? </a>
+            </form>
+        </div>
+        <div id="rightdiv"> 
+            <div id="rightcard">
+                <h2 id="new-here">New here ?</h2>
+                <p>Do you want to discover new things ? 
+                    <br>
+                    Just Register !</p>
+                <div style="text-align:center">
+                    <a href="{% url 'Signup' %}">Sign Up!</a>
+                </div>
+            </div>     
+        </div>
+        
+    </div>    
+</div>
 {% endblock body %}

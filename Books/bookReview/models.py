@@ -28,5 +28,16 @@ class Contact(models.Model):
     @property
     def fullname(self):
         return '{} {}'.format(self.first_name, self.last_name)
+
+
+class UserSignup(models.Model):
+    user_id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    username = models.CharField(max_length=50)
+    email = models.EmailField(max_length=254, default="") 
     
+    @property
+    def fullname(self):
+        return '{} {}'.format(self.first_name, self.last_name)
     

@@ -9,20 +9,18 @@
 {% endblock css %}
 
 {% block body %}
+
 <p>Details page -- For test purpose</p>
 
 <img src="{{image}}" alt="">
-<p><b>{{title}}</b></p>
+<h1><p><b>{{title}}</b></p></h1>
 <p>Author: {{author_list | join:", "}}</p>
 <p>Publisher : {{publisher}}</p>
 <p>Edition / Publish Date : {{edition}}</p>
 <p>Pages: {{no_pages}}</p>
-<p id="desc">Description: {% autoescape off %}{{desc}}{% endautoescape %}</p>
+<p class="detaildesc">Description: {% autoescape off %}{{desc}}{% endautoescape %}</p>
 
 
--------------Testing !-------------
 <h5>READ REVIEWS FROM :</h5>
 <button class="btn btn-primary reviewButton">Amazon</button>
-
 {% endblock body %}
-
