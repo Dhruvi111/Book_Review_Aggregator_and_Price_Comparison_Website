@@ -1,9 +1,11 @@
 body {
     font-family: 'Lexend', sans-serif;
-    background: linear-gradient(225deg, #F9E7E8ff, #F5DDE5ff, #F7E1F8ff, #E9EEF8ff, #EAEEFFff);
+    /* background: linear-gradient(225deg, #F9E7E8ff, #F5DDE5ff, #F7E1F8ff, #E9EEF8ff, #EAEEFFff); */
+    background-color: #f1faee;
     background-attachment: fixed;
     /* color: #555C8Bff; */
     color: rgb(72, 81, 137);
+    /* color: #f7ede2; */
     width: auto;
     overflow-x: hidden;
 }
@@ -77,7 +79,8 @@ h1 {
 /* -------------------------- NAVBAR ------------------------------ */
 
 .navbar {
-    background: rgb(72, 81, 137) !important;
+    /* background: rgb(72, 81, 137) !important; */
+    background-color: #1d3557 !important;
     height: 60px;
     font-size: larger;
 }
@@ -92,7 +95,8 @@ h1 {
 }
 
 .textColorNav {
-    color: #E9EEF8ff !important;
+    color: #fff !important;
+
 }
 
 /* ------------------------ LANDING PAGE ------------------------- */
@@ -144,6 +148,7 @@ body .carousel-control-next-icon {
 .card-text,
 .category_title {
     text-align: center;
+    color: #1d3557;
 }
 
 .card-img-top {
@@ -157,8 +162,8 @@ body .carousel-control-next-icon {
 /* ---------------------------- FOOTER ---------------------------- */
 
 .footer {
-    background: rgb(72, 81, 137);
-    color: #fff;
+    background: #c1121f;
+    color: #f1faee;
     padding: 12px 0;
     width: 101%;
     margin: 30px 0 0 -10px;
@@ -205,7 +210,7 @@ body .carousel-control-next-icon {
 }
 
 .footer a {
-    color: #fff;
+    color: #f1faee;
     text-decoration: none;
 }
 
@@ -254,11 +259,18 @@ body .carousel-control-next-icon {
 .card:hover .card-hover-button {
     display: block;
     text-align: center;
-    background-color: rgb(72, 81, 137);
-    color: #E9EEF8ff;
+    background-color: #457b9d;
+    /* color: #E9EEF8ff; */
+    color: #fff;
     border-radius: 20px;
 }
 
+
+/* --------------------------- LANDING PAGE CATEGORIES ----------------------------- */
+
+.row{
+    color: #1d3557;
+}
 
 
 /* --------------------------- ABOUT PAGE ----------------------------- */
@@ -359,9 +371,9 @@ body .carousel-control-next-icon {
     margin-left: 17%;
 }
 
-.col-md-12 {
+/* .col-md-12 {
     margin-left: 3%;
-}
+} */
 
 .allButFooter {
     min-height: calc(100vh - 95px);
