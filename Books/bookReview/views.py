@@ -267,3 +267,17 @@ def pages(request, digit):
     data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + genre + "&startIndex=" + startIndex +"&printType=books&maxResults=36")
     x = api(query=genre, data=data)
     return render(request, "bookReview/page.html", x)
+
+
+def BNoble(request):  
+    isbn_no = request.GET.get('no')
+    print(">>>>>>>>", isbn_no)
+    return render(request, "bookReview/reviews.html")
+
+
+def Amazon(request):  
+    return render(request, "bookReview/reviews.html")
+
+
+def Goodreads(request):   
+    return render(request, "bookReview/reviews.html")

@@ -12,5 +12,8 @@ urlpatterns = [
     path('signup/', views.signup, name="Signup"),
     path('details/', views.details, name="Details"),
     path('detailsHome/', views.detailsHome, name="DetailsHome"),
-    path('page/<int:digit>', views.pages, name="page")
+    path('page/<int:digit>', views.pages, name="page"),
+    path('reviewBNoble/', views.BNoble, name="BNoble"),
+    path('reviewAmazon/', views.Amazon, name="Amazon"),
+    path('reviewGoodreads/', views.Goodreads, name="Goodreads")
 ]
