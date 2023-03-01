@@ -52,7 +52,7 @@ def api(query, data):
             else:
                 category.append(["Category Info Not Available"])
 
-            #ISBN
+            # ISBN
             # if ('industryIdentifiers' in volInfo):
             #     isbn_type = volInfo['industryIdentifiers'][0]['type']
             #     if isbn_type == "ISBN_13" or isbn_type == "ISBN_10":
@@ -72,8 +72,8 @@ def api(query, data):
             else:
                 identifiers.append("id not found")
         length = range(len(titles))
-        params = {'titles': titles, 'pic':pic, 'length': length, 'author': author, 'results':results, 'msg':"Search Results", 'gen':'Category: ', 'category':category, 'query':query, 'isbn':isbn, 'identifiers':identifiers}
-        # print(">>>>>>>>",identifiers)
+        params = {'titles': titles, 'pic':pic, 'length': length, 'author': author, 'results':results, 'msg':"Search Results", 'gen':'Category: ', 'category':category, 'query':query, 'identifiers':identifiers}
+
 
     elif len(query) == 0 or len(query) < 3:
         params={'msg':"Please Enter More Than 3 Letters !"}
@@ -122,7 +122,18 @@ def specificBook(data):
     else:
         no_pages = "Oopsie! Info Not Available"
 
-    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages}
+    if ('industryIdentifiers' in volInfo):
+        isbn_type = volInfo['industryIdentifiers'][0]['type']
+        if isbn_type == "ISBN_13" or isbn_type == "ISBN_10":
+            isbn = volInfo['industryIdentifiers'][0]['identifier']
+        
+        else:
+            isbn = 'isbn not found'
+    else:
+        isbn = "industry identifiers unavailable"
+
+
+    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn':isbn}
 
     return display
 
