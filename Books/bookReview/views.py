@@ -283,4 +283,15 @@ def pages(request, digit):
 def BNoble(request):  
     isbn_no = request.GET.get('no')
     print(">>>>>>>>", isbn_no)
-    return render(request, "bookReview/reviews.html")
+    test = "Barnes & Noble review page" 
+    return render(request, "bookReview/reviews.html", {'test':test})
+
+
+def Amazon(request):  
+    test = "Amazon review page"
+    return render(request, "bookReview/reviews.html", {'test':test})
+
+
+def Goodreads(request):   
+    test = "Goodreads review page"
+    return render(request, "bookReview/reviews.html", {'test':test})
