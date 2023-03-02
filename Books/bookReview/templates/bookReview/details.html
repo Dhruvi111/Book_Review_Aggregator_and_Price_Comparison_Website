@@ -23,12 +23,14 @@
             <p>Publisher : {{publisher}}</p>
             <p>Edition / Publish Date : {{edition}}</p>
             <p>Pages: {{no_pages}}</p>
+            <p>ISBN-10: {{isbn10}}</p>
+            <p>ISBN-13: {{isbn13}}</p>
             <p class="book-description">Description: {% autoescape off %}{{desc}}{% endautoescape %}</p>
         </div> 
 
         <div class="detailreview">
             <h5>READ REVIEWS FROM :</h5>
-            <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'BNoble' %}?no={{isbn}}&t={{title}}'">Barnes & Noble</button>
+            <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'BNoble' %}?no={{isbn13}}&t={{title_for_url}}&a={{author_list|index:0}}'">Barnes & Noble</button>
             <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'Amazon' %}'">Amazon</button>
             <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'Goodreads' %}'">Goodreads</button>
         </div>

@@ -11,4 +11,19 @@
 {% block body %}
 
 <p>{{test}}</p>
+
+For testing !
+
+<a href="https://www.barnesandnoble.com/w/{{title}}{{author}}/?ean={{isbn_no}}">https://www.barnesandnoble.com/w/{{title}}{{author}}/?ean={{isbn_no}}</a>
+
+
+{% autoescape off %}
+
+
+<p>{{reviews}}</p>
+
+
+    
+{% endautoescape %}
+{% comment %} {{reviews}} {% endcomment %}
 {% endblock body %}

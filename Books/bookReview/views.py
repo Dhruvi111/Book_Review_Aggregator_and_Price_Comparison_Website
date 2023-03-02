@@ -3,7 +3,7 @@ from django.shortcuts import render, HttpResponse
 from .models import Book, Contact, UserSignup
 from math import ceil
 from django.contrib import messages
-# from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
     
 # Create your views here.
 def api(query, data):
@@ -89,6 +89,11 @@ def specificBook(data):
     volInfo = json_data['volumeInfo']
     if('title' in volInfo):
         title = volInfo['title']
+
+        if '\'' in title:
+            title_for_url = title.replace('\'', '%27')
+        else:
+            title_for_url = title
     else:
         title = "Oopsie! Title Not Available"
 
@@ -123,17 +128,36 @@ def specificBook(data):
         no_pages = "Oopsie! Info Not Available"
 
     if ('industryIdentifiers' in volInfo):
-        isbn_type = volInfo['industryIdentifiers'][0]['type']
-        if isbn_type == "ISBN_13" or isbn_type == "ISBN_10":
-            isbn = volInfo['industryIdentifiers'][0]['identifier']
-        
-        else:
-            isbn = 'isbn not found'
+        isbn_index0 = volInfo['industryIdentifiers'][0]['type']
+        isbn_index1 = volInfo['industryIdentifiers'][1]['type']
+
+        if isbn_index0 == "ISBN_13":
+            isbn13 = volInfo['industryIdentifiers'][0]['identifier']
+            
+            if isbn_index1 == "ISBN_10":
+                isbn10 = volInfo['industryIdentifiers'][1]['identifier']
+            else:
+                isbn10 = 'isbn not found'
+
+
+        elif isbn_index0 == "ISBN_10" :
+            isbn10 = volInfo['industryIdentifiers'][0]['identifier']
+
+            if isbn_index1 == "ISBN_13":
+                isbn13 = volInfo['industryIdentifiers'][1]['identifier']
+            else:
+                isbn13 = 'isbn not found'
     else:
-        isbn = "industry identifiers unavailable"
+        isbn10 = "industry identifiers unavailable"
+        isbn13 = "industry identifiers unavailable"
+
+    # print(isbn_index0)
+    # print(isbn_index1)
+    # print(isbn10)
+    # print(isbn13)
 
 
-    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn':isbn}
+    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url}
 
     return display
 
@@ -282,9 +306,35 @@ def pages(request, digit):
 
 def BNoble(request):  
     isbn_no = request.GET.get('no')
-    print(">>>>>>>>", isbn_no)
+    title = request.GET.get('t')
+    author = request.GET.get('a')
     test = "Barnes & Noble review page" 
-    return render(request, "bookReview/reviews.html", {'test':test})
+
+    url = 'https://www.barnesandnoble.com/w/{title}{author}/?ean={isbn_no}'.format(title=title, author=author, isbn_no=isbn_no)
+    print(url)
+    
+    headers = requests.utils.default_headers()
+    headers.update(
+        {
+            'User-Agent': 'My User Agent 1.0',
+        }
+    )
+
+    data_str = ""
+    r = requests.get(url, headers=headers)
+    soup = BeautifulSoup(r.content, 'html.parser')
+    # s = soup.find('div', class_='bv-content-summary-body-text')
+    # # content = s.find_all('p')
+    # print(soup.text)
+
+    s = soup.find('div', class_='editorial-reviews')
+    reviews = s.find('blockquote')
+    # reviews = s.find('p')
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", reviews)
+    # print("Data type:", reviews)
+    # print("isbn data type: ", type(isbn_no))  It is string
+    params = {'test':test, 'title': title, 'author': author, 'isbn_no': isbn_no, 'reviews':reviews}
+    return render(request, "bookReview/reviews.html", params)
 
 
 def Amazon(request):  
