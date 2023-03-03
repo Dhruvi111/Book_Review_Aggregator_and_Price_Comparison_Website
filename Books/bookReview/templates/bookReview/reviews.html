@@ -14,16 +14,19 @@
 
 For testing !
 
-<a href="https://www.barnesandnoble.com/w/{{title}}{{author}}/?ean={{isbn_no}}">https://www.barnesandnoble.com/w/{{title}}{{author}}/?ean={{isbn_no}}</a>
+<a href="https://www.barnesandnoble.com/w/{{title}}{{author}}/?ean={{isbn_no}}">https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}</a>
 
-
-{% autoescape off %}
-
-
-<p>{{reviews}}</p>
-
-
-    
+{% load filters %}
+{% autoescape off %} 
+    <p>{{reviews|index:0}}</p> 
 {% endautoescape %}
-{% comment %} {{reviews}} {% endcomment %}
+
+{% if msg != "" %}
+<p>{{msg}}</p>
+
+Please visit: 
+<a href="https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}">Barnes and Nobles</a>
+{% endif %}
+
+
 {% endblock body %}

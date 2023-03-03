@@ -320,20 +320,28 @@ def BNoble(request):
         }
     )
 
-    data_str = ""
-    r = requests.get(url, headers=headers)
-    soup = BeautifulSoup(r.content, 'html.parser')
-    # s = soup.find('div', class_='bv-content-summary-body-text')
-    # # content = s.find_all('p')
-    # print(soup.text)
+    if isbn_no != "isbn not found" and isbn_no != "industry identifiers unavailable":
 
-    s = soup.find('div', class_='editorial-reviews')
-    reviews = s.find('blockquote')
-    # reviews = s.find('p')
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", reviews)
-    # print("Data type:", reviews)
-    # print("isbn data type: ", type(isbn_no))  It is string
-    params = {'test':test, 'title': title, 'author': author, 'isbn_no': isbn_no, 'reviews':reviews}
+        r = requests.get(url, headers=headers)
+        soup = BeautifulSoup(r.content, 'html.parser')
+        s = soup.find('div', class_='editorial-reviews')
+        # print(s)
+
+        if s != None:
+            bquote = s.find('blockquote')
+            # reviews = bquote.find_all('p')
+            msg = ""
+        else:
+            bquote = " "
+            msg = "Couldn't fetch reviews"
+       
+        # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", reviews)
+
+    else:
+        bquote = " "
+        msg = "Couldn't find book on Barnes and Noble. Sorry for the inconvenience !"
+ 
+    params = {'test':test, 'title': title, 'author': author, 'isbn_no': isbn_no, 'reviews':bquote , 'msg': msg}
     return render(request, "bookReview/reviews.html", params)
 
 
