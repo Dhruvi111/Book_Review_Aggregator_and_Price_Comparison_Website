@@ -10,6 +10,8 @@
 
 {% block body %}
 
+{% if bnoble == True %}
+
 <p>{{test}}</p>
 
 For testing !
@@ -28,5 +30,22 @@ Please visit:
 <a href="https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}">Barnes and Nobles</a>
 {% endif %}
 
+{% elif bookmarks == True%}
+    {{test}}
+    <a href="https://bookmarks.reviews/reviews/all/{{title}}/">https://bookmarks.reviews/reviews/all/{{title}}/</a>
 
+    {% if list_length != 0 %}
+        {% for i in list_length %} 
+            {% autoescape off %} <p>{{review_list|index:i}}</p>{% endautoescape %} 
+        {% endfor %}
+    {% else %}
+        <p>{{msg}}</p>
+    {% endif %}
+{% elif goodreads == True%}
+    {{test}}
+    {{title_GR}}
+    {% comment %} <a href=" https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 "> https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 </a> {% endcomment %}
+{% elif amazon == True%}
+    {{test}}
+{% endif %}
 {% endblock body %}

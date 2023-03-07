@@ -94,6 +94,13 @@ def specificBook(data):
             title_for_url = title.replace('\'', '%27')
         else:
             title_for_url = title
+
+        if ' ' in title:
+            title_for_bmarks = title_for_url.replace(' ', '-')
+            print(title_for_bmarks)
+        else:
+            title_for_bmarks = title
+
     else:
         title = "Oopsie! Title Not Available"
 
@@ -157,7 +164,7 @@ def specificBook(data):
     # print(isbn13)
 
 
-    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url}
+    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks}
 
     return display
 
@@ -253,15 +260,30 @@ def detailsHome(request):
     
     for val in bookInfo:        # val gives dictionary
         title = val['title']
+        if '\'' in title:
+            title_for_url = title.replace('\'', '%27')
+        else:
+            title_for_url = title  
+
+        if ' ' in title:
+            title_for_bmarks = title_for_url.replace(' ', '-')
+            print(title_for_bmarks)
+        else:
+            title_for_bmarks = title
+        
+
         author =  val['author']
         publisher =  val['publisher']
         publish_date = val['publish_date']
         no_pages = val['pages']
         image = val['image']
         desc = val['description']
-        
+        isbn10 = val['isbn_10']
+        isbn13 = val['isbn_13']
 
-    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc}
+
+
+    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks}
     return render(request, "bookReview/detailsHome.html", display)
 
 
@@ -280,6 +302,7 @@ def signup(request):
       user.save()
       messages.success(request, 'Your account has been created sucessfully!')
     return render(request, "bookReview/signup.html")
+
 
 # for pagination -- wont work for previous and next buttons yet
 # pretty static as of now
@@ -311,12 +334,12 @@ def BNoble(request):
     test = "Barnes & Noble review page" 
 
     url = 'https://www.barnesandnoble.com/w/{title}{author}/?ean={isbn_no}'.format(title=title, author=author, isbn_no=isbn_no)
-    print(url)
+    # print(url)
     
     headers = requests.utils.default_headers()
     headers.update(
         {
-            'User-Agent': 'My User Agent 1.0',
+            'User-Agent': 'My User Agent 1.0', 
         }
     )
 
@@ -341,15 +364,66 @@ def BNoble(request):
         bquote = " "
         msg = "Couldn't find book on Barnes and Noble. Sorry for the inconvenience !"
  
-    params = {'test':test, 'title': title, 'author': author, 'isbn_no': isbn_no, 'reviews':bquote , 'msg': msg}
+    bnoble = True
+    params = {'test':test, 'title': title, 'author': author, 'isbn_no': isbn_no, 'reviews':bquote , 'msg': msg, 'bnoble': bnoble}
     return render(request, "bookReview/reviews.html", params)
+
+
+def Bookmarks(request):  
+    test = "Bookmarks review page"
+    title = request.GET.get('t')
+    url = 'https://bookmarks.reviews/reviews/all/{}/'.format(title)
+    r = requests.get(url)
+    soup = BeautifulSoup(r.content, 'html.parser')
+    s = soup.find_all('div', class_='bookmarks_a_review_pullquote')
+
+    if len(s) != 0:
+        review_list = s
+        msg = ""
+        list_length = range(len(s))
+    else:
+        review_list = []
+        list_length = 0
+        msg = "Couldn't fetch reviews"
+    # print(">>>>>>>>", review_list)
+
+    # Reviewers
+    # s1 = soup.find_all('a', class_="reviewer_permalink") 
+    # print(s1)
+    # reviewers = []
+    # for span in s1: 
+    #     if span not in s1:
+    #         reviewers.append("")
+    #     else:
+    #         reviewers.append(span.text)
+    
+    # # Sources
+    # s2 = soup.find_all('a', class_="bookmarks_source_link")
+    # review_source = []
+    # for a in s2:
+    #     review_source.append(a.text)
+
+    # print(">>>>>>>",s1_span)
+
+    x = soup.find_all('div', class_="bookmarks_pullquote_reviewer")
+    print(x)
+    # a_tag = soup.find_all('a', class_="reviewer_permalink")
+ 
+    bookmarks = True
+    return render(request, "bookReview/reviews.html", {'test':test, 'bookmarks': bookmarks, 'title': title, 'review_list': review_list, 'msg': msg, 'list_length': list_length})
 
 
 def Amazon(request):  
     test = "Amazon review page"
-    return render(request, "bookReview/reviews.html", {'test':test})
+    amazon = True
+    return render(request, "bookReview/reviews.html", {'test':test, 'amazon': amazon})
 
 
 def Goodreads(request):   
     test = "Goodreads review page"
-    return render(request, "bookReview/reviews.html", {'test':test})
+    title_GR = request.GET.get('t')
+
+    url = ' https://www.goodreads.com/search?q={title_GR}&ref=nav_sb_noss_l_15'
+
+    goodreads = True
+    return render(request, "bookReview/reviews.html", {'test':test, 'title_GR': title_GR, 'goodreads': goodreads})

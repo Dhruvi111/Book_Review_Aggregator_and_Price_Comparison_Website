@@ -11,6 +11,8 @@ class Book(models.Model):
     description = models.CharField(max_length=5000, default="")
     publish_date = models.IntegerField(default=0)
     pages = models.IntegerField(default=0)
+    isbn_10 = models.CharField(max_length=50, default=0)
+    isbn_13 = models.CharField(max_length=50, default=0)
     image = models.ImageField(upload_to='bookReview/images', default="")
 
 

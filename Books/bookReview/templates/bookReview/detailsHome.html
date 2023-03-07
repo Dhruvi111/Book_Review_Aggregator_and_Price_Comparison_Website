@@ -24,14 +24,17 @@
             <p>Publisher : {{publisher}}</p>
             <p>Edition / Publish Date : {{publish_date}}</p>
             <p>Pages: {{no_pages}}</p>
+            <p>ISBN-10: {{isbn10}}</p>
+            <p>ISBN-13: {{isbn13}}</p>
             <p class="book-description">Description: {{desc}}</p>
         </div>
 
         <div class="detailreview">
             <h5>READ REVIEWS FROM :</h5>
-            <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'BNoble' %}'">Barnes & Noble</button>
+            <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'BNoble' %}?no={{isbn13}}&t={{title_for_url}}&a={{author}}'">Barnes & Noble</button>
+            <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'Bookmarks' %}?t={{title_for_bmarks}}'">Bookmarks</button>
             <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'Amazon' %}'">Amazon</button>
-            <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'Goodreads' %}'">Goodreads</button>
+            <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'Goodreads' %}?t={{title_for_url}}'">Goodreads</button>
         </div>
     </div>
 </div>

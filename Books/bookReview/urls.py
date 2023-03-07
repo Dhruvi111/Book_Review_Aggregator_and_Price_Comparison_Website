@@ -14,6 +14,7 @@ urlpatterns = [
     path('detailsHome/', views.detailsHome, name="DetailsHome"),
     path('page/<int:digit>', views.pages, name="page"),
     path('reviewBNoble/', views.BNoble, name="BNoble"),
+    path('reviewBookmarks/', views.Bookmarks, name="Bookmarks"),
     path('reviewAmazon/', views.Amazon, name="Amazon"),
     path('reviewGoodreads/', views.Goodreads, name="Goodreads")
 ]
