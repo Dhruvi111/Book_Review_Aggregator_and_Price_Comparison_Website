@@ -377,6 +377,7 @@ def Bookmarks(request):
     soup = BeautifulSoup(r.content, 'html.parser')
     s = soup.find_all('div', class_='bookmarks_a_review_pullquote')
 
+    # Reviews
     if len(s) != 0:
         review_list = s
         msg = ""
@@ -388,29 +389,22 @@ def Bookmarks(request):
     # print(">>>>>>>>", review_list)
 
     # Reviewers
-    # s1 = soup.find_all('a', class_="reviewer_permalink") 
-    # print(s1)
-    # reviewers = []
-    # for span in s1: 
-    #     if span not in s1:
-    #         reviewers.append("")
-    #     else:
-    #         reviewers.append(span.text)
-    
-    # # Sources
-    # s2 = soup.find_all('a', class_="bookmarks_source_link")
-    # review_source = []
-    # for a in s2:
-    #     review_source.append(a.text)
+    s1 = soup.select("[itemprop='author']")
+    reviewers = []
+    for el in s1:
+        reviewers.append(el.text)
 
-    # print(">>>>>>>",s1_span)
+    # Sources
+    s2 = soup.select("[itemprop='sameAs']")
+    review_source = []
+    for el in s2:
+        review_source.append(el.text)
 
-    x = soup.find_all('div', class_="bookmarks_pullquote_reviewer")
-    print(x)
-    # a_tag = soup.find_all('a', class_="reviewer_permalink")
+    print(reviewers)
+    print(review_source)
  
     bookmarks = True
-    return render(request, "bookReview/reviews.html", {'test':test, 'bookmarks': bookmarks, 'title': title, 'review_list': review_list, 'msg': msg, 'list_length': list_length})
+    return render(request, "bookReview/reviews.html", {'test':test, 'bookmarks': bookmarks, 'title': title, 'review_list': review_list, 'msg': msg, 'list_length': list_length, 'reviewers': reviewers, 'review_source': review_source})
 
 
 def Amazon(request):  

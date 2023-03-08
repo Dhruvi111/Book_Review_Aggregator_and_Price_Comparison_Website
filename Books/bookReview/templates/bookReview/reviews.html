@@ -36,7 +36,7 @@ Please visit:
 
     {% if list_length != 0 %}
         {% for i in list_length %} 
-            {% autoescape off %} <p>{{review_list|index:i}}</p>{% endautoescape %} 
+            {% autoescape off %} <p>{{review_list|index:i}}</p>{% endautoescape %} - {{reviewers|index:i}} {{review_source|index:i}}
         {% endfor %}
     {% else %}
         <p>{{msg}}</p>
