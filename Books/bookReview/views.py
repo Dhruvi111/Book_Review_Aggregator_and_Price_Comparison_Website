@@ -456,7 +456,7 @@ def Goodreads(request):
         spans = [span.text for span in s1]
     else:
         msg = "Couldn't fetch reviews"
-    print(">>>>>>>>", spans)
+    # print(">>>>>>>>", spans)
    
     
     goodreads = True
