@@ -400,8 +400,8 @@ def Bookmarks(request):
     for el in s2:
         review_source.append(el.text)
 
-    print(reviewers)
-    print(review_source)
+    # print(reviewers)
+    # print(review_source)
  
     bookmarks = True
     return render(request, "bookReview/reviews.html", {'test':test, 'bookmarks': bookmarks, 'title': title, 'review_list': review_list, 'msg': msg, 'list_length': list_length, 'reviewers': reviewers, 'review_source': review_source})
@@ -416,8 +416,48 @@ def Amazon(request):
 def Goodreads(request):   
     test = "Goodreads review page"
     title_GR = request.GET.get('t')
+    author_GR = request.GET.get('a')
+    url = ' https://www.goodreads.com/search?q={}&ref=nav_sb_noss_l_15'.format(title_GR)
+    r = requests.get(url)
+    soup = BeautifulSoup(r.content, 'html.parser')
+    s = soup.select("[itemprop='name']")
+    s1 = soup.find_all('a', class_="authorName") 
+   
+    author_list = []
+    for span in s1:
+        author_list.append(span.text)
+    
+    title_list = []
+    for el in s:
+        title_list.append(el.text)
+    
+    # ---------------
+    # print(author_list)
+    # print(author_GR)
+    # print("author_list[0] == author_GR",author_list[0] == author_GR)
+    # print(title_list[0])
+    # print(title_GR)
+    # print("title_list[0] == title_GR",title_list[0] == title_GR)
 
-    url = ' https://www.goodreads.com/search?q={title_GR}&ref=nav_sb_noss_l_15'
+    for i in range(len(title_list)):
+        if title_list[i] == title_GR and author_list[i] == author_GR:
+            href_list = [a['href'] for a in soup.find_all('a', class_="bookTitle", href=True)]
+            required_href = href_list[i]
+            break
+        else:
+            required_href = "not found"
 
+    if required_href != "not found":
+        url_book = 'https://www.goodreads.com' + required_href
+        r1 = requests.get(url_book)
+        new_soup = BeautifulSoup(r1.content, 'html.parser')
+        s1 = new_soup.find_all('div', class_="TruncatedContent__text TruncatedContent__text--large")
+        
+        spans = [span.text for span in s1]
+    else:
+        msg = "Couldn't fetch reviews"
+    print(">>>>>>>>", spans)
+   
+    
     goodreads = True
     return render(request, "bookReview/reviews.html", {'test':test, 'title_GR': title_GR, 'goodreads': goodreads})

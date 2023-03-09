@@ -33,7 +33,7 @@
             <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'BNoble' %}?no={{isbn13}}&t={{title_for_url}}&a={{author_list|index:0}}'">Barnes & Noble</button>
             <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'Bookmarks' %}?t={{title_for_bmarks}}'">Bookmarks</button>
             <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'Amazon' %}'">Amazon</button>
-            <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'Goodreads' %}?t={{title_for_url}}'">Goodreads</button>
+            <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'Goodreads' %}?t={{title_for_url}}&a={{author_list|index:0}}'">Goodreads</button>
         </div>
     </div>
 </div>
