@@ -364,6 +364,9 @@ body .carousel-control-next-icon {
     display: flex;
     justify-content: space-between;
     margin-top: 50px;
+    border-radius: 10px;
+    border:#1d3557;
+    border-style: solid;
 }
 
 .book-cover img {
@@ -390,11 +393,18 @@ body .carousel-control-next-icon {
 .book-description {
     font-size: 18px;
     line-height: 1.5;
+    width: 500px;
 }
 
 .reviewButton {
     size: 10px;
     display: block;
+    background-color: #FF9F1C;
+}
+
+div .reviewButton :hover{
+    background-color: #1d3557;
+    color: #FF9F1C;
 }
 
 .detailreview {
