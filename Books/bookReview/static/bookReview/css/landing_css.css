@@ -400,3 +400,12 @@ body .carousel-control-next-icon {
 .detailreview {
     padding-left: 20px;
 }
+
+
+.reviewtitle{
+    text-align: center;
+}
+
+.reviewdiv{
+    padding: 20px;
+}
