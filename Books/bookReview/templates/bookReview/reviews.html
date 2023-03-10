@@ -46,6 +46,13 @@ For testing !
     {{test}}
     {{title_GR}}
     {% comment %} <a href=" https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 "> https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 </a> {% endcomment %}
+    {% if spans_length != 0 %}
+        {% for i in spans_length %}
+            <p>{{short_reviews|index:i}}  -  <b>{{reviewer|index:i}}</b></p> 
+        {% endfor %}
+    {% else %}
+        <p>{{msg}}</p>
+    {% endif %}
 {% elif amazon == True%}
     {{test}}
 {% endif %}
