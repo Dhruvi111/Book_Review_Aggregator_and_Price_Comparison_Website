@@ -9,7 +9,7 @@
 {% endblock css %}
 {% block body %}
 
-{% if bnoble == True %}
+    {% if bnoble == True %}
 
 <!-- <p>{{test}}</p>
 For testing !
@@ -27,13 +27,13 @@ For testing !
 {% if msg != "" %}
 <p>{{msg}}</p>
 
-Please visit: 
-<a href="https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}">Barnes and Nobles</a>
-{% endif %}
+            Please visit: 
+            <a href="https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}">Barnes and Nobles</a>
+        {% endif %}
 
-{% elif bookmarks == True%}
-    {{test}}
-    <a href="https://bookmarks.reviews/reviews/all/{{title}}/">https://bookmarks.reviews/reviews/all/{{title}}/</a>
+    {% elif bookmarks == True%}
+        {{test}}
+        <a href="https://bookmarks.reviews/reviews/all/{{title}}/">https://bookmarks.reviews/reviews/all/{{title}}/</a>
 
     {% if list_length != 0 %}
         {% for i in list_length %} 
