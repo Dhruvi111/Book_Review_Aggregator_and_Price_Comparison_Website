@@ -1,11 +1,9 @@
 body {
     font-family: 'Lexend', sans-serif;
-    background: linear-gradient(225deg, #F9E7E8ff, #F5DDE5ff, #F7E1F8ff, #E9EEF8ff, #EAEEFFff);
-    /* background-color: #f1faee; */
-    background-attachment: fixed;
-    /* color: #555C8Bff; */
-    color: rgb(72, 81, 137);
-    /* color: #f7ede2; */
+    /* background: linear-gradient(225deg, #F9E7E8ff, #F5DDE5ff, #F7E1F8ff, #E9EEF8ff, #EAEEFFff); */
+    /* background-attachment: fixed; */
+    color: #1F867C;
+    /* color: #1A7169; */
     width: auto;
     overflow-x: hidden;
 }
@@ -16,10 +14,10 @@ body {
 } */
 
 .banner {
-    /* background: url("/pic.jpg"); */
     background-size: cover;
     background-position: center;
-    height: 400px;
+    /* height: 400px; */
+    height: 25rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -79,7 +77,7 @@ h1 {
 /* -------------------------- NAVBAR ------------------------------ */
 
 .navbar {
-    background: rgb(72, 81, 137) !important;
+    background: #2EC4B6 !important;
     /* background-color: #1d3557 !important; */
     height: 60px;
     font-size: larger;
@@ -96,7 +94,6 @@ h1 {
 
 .textColorNav {
     color: #fff !important;
-
 }
 
 /* ------------------------ LANDING PAGE ------------------------- */
@@ -157,13 +154,14 @@ body .carousel-control-next-icon {
 
 .bookImage {
     border-radius: 7px;
-} 
+}
 
 /* ---------------------------- FOOTER ---------------------------- */
 
 .footer {
-    background: rgb(72, 81, 137);
-    color: #f1faee;
+    background: #A2E9E3;
+    /* color: #299f94; */
+    color: #1F867C;
     padding: 12px 0;
     width: 101%;
     margin: 30px 0 0 -10px;
@@ -182,7 +180,7 @@ body .carousel-control-next-icon {
 .footer .quick-links h4,
 .footer .contact-info h4,
 .footer .copyright h4 {
-    color: #fff;
+    color: #1F867C;
     font-size: 16px;
     margin-bottom: 20px;
     display: inline-block;
@@ -210,7 +208,7 @@ body .carousel-control-next-icon {
 }
 
 .footer a {
-    color: #f1faee;
+    color: #1F867C;
     text-decoration: none;
 }
 
@@ -259,8 +257,7 @@ body .carousel-control-next-icon {
 .card:hover .card-hover-button {
     display: block;
     text-align: center;
-    background-color: rgb(72, 81, 137);
-    /* color: #E9EEF8ff; */
+    background-color: #FF9F1C;
     color: #fff;
     border-radius: 20px;
 }
@@ -268,7 +265,7 @@ body .carousel-control-next-icon {
 
 /* --------------------------- LANDING PAGE CATEGORIES ----------------------------- */
 
-.row{
+.row {
     color: #1d3557;
 }
 
@@ -296,15 +293,15 @@ body .carousel-control-next-icon {
     }
 }
 
-@media (min-width: 1630px) {
+/* @media (min-width: 1630px) {
     .container {
         width: 1630px;
     }
-}
+} */
 
-.parallax {
+/* .parallax {
     background-attachment: inherit !important;
-}
+} */
 
 .parallax {
     background-attachment: inherit !important;
@@ -317,46 +314,17 @@ body .carousel-control-next-icon {
     z-index: -10;
 }
 
-.company-heading h2 {
-    margin-bottom: 40px;
-    line-height: 80px;
+.company-heading h1 {
+    padding: 5%;
+    /* margin-bottom: 40px; */
+    /* line-height: 80px; */
     color: #fff;
     font-weight: 700 !important;
     text-align: center;
 }
 
-.seo-header,
-.product-header,
-.intro-type .container h1.white,
-.company-heading h1 {
-    /* font-family: 'Raleway', sans-serif; */
-    /* font-weight: 100 !important; */
-    text-transform: capitalize;
-    font-size: 65px;
-    margin-bottom: 20px;
-}
-
-.company-sections h2,
-.careers-sections,
-.perks-section h2 {
-    font-weight: 800;
-    font-size: 50px;
-    text-align: center;
-
-}
-
-/* .red-border {
-    border-right-width: 50%;
-    border-left-width: 50%;
-    border-bottom: 1px solid #d2282e;
-    margin: 0 auto;
-    height: 16px;
-    text-align: center;
-    
-} */
-
-.ct-u-size22 {
-    font-size: 22px;
+.ct-u-size18 {
+    font-size: 18px;
 }
 
 .marginTop40 {
@@ -364,7 +332,8 @@ body .carousel-control-next-icon {
 }
 
 .ct-u-paddingBoth100 {
-    padding: 50px 15px;
+    padding: 2%;
+    padding-bottom: 0;
 }
 
 .col-md-8 {
@@ -382,14 +351,14 @@ body .carousel-control-next-icon {
 /* --------------------------- BOOK DETAILS ----------------------------- */
 
 
-.detaildesc{
+.detaildesc {
     font-size: large;
 }
 
 .detailcontainer {
     max-width: 800px;
     margin: 0 auto;
-  }
+}
 
 .book-details {
     display: flex;
@@ -423,11 +392,11 @@ body .carousel-control-next-icon {
     line-height: 1.5;
 }
 
-.reviewButton{
+.reviewButton {
     size: 10px;
     display: block;
 }
 
-.detailreview{
+.detailreview {
     padding-left: 20px;
 }
