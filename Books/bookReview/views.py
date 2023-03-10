@@ -433,31 +433,64 @@ def Goodreads(request):
     
     # ---------------
     # print(author_list)
+    # print(len(author_list))
     # print(author_GR)
     # print("author_list[0] == author_GR",author_list[0] == author_GR)
     # print(title_list[0])
+    # print(title_list)
+    # print(len(title_list))
     # print(title_GR)
     # print("title_list[0] == title_GR",title_list[0] == title_GR)
 
-    for i in range(len(title_list)):
-        if title_list[i] == title_GR and author_list[i] == author_GR:
-            href_list = [a['href'] for a in soup.find_all('a', class_="bookTitle", href=True)]
-            required_href = href_list[i]
-            break
+    for i in range(20):
+        if title_list[i] == title_GR:
+            if author_list[i] == author_GR:
+                href_list = [a['href'] for a in soup.find_all('a', class_="bookTitle", href=True)]
+                required_href = href_list[i]
+                break
+        
+            else:
+                required_href = "not found"
         else:
             required_href = "not found"
 
     if required_href != "not found":
+        flag = 1
         url_book = 'https://www.goodreads.com' + required_href
         r1 = requests.get(url_book)
         new_soup = BeautifulSoup(r1.content, 'html.parser')
         s1 = new_soup.find_all('div', class_="TruncatedContent__text TruncatedContent__text--large")
         
-        spans = [span.text for span in s1]
+        names_list = new_soup.find_all('div', class_="ReviewerProfile__name")
+        name_text = [a.text for a in names_list]
+        # print(name_text)
+
+        review_span = [span.text for span in s1]
+        review_span.pop(0)
+        # length = [len(i) for i in review_span]
+        short_reviews = []
+        reviewer = []
+        for i in range(len(review_span)):
+            if len(review_span[i]) <= 1000:
+                reviewer.append(name_text[i])
+                short_reviews.append(review_span[i])
+                msg = ""
+            else:
+                msg = "no reviews found"
+                # short_reviews = []
+                # reviewer = []
+
+        # print(">>>>>>", reviewer)
+        spans_length = range(len(short_reviews))
+
     else:
+        flag = 0
         msg = "Couldn't fetch reviews"
-    print(">>>>>>>>", spans)
+        spans_length = 0
+        short_reviews = []
+        reviewer = []
+    # print(">>>>>>>>", spans)
    
     
     goodreads = True
-    return render(request, "bookReview/reviews.html", {'test':test, 'title_GR': title_GR, 'goodreads': goodreads})
+    return render(request, "bookReview/reviews.html", {'test':test, 'title_GR': title_GR, 'goodreads': goodreads, 'short_reviews': short_reviews, 'spans_length': spans_length, 'reviewer': reviewer, 'msg': msg, 'flag': flag})

@@ -10,42 +10,54 @@
 
 {% block body %}
 
-{% if bnoble == True %}
+    {% if bnoble == True %}
 
-<p>{{test}}</p>
+        <p>{{test}}</p>
 
-For testing !
+        For testing !
 
-<a href="https://www.barnesandnoble.com/w/{{title}}{{author}}/?ean={{isbn_no}}">https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}</a>
+        <a href="https://www.barnesandnoble.com/w/{{title}}{{author}}/?ean={{isbn_no}}">https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}</a>
 
-{% load filters %}
-{% autoescape off %} 
-    <p>{{reviews|index:0}}</p> 
-{% endautoescape %}
+        {% load filters %}
+        {% autoescape off %} 
+            <p>{{reviews|index:0}}</p> 
+        {% endautoescape %}
 
-{% if msg != "" %}
-<p>{{msg}}</p>
+        {% if msg != "" %}
+            <p>{{msg}}</p>
 
-Please visit: 
-<a href="https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}">Barnes and Nobles</a>
-{% endif %}
+            Please visit: 
+            <a href="https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}">Barnes and Nobles</a>
+        {% endif %}
 
-{% elif bookmarks == True%}
-    {{test}}
-    <a href="https://bookmarks.reviews/reviews/all/{{title}}/">https://bookmarks.reviews/reviews/all/{{title}}/</a>
+    {% elif bookmarks == True%}
+        {{test}}
+        <a href="https://bookmarks.reviews/reviews/all/{{title}}/">https://bookmarks.reviews/reviews/all/{{title}}/</a>
 
-    {% if list_length != 0 %}
-        {% for i in list_length %} 
-            {% autoescape off %} <p>{{review_list|index:i}}</p>{% endautoescape %} - {{reviewers|index:i}} {{review_source|index:i}}
-        {% endfor %}
-    {% else %}
-        <p>{{msg}}</p>
-    {% endif %}
-{% elif goodreads == True%}
-    {{test}}
-    {{title_GR}}
-    {% comment %} <a href=" https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 "> https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 </a> {% endcomment %}
-{% elif amazon == True%}
-    {{test}}
+        {% if list_length != 0 %}
+            
+            {% for i in list_length %} 
+                {% autoescape off %} <p>{{review_list|index:i}}</p>{% endautoescape %} - {{reviewers|index:i}} {{review_source|index:i}}
+            {% endfor %}
+
+        {% else %}
+            <p>{{msg}}</p>
+        {% endif %}
+
+        
+    {% elif goodreads == True%}
+        {{test}}
+        {{title_GR}}
+        {% comment %} <a href=" https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 "> https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 </a> {% endcomment %}
+       
+        {% if spans_length != 0 %}
+            {% for i in spans_length %}
+                <p>{{short_reviews|index:i}}  -  <b>{{reviewer|index:i}}</b></p> 
+            {% endfor %}
+        {% else %}
+            <p>{{msg}}</p>
+        {% endif %}
+    {% elif amazon == True%}
+        {{test}}
 {% endif %}
 {% endblock body %}
