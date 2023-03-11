@@ -8,7 +8,7 @@
 
 {% endblock css %}
 {% block body %}
-
+<h1 class="reviewtitle">Reviews</h1>
     {% if bnoble == True %}
 
 <!-- <p>{{test}}</p>
@@ -16,7 +16,7 @@ For testing !
 
 <a href="https://www.barnesandnoble.com/w/{{title}}{{author}}/?ean={{isbn_no}}">https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}</a> -->
 
-<h1 class="reviewtitle">Reviews</h1>
+
 <div class="reviewdiv">
 {% load filters %}
 {% autoescape off %} 
@@ -32,8 +32,8 @@ For testing !
         {% endif %}
 
     {% elif bookmarks == True%}
-        {{test}}
-        <a href="https://bookmarks.reviews/reviews/all/{{title}}/">https://bookmarks.reviews/reviews/all/{{title}}/</a>
+        <!-- {{test}} -->
+        <!-- <a href="https://bookmarks.reviews/reviews/all/{{title}}/">https://bookmarks.reviews/reviews/all/{{title}}/</a> -->
 
     {% if list_length != 0 %}
         {% for i in list_length %} 
