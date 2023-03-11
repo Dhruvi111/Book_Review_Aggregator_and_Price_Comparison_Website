@@ -24,38 +24,41 @@
     #rightdiv{
         grid-column: 2;
         grid-row: 2;
-        background: rgb(72, 81, 137);
-        box-shadow: 2px 2px 5px 4px rgba(0, 0, 0, 0.2);
-        border:.1rem solid rgb(72, 81, 137);
+        background: radial-gradient(circle, #2ec4b6, #33c7b5, #39cab3, #3fccb1, #45cfaf, #4bd1ad, #51d3ab, #57d5a9, #5ed8a6, #65daa3, #6cdda0, #74df9d);;
+        box-shadow: 2px 2px 5px 4px rgba(46, 196, 182, 0.2);
+        border:3px solid #29AFA3;
+        border-left: none;
         position: relative;
     }
     .form{
+        color: black;
         font-size: 18px;
         margin:0 auto;
         width: 100%;
         background-color: white;
         padding:2rem;
         text-align:left;
-        box-shadow: 2px 2px 5px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: 2px 2px 5px 4px rgba(46, 196, 182, 0.2);
         /* offset-x | offset-y | blur-radius | spread-radius | color */
-        border:.1rem solid rgb(72, 81, 137);
+        border:3px solid #29AFA3;
+        border-right: none;
     }
     input[type=text], input[type=password]{
         background: none;
         border-radius: 0;
         border: none;
-        border-bottom: 2px solid rgba(72, 81, 137, 0.5);
+        border-bottom: 2px solid rgba(46, 196, 182, 1);
     }
     .login-btn{
         width:100%;
         border-radius:15px;
-        background-color:rgb(72, 81, 137);
-        border: 2px solid rgb(72, 81, 137);
+        background-color:#FF9F1C;
+        border: 2px solid #FF9F1C;
     }
     .login-btn:hover{
-        background-color:rgba(72, 81, 137,0.4);
-        border: 2px solid rgb(72, 81, 137);
-        color:rgb(72, 81, 137);
+        background-color: #fff;
+        border: 2px solid #FF9F1C;
+        color:#FF9F1C;
     }
     #rightcard{
         width:100%;
@@ -67,13 +70,16 @@
         padding-top:20px;
         text-align:center;
         color:white;
+        text-shadow: 2.5px 2.5px #249A90;
     }
     #rightcard p{
         color:white;
         text-align:center;
     }
     #rightcard a{
-        color: white;
+        color: #fff;
+        text-shadow: 2px 2px #FF9F1C;
+        
     }
     @media screen and (max-width: 800px){
         .grid{
@@ -103,7 +109,7 @@
         </div>
         <div id="leftdiv">
             <form class="row g-3 form" action="/login" method="POST">
-                <h3 class="text-center" >Sign In</h3>
+                <h3 class="text-center" style="color: #249A90; text-shadow: 1.5px 1.5px #7DDCD3;">Sign In</h3>
                 {% csrf_token %}
                 <div class="col-12">
                     <label for="username" class="form-label">Username :</label>
@@ -123,7 +129,7 @@
         </div>
         <div id="rightdiv"> 
             <div id="rightcard">
-                <h2 id="new-here">New here ?</h2>
+                <h2 id="new-here" >New here ?</h2>
                 <p>Do you want to discover new things ? 
                     <br>
                     Just Register !</p>

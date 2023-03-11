@@ -2,8 +2,8 @@ body {
     font-family: 'Lexend', sans-serif;
     /* background: linear-gradient(225deg, #F9E7E8ff, #F5DDE5ff, #F7E1F8ff, #E9EEF8ff, #EAEEFFff); */
     /* background-attachment: fixed; */
-    color: #1F867C;
-    /* color: #1A7169; */
+    /* color: #1F867C; */
+    color: #249A90;
     width: auto;
     overflow-x: hidden;
 }
@@ -142,18 +142,32 @@ body .carousel-control-next-icon {
 }
 
 .card-title,
-.card-text,
-.category_title {
+.card-text {
     text-align: center;
-    color: #1d3557;
+    /* color: #1d3557; */
+    color: black !important;
+}
+
+.category_title {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    color: #249A90;
+    text-shadow: 2px 2px #A2E9E3;
 }
 
 .card-img-top {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    box-shadow: 2px 2px 5px 4px rgba(46, 196, 182, 0.5);
+}
+
+.card-img-top:hover {
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    box-shadow: 2px 2px 6px 5px rgba(255, 159, 28, 0.5);
 }
 
 .bookImage {
-    border-radius: 7px;
+    border-radius: 1px;
 }
 
 /* ---------------------------- FOOTER ---------------------------- */
@@ -260,6 +274,7 @@ body .carousel-control-next-icon {
     background-color: #FF9F1C;
     color: #fff;
     border-radius: 20px;
+    /* box-shadow: 2px 2px 3px 2px rgba(255, 159, 28, 0.5); */
 }
 
 
@@ -353,6 +368,7 @@ body .carousel-control-next-icon {
 
 .detaildesc {
     font-size: large;
+    /* color: black !important; */
 }
 
 .detailcontainer {
@@ -364,24 +380,27 @@ body .carousel-control-next-icon {
     display: flex;
     justify-content: space-between;
     margin-top: 50px;
-    border-radius: 10px;
-    border:#1d3557;
-    border-style: solid;
+    /* border-radius: 10px; */
+    /* border: #1d3557; */
+    /* border-style: solid; */
 }
 
 .book-cover img {
     max-width: 300px;
     height: auto;
+    box-shadow: 2px 2px 2px 2px rgba(46, 196, 182, 0.5);
 }
 
 .book-info {
-    width: 60%;
+    width: 80%;
     margin-left: 50px;
 }
 
 .book-title {
     font-size: 36px;
     margin-top: 0;
+    color: #249A90;
+    text-shadow: 2px 2px #A2E9E3;
 }
 
 .book-author {
@@ -400,10 +419,12 @@ body .carousel-control-next-icon {
     size: 10px;
     display: block;
     background-color: #FF9F1C;
+    border: 2px solid #FF9F1C;
 }
 
-div .reviewButton :hover{
-    background-color: #1d3557;
+div .reviewButton :hover {
+    background-color: #fff;
+    border: 2px solid #FF9F1C;
     color: #FF9F1C;
 }
 
@@ -412,10 +433,10 @@ div .reviewButton :hover{
 }
 
 
-.reviewtitle{
+.reviewtitle {
     text-align: center;
 }
 
-.reviewdiv{
+.reviewdiv {
     padding: 20px;
 }

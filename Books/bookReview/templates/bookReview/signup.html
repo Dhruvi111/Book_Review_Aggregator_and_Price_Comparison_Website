@@ -13,11 +13,12 @@
         padding-bottom:1rem;
     }
     .form{
+        color: black;
         width: 60%;
-        box-shadow: 2px 2px 5px 4px rgba(72, 81, 137, 0.5);
-        {% comment %} border:.1rem solid rgb(72, 81, 137); {% endcomment %}
+        box-shadow: 2px 2px 5px 4px rgba(46, 196, 182, 0.5);
+        /*border:.1rem solid rgb(72, 81, 137);*/
        /* background:#F7E1F8ff; */
-        background: none;
+        background: #F5FDFC;
         padding:2rem;
         margin: 0 auto;
     }
@@ -25,19 +26,19 @@
         background: none;
         border-radius: 0;
         border: none;
-        border-bottom: 2px solid rgba(72, 81, 137, 0.5);
+        border-bottom: 2px solid rgba(46, 196, 182, 1);
     }
     #btn-div{
         text-align:center;
     }
     .ca-btn{
-        background-color:rgb(72, 81, 137);
-        border: 2px solid rgb(72, 81, 137);
+        background-color: #FF9F1C;
+        border: 2px solid #FF9F1C;
     }
     .ca-btn:hover{
-        background-color:rgba(72, 81, 137,0.4);
-        border: 2px solid rgb(72, 81, 137);
-        color:rgb(72, 81, 137);
+        background-color: #fff;
+        border: 2px solid #FF9F1C;
+        color: #FF9F1C;
     }
     @media screen and (max-width: 800px) {
         .form {
@@ -51,7 +52,7 @@
 <div class="container pb-3">
     <h2 class="text-center" >Join our community of book lovers!</h2>
     <form class="row g-3 form" action="/signup/" method="POST">
-        <h3 class="text-center">Sign Up</h3>
+        <h3 class="text-center" style="color: #249A90; text-shadow: 1.5px 1.5px #7DDCD3;">Sign Up</h3>
         {% csrf_token %}
         <div class="col-md-6">
             <label for="fname" class="form-label">First Name</label>
