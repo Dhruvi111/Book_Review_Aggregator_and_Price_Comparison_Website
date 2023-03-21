@@ -16,5 +16,6 @@ urlpatterns = [
     path('reviewBNoble/', views.BNoble, name="BNoble"),
     path('reviewBookmarks/', views.Bookmarks, name="Bookmarks"),
     path('reviewAmazon/', views.Amazon, name="Amazon"),
-    path('reviewGoodreads/', views.Goodreads, name="Goodreads")
+    path('reviewGoodreads/', views.Goodreads, name="Goodreads"),
+    path('reviewLibraryThing/', views.LibraryThing, name="LibraryThing"), 
 ]

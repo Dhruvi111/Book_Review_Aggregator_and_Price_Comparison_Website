@@ -50,20 +50,7 @@ def api(query, data):
                 arr3 = volInfo['categories']
                 category.append(arr3)
             else:
-                category.append(["Category Info Not Available"])
-
-            # ISBN
-            # if ('industryIdentifiers' in volInfo):
-            #     isbn_type = volInfo['industryIdentifiers'][0]['type']
-            #     if isbn_type == "ISBN_13" or isbn_type == "ISBN_10":
-            #         arr4 = volInfo['industryIdentifiers'][0]['identifier']
-            #         isbn.append(arr4)
-                
-            #     else:
-            #         isbn.append('isbn not found')
-            # else:
-            #     isbn.append("industry identifiers unavailable")
-
+                category.append(["Category Info Not Available"])  
            
             #id
             if ('id' in list_items[i]):
@@ -97,7 +84,7 @@ def specificBook(data):
 
         if ' ' in title:
             title_for_bmarks = title_for_url.replace(' ', '-')
-            print(title_for_bmarks)
+            # print(title_for_bmarks)
         else:
             title_for_bmarks = title
 
@@ -107,7 +94,7 @@ def specificBook(data):
     if('authors' in volInfo):    
         author_list = volInfo['authors']
     else:
-        author_list = ["Oopsie! Author Info Not Available"]
+        author_list = ["Oopsie! Author Info Not Availab le"]
     
     if('publisher' in volInfo):
         publisher = volInfo['publisher']
@@ -267,7 +254,7 @@ def detailsHome(request):
 
         if ' ' in title:
             title_for_bmarks = title_for_url.replace(' ', '-')
-            print(title_for_bmarks)
+            # print(title_for_bmarks)
         else:
             title_for_bmarks = title
         
@@ -353,17 +340,22 @@ def BNoble(request):
         if s != None:
             bquote = s.find('blockquote')
             # reviews = bquote.find_all('p')
+            # stars = soup.find_all('div', class_='bv_stars_component_container')
+            # stars = soup.find_all('polygon')
+            # print(">>>>>>>>", stars)
+           
             msg = ""
         else:
             bquote = " "
-            msg = "Couldn't fetch reviews"
-       
-        # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", reviews)
+            msg = "Couldn't fetch reviews"   
 
     else:
         bquote = " "
         msg = "Couldn't find book on Barnes and Noble. Sorry for the inconvenience !"
- 
+    
+
+
+    # print(">>>>>>", bquote)
     bnoble = True
     params = {'test':test, 'title': title, 'author': author, 'isbn_no': isbn_no, 'reviews':bquote , 'msg': msg, 'bnoble': bnoble}
     return render(request, "bookReview/reviews.html", params)
@@ -382,6 +374,7 @@ def Bookmarks(request):
         review_list = s
         msg = ""
         list_length = range(len(s))
+        
     else:
         review_list = []
         list_length = 0
@@ -396,7 +389,7 @@ def Bookmarks(request):
 
     # Sources
     s2 = soup.select("[itemprop='sameAs']")
-    review_source = []
+    review_source = [] 
     for el in s2:
         review_source.append(el.text)
 
@@ -420,7 +413,8 @@ def Goodreads(request):
     url = ' https://www.goodreads.com/search?q={}&ref=nav_sb_noss_l_15'.format(title_GR)
     r = requests.get(url)
     soup = BeautifulSoup(r.content, 'html.parser')
-    s = soup.select("[itemprop='name']")
+    # s = soup.select("[itemprop='name']")
+    s = soup.select("[role='heading']")
     s1 = soup.find_all('a', class_="authorName") 
    
     author_list = []
@@ -442,7 +436,7 @@ def Goodreads(request):
     # print(title_GR)
     # print("title_list[0] == title_GR",title_list[0] == title_GR)
 
-    for i in range(20):
+    for i in range(len(title_list)):
         if title_list[i] == title_GR:
             if author_list[i] == author_GR:
                 href_list = [a['href'] for a in soup.find_all('a', class_="bookTitle", href=True)]
@@ -466,12 +460,13 @@ def Goodreads(request):
         # print(name_text)
 
         review_span = [span.text for span in s1]
+        # print("review-span: ", review_span)  
         review_span.pop(0)
         # length = [len(i) for i in review_span]
         short_reviews = []
         reviewer = []
         for i in range(len(review_span)):
-            if len(review_span[i]) <= 1000:
+            if len(review_span[i]) <= 2000:
                 reviewer.append(name_text[i])
                 short_reviews.append(review_span[i])
                 msg = ""
@@ -480,7 +475,7 @@ def Goodreads(request):
                 # short_reviews = []
                 # reviewer = []
 
-        # print(">>>>>>", reviewer)
+        print(">>>>>>", short_reviews)
         spans_length = range(len(short_reviews))
 
     else:
@@ -489,8 +484,25 @@ def Goodreads(request):
         spans_length = 0
         short_reviews = []
         reviewer = []
+        # print("else exec") 
     # print(">>>>>>>>", spans)
    
     
     goodreads = True
     return render(request, "bookReview/reviews.html", {'test':test, 'title_GR': title_GR, 'goodreads': goodreads, 'short_reviews': short_reviews, 'spans_length': spans_length, 'reviewer': reviewer, 'msg': msg, 'flag': flag})
+
+
+# Doesn't work
+def LibraryThing(request):
+    test = "Google books review page"
+    title = request.GET.get('t')
+    url = 'https://www.booksamillion.com/p/Spare/Prince-Harry-Duke-Sussex/9780593593806?id=8788922522560'
+    r = requests.get(url)
+    soup = BeautifulSoup(r.content, 'html.parser')  
+    s = soup.find_all('h2', class_="pr-faceoff-title")
+    # s = soup.select("[data-workid]")
+    print(s)
+ 
+
+    libraryThing = True
+    return render(request, "bookReview/reviews.html", {'test': test, 'libraryThing':libraryThing, 'title': title})

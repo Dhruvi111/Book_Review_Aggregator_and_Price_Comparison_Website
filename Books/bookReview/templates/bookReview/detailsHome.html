@@ -16,6 +16,7 @@
     <div class="book-details">
         <div class="book-cover">
             <img src="/media/{{image}}" alt="">
+            <button class="btn btn-danger my-3">Mark as favourite</button>
         </div>
 
         <div class="book-info">
@@ -31,10 +32,11 @@
 
         <div class="detailreview">
             <h5>READ REVIEWS FROM :</h5>
-            <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'BNoble' %}?no={{isbn13}}&t={{title_for_url}}&a={{author}}'">Barnes & Noble</button>
-            <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'Bookmarks' %}?t={{title_for_bmarks}}'">Bookmarks</button>
-            <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'Amazon' %}'">Amazon</button>
-            <button class="btn btn-primary reviewButton mb-2" onclick="location.href='{% url 'Goodreads' %}?t={{title_for_url}}&a={{author}}'">Goodreads</button>
+            <button class="btn reviewButton mb-2" onclick="location.href='{% url 'BNoble' %}?no={{isbn13}}&t={{title_for_url}}&a={{author}}'">Barnes & Noble</button>
+            <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Bookmarks' %}?t={{title_for_bmarks}}'">Bookmarks</button>
+            <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Amazon' %}'">Amazon</button>
+            <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Goodreads' %}?t={{title_for_url}}&a={{author}}'">Goodreads</button>
+            <button class="btn reviewButton mb-2" onclick="location.href='{% url 'LibraryThing' %}?t={{title_for_url}}'">LibraryThing</button>
         </div>
     </div>
 </div>
