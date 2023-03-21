@@ -318,7 +318,7 @@ def signup(request):
         myuser.save()
 
         messages.success(request, 'Your account has been created sucessfully!')
-        return redirect('signin')
+        return redirect('signin/')
 
     return render(request, "bookReview/signup.html")
 

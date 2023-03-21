@@ -1,4 +1,5 @@
 from django.db import models
+from django.http import HttpRequest
 
 # Create your models here.
 class Book(models.Model):
@@ -43,3 +44,6 @@ class UserSignup(models.Model):
     def fullname(self):
         return '{} {}'.format(self.first_name, self.last_name)
     
+
+# class favouriteBook(models.Model, user=request.user):
+#     current_user = request.user.id 
