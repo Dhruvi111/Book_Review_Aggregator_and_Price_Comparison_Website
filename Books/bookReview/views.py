@@ -1,10 +1,12 @@
 import requests
-from django.shortcuts import render, HttpResponse
-from .models import Book, Contact, UserSignup
+from django.shortcuts import redirect, render, HttpResponse
+from .models import Book, Contact
 from math import ceil
 from django.contrib import messages
 from bs4 import BeautifulSoup
-    
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout 
+
 # Create your views here.
 def api(query, data):
     titles = []
@@ -274,21 +276,58 @@ def detailsHome(request):
     return render(request, "bookReview/detailsHome.html", display)
 
 
-def login(request):
+def signin(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        pwd = request.POST.get('pwd')
+
+        user = authenticate(username=username, password=pwd)
+
+        if user is not None:
+            login(request, user)
+            fname = user.first_name
+            lname = user.last_name
+
+            messages.success(request, 'Logged In sucessfully!')
+            return render(request, "bookReview/login.html")
+            # return render(request, "bookReview/index.html", {'fname': fname, 'lname': lname})
+            # redirct ma proper nai aavtu
+        
+        else:
+            messages.error(request, "Sorry, the login credentials you entered are incorrect. Please try again or reset your password.")
+            return render(request, "bookReview/login.html")
+
     return render(request, "bookReview/login.html")
 
 def signup(request):
     if request.method == "POST":
       # gets the details through 'name' attribute
-      first_name = request.POST.get('fname')
-      last_name = request.POST.get('lname')
-      email = request.POST.get('email')  
-      username= request.POST.get('uname')   
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        email = request.POST.get('email')  
+        username= request.POST.get('uname')  
+        pwd = request.POST.get('pwd')
+        pwd2 = request.POST.get('pwd2')
      
-      user = UserSignup(first_name=first_name,last_name=last_name,username=username, email=email)
-      user.save()
-      messages.success(request, 'Your account has been created sucessfully!')
+    #   user = UserSignup(first_name=first_name,last_name=last_name,username=username, email=email)
+    #   user.save()
+
+        myuser = User.objects.create_user(username, email, pwd)
+        myuser.first_name = fname
+        myuser.last_name = lname
+        myuser.save()
+
+        messages.success(request, 'Your account has been created sucessfully!')
+        return redirect('signin')
+
     return render(request, "bookReview/signup.html")
+
+
+def signout(request):
+    logout(request)
+    messages.success(request, 'Logged out sucessfully!')
+    # return redirect('signin')
+    return render(request, "bookReview/login.html")
 
 
 # for pagination -- wont work for previous and next buttons yet
