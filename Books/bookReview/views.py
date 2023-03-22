@@ -5,6 +5,7 @@ from math import ceil
 from django.contrib import messages
 from bs4 import BeautifulSoup
     
+
 # Create your views here.
 def api(query, data):
     titles = []
