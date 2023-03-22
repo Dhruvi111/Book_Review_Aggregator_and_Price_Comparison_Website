@@ -75,6 +75,10 @@ def api(query, data):
 
 def specificBook(data):
     json_data = data.json()
+
+    book_id_api = json_data['id']
+    # print(book_api_id)
+
     volInfo = json_data['volumeInfo']
     if('title' in volInfo):
         title = volInfo['title']
@@ -153,7 +157,7 @@ def specificBook(data):
     # print(isbn13)
 
 
-    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks}
+    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_api': book_id_api}
 
     return display
 
@@ -241,9 +245,9 @@ def details(request):
 
 # for detailed view (Landing page)
 def detailsHome(request):
-    id = request.GET.get('bookId')
+    book_id_db = request.GET.get('id')
     
-    book = Book.objects.filter(book_id=id)    # gives queryset
+    book = Book.objects.filter(book_id=book_id_db)    # gives queryset
     bookInfo = book.values()     # gives all the values for a particular queryset
     # print(">>>>>>", bookInfo)
     
@@ -272,7 +276,7 @@ def detailsHome(request):
 
 
 
-    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks}
+    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': book_id_db}
     return render(request, "bookReview/detailsHome.html", display)
 
 
@@ -532,16 +536,23 @@ def Goodreads(request):
 
 
 # Doesn't work
-def LibraryThing(request):
-    test = "Google books review page"
-    title = request.GET.get('t')
-    url = 'https://www.booksamillion.com/p/Spare/Prince-Harry-Duke-Sussex/9780593593806?id=8788922522560'
-    r = requests.get(url)
-    soup = BeautifulSoup(r.content, 'html.parser')  
-    s = soup.find_all('h2', class_="pr-faceoff-title")
-    # s = soup.select("[data-workid]")
-    print(s)
+# def LibraryThing(request):
+#     test = "Google books review page"
+#     title = request.GET.get('t')
+#     url = 'https://www.booksamillion.com/p/Spare/Prince-Harry-Duke-Sussex/9780593593806?id=8788922522560'
+#     r = requests.get(url)
+#     soup = BeautifulSoup(r.content, 'html.parser')  
+#     s = soup.find_all('h2', class_="pr-faceoff-title")
+#     # s = soup.select("[data-workid]")
+#     print(s)
  
 
-    libraryThing = True
-    return render(request, "bookReview/reviews.html", {'test': test, 'libraryThing':libraryThing, 'title': title})
+#     libraryThing = True
+#     return render(request, "bookReview/reviews.html", {'test': test, 'libraryThing':libraryThing, 'title': title})
+
+
+def favourites(request):
+    if request.method == "POST":
+        hidden_bookId = request.POST.get('value')
+        print(hidden_bookId)
+    return render(request, "bookReview/userProfile.html")

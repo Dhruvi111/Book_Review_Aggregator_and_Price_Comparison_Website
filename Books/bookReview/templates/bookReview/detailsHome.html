@@ -16,7 +16,12 @@
     <div class="book-details">
         <div class="book-cover">
             <img src="/media/{{image}}" alt="">
-            <button class="btn btn-danger my-3">Mark as favourite</button>
+
+            <form action="/userProfile/" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-danger my-3"  onclick="location.href='{% url 'Favourites' %}'">Mark as favourite</button>
+                 <input type="hidden" name="hidden_bookId" value="{{book_id_db}}">
+            </form>
         </div>
 
         <div class="book-info">
@@ -36,7 +41,7 @@
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Bookmarks' %}?t={{title_for_bmarks}}'">Bookmarks</button>
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Amazon' %}'">Amazon</button>
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Goodreads' %}?t={{title_for_url}}&a={{author}}'">Goodreads</button>
-            <button class="btn reviewButton mb-2" onclick="location.href='{% url 'LibraryThing' %}?t={{title_for_url}}'">LibraryThing</button>
+             {% comment %} <button class="btn reviewButton mb-2" onclick="location.href='{% url 'LibraryThing' %}?t={{title_for_url}}'">LibraryThing</button> {% endcomment %}
         </div>
     </div>
 </div>

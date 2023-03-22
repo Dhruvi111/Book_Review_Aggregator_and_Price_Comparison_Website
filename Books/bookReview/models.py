@@ -1,5 +1,6 @@
 from django.db import models
-from django.http import HttpRequest
+from requests import request
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Book(models.Model):
@@ -45,5 +46,12 @@ class UserSignup(models.Model):
         return '{} {}'.format(self.first_name, self.last_name)
     
 
-# class favouriteBook(models.Model, user=request.user):
-#     current_user = request.user.id 
+class favouriteBook(models.Model):
+    current_user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    book_id_db = models.ForeignKey(Book, blank=True, null=True, on_delete=models.CASCADE)
+    book_from_database = models.BooleanField(True)
+
+    book_from_api = models.BooleanField(False)
+    book_id_api = models.CharField(max_length=30)
+    print(current_user)

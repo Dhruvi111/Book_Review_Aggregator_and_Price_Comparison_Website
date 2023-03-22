@@ -18,5 +18,7 @@ urlpatterns = [
     path('reviewBookmarks/', views.Bookmarks, name="Bookmarks"),
     path('reviewAmazon/', views.Amazon, name="Amazon"),
     path('reviewGoodreads/', views.Goodreads, name="Goodreads"),
-    path('reviewLibraryThing/', views.LibraryThing, name="LibraryThing"), 
+    path('userProfile/', views.favourites, name="Favourites"),
+    # path('reviewLibraryThing/', views.LibraryThing, name="LibraryThing"), 
+    
 ]
