@@ -15,11 +15,12 @@
     <div class="book-details">
         <div class="book-cover">
             <img src="{{image}}" alt="">
-
+            {% comment %} {{book_id_api}} {% endcomment %}
+           
             <form action="/userProfile/" method="POST">
                 {% csrf_token %}
-                <button class="btn btn-danger my-3" onclick="location.href='{% url 'Favourites' %}'">Mark as favourite</button>
-                <input type="hidden" name="hidden_bookId" value="{{book_id_api}}"> 
+                <input type="hidden" name="hidden_bookId" value={{book_id_api}}> 
+                <button class="btn btn-danger my-3">Mark as favourite</button>
             </form>
         </div>
 

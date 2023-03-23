@@ -1,6 +1,6 @@
 import requests
 from django.shortcuts import redirect, render, HttpResponse
-from .models import Book, Contact
+from .models import Book, Contact, favouriteBook
 from math import ceil
 from django.contrib import messages
 from bs4 import BeautifulSoup
@@ -245,9 +245,9 @@ def details(request):
 
 # for detailed view (Landing page)
 def detailsHome(request):
-    book_id_db = request.GET.get('id')
+    id = request.GET.get('bookId')
     
-    book = Book.objects.filter(book_id=book_id_db)    # gives queryset
+    book = Book.objects.filter(book_id=id)    # gives queryset
     bookInfo = book.values()     # gives all the values for a particular queryset
     # print(">>>>>>", bookInfo)
     
@@ -276,7 +276,8 @@ def detailsHome(request):
 
 
 
-    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': book_id_db}
+    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id}
+
     return render(request, "bookReview/detailsHome.html", display)
 
 
@@ -322,7 +323,7 @@ def signup(request):
         myuser.save()
 
         messages.success(request, 'Your account has been created sucessfully!')
-        return redirect('signin/')
+        return redirect('/signin/')
 
     return render(request, "bookReview/signup.html")
 
@@ -552,7 +553,63 @@ def Goodreads(request):
 
 
 def favourites(request):
-    if request.method == "POST":
-        hidden_bookId = request.POST.get('value')
-        print(hidden_bookId)
-    return render(request, "bookReview/userProfile.html")
+
+    user = request.user
+    # print(user)
+    
+    if request.user.is_authenticated:
+        if request.POST:
+            hidden_bookId = request.POST['hidden_bookId']
+
+            if hidden_bookId.isnumeric() == True:
+                book_from_database = True
+                book_id_db = Book.objects.get(book_id=hidden_bookId)
+
+                book_from_api = False
+                book_id_api = None
+                # print(book_id_db)
+            
+            else:
+                book_from_api = True
+                book_id_api = hidden_bookId
+
+                book_from_database = False
+                book_id_db = None
+                # print(book_id_api)
+
+            try:
+                favBook = favouriteBook(current_user=request.user, book_id_db=book_id_db, book_from_database=book_from_database, book_id_api=book_id_api, book_from_api=book_from_api)
+                favBook.save()
+                messages.success(request, 'Added to Favourites!')
+
+                fav_list = favouriteBook.objects.all().filter(current_user=request.user).values()
+
+                for item in fav_list:
+                    print(item['id'])
+                # print(">>>>>>>>>>>",len(fav_list))
+
+                return render(request, "bookReview/userProfile.html")
+            
+            except:
+                messages.warning(request, 'Book already added to favourites !')
+                fav_list = favouriteBook.objects.all().filter(current_user=request.user).values()
+                
+                id_list = []
+                # ---------------------------- not added in try block -> DO THAT LATER -------------------------
+                for i in range(len(fav_list)):
+                    if fav_list[i]['book_from_database'] == True:
+                        id_list.append(fav_list[i]['book_id_db_id'])
+                    else:
+                        id_list.append(fav_list[i]['book_id_api'])
+
+                
+                print(">>>>>>>>>>>",id_list)
+                print(type(id_list[1]))
+                return render(request, "bookReview/userProfile.html")
+            
+            # print(">>>>>>>>>",  hidden_bookId)
+    else:
+        return redirect('/signin/')
+    
+
+    return render(request, "bookReview/userProfile.html", {'user':user})

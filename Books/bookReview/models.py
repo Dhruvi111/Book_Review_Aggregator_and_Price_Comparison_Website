@@ -19,7 +19,7 @@ class Book(models.Model):
 
 
     def __str__(self):
-        return self.title
+        return str(self.book_id)
     
 class Contact(models.Model):
     msg_id = models.AutoField(primary_key=True)
@@ -50,8 +50,11 @@ class favouriteBook(models.Model):
     current_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     book_id_db = models.ForeignKey(Book, blank=True, null=True, on_delete=models.CASCADE)
-    book_from_database = models.BooleanField(True)
+    book_from_database = models.BooleanField()
 
-    book_from_api = models.BooleanField(False)
-    book_id_api = models.CharField(max_length=30)
-    print(current_user)
+    book_from_api = models.BooleanField()
+    book_id_api = models.CharField(max_length=30, blank=True, null=True)
+
+    class Meta:
+        unique_together = [['current_user', 'book_id_db'],['current_user', 'book_id_api']]
+       

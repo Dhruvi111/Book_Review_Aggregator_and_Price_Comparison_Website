@@ -19,8 +19,9 @@
 
             <form action="/userProfile/" method="POST">
                 {% csrf_token %}
-                <button class="btn btn-danger my-3"  onclick="location.href='{% url 'Favourites' %}'">Mark as favourite</button>
-                 <input type="hidden" name="hidden_bookId" value="{{book_id_db}}">
+                <input type="hidden" name="hidden_bookId" value={{book_id_db}}>
+                <button class="btn btn-danger my-3">Mark as favourite</button>
+                 
             </form>
         </div>
 
