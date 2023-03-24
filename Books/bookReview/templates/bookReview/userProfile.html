@@ -9,8 +9,59 @@
 {% endblock css %}
 
 {% block body %}
+{% load filters %}
 
 Username : {{user}}<br>
-<p>Show favourite books here ! </p>
+
+{% for i in api_books_length %}
+    <p>{{title|index:i}}</p>
+{% endfor %}
+
+{% comment %} <div class="row">
+    <div class="carousel slide" data-bs-ride="carousel">
+        <div class="container carousel-inner">
+            <div class="carousel-item active">
+
+                <h4 class="mt-5 mb-5" style="text-align:center">Favourites</h4>
+
+                {% for i in title_length %}
+                    {% comment %} <p>{{title|index:i}}</p>
+                    <p>{{author|index:i}}</p> {% endcomment %}
+
+                    {% comment %} <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
+                        <div class="card align-items-center pt-3" style="width: 13rem;">
+                            <img src="/media/{{image|index:i}}" class="card-img-top bookImage" alt="Loading image..">
+                            <div class="card-body">
+                                <h5 class="card-title" id="namepr{{i.book_id}}">
+                                    {% if title|index:i|length >= 25 %}
+                                        {{title|index:i|slice:":25"}}...   
+                                    {% else %}
+                                        {{title|index:i}}  
+                                    {% endif %}
+                                    
+                                </h5>      
+                                <h6 class="card-text"> 
+                                    {{author|index:i}}
+                                </h6>
+                            </div> 
+                        <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'DetailsHome' %}?bookId={{bookId|index:i}}'">Details</button>
+                        </div>
+                    </div>
+        
+              
+                {% if forloop.counter|divisibleby:6 and forloop.counter > 0 and not forloop.last%}
+                    <hr class="pb-4">
+                {% endif %}        
+                {% endfor %} 
+            </div>
+    
+        </div>
+    </div>
+</div> {% endcomment %} 
+
+<br>
 <a href="/signout/">Sign out</a>
+
+
+
 {% endblock body %}

@@ -50,9 +50,8 @@ class favouriteBook(models.Model):
     current_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     book_id_db = models.ForeignKey(Book, blank=True, null=True, on_delete=models.CASCADE)
-    book_from_database = models.BooleanField()
 
-    book_from_api = models.BooleanField()
+    book_from_api = models.BooleanField(default=False)
     book_id_api = models.CharField(max_length=30, blank=True, null=True)
 
     class Meta:

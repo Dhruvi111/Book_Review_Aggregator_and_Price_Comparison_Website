@@ -16,5 +16,5 @@ class UserSignupAdmin(admin.ModelAdmin):
 
 @admin.register(favouriteBook)
 class favouriteBookAdmin(admin.ModelAdmin):
-    list_display = ('current_user', 'book_id_db', 'book_from_database', 'book_from_api', 'book_id_api')
+    list_display = ('current_user', 'book_id_db', 'book_from_api', 'book_id_api')
 

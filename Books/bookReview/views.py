@@ -552,64 +552,105 @@ def Goodreads(request):
 #     return render(request, "bookReview/reviews.html", {'test': test, 'libraryThing':libraryThing, 'title': title})
 
 
-def favourites(request):
-
+def fav_details(request):
     user = request.user
-    # print(user)
+    fav_list = favouriteBook.objects.filter(current_user=request.user)
+    api_book_list = fav_list.filter(book_from_api=True).values()
+    db_book_list = fav_list.filter(book_from_api=False).values()
+
+    api_id = []
+    api_books = []
+    title = []
+    author = []
+    image = []
+    for i in range(len(api_book_list)):
+        api_id.append(api_book_list[i]['book_id_api']) 
+
+    for i in range(len(api_id)):
+        data = requests.get("https://www.googleapis.com/books/v1/volumes/" + api_id[i])
+        y = specificBook(data=data)
+        api_books.append(y)
+
+        title.append(api_books[i]['title'])
+        author.append(api_books[i]['author_list'])
+        image.append(api_books[i]['image'])
+
+    api_books_length = range(len(api_books))
+
+    print(title)
+    # contains list of all book ids marked as favourite by a particular user          
+    # id_list = []                
+
+    # for i in range(len(fav_list)):
+    #     if fav_list[i]['book_from_database'] == True:
+    #         id_list.append(fav_list[i]['book_id_db_id'])
+    #     else:
+    #         id_list.append(fav_list[i]['book_id_api'])
+
+    # fav_db = []
+    # for i in range(len(id_list)):
+    #     if type(id_list[i]) ==  int:
+    #         fav_db.append(list(Book.objects.filter(book_id=id_list[i]).values()))
+           
+    #         title = []      
+    #         author = []
+    #         image = []
+    #         bookId = []
+    #         for i in range(len(fav_db)):
+    #             title.append(fav_db[i][0]['title'])
+    #             author.append(fav_db[i][0]['author'])
+    #             image.append(fav_db[i][0]['image'])
+    #             bookId.append(fav_db[i][0]['book_id'])
+    #     else:
+    #         # print(id_list[i])
+    #         # --------------- for api ---------------------
+    #         pass
+                              
+    
+    # print(">>>>>>>", api_book_list)
+    # print(">>>>>>>", db_book_list)
+    # title_length = range(len(title))
+    display =  {'api_book_length': api_books_length, 'api_books': api_books, 'user': user, 'user': user, 'title':title}
+    return display
+
+
+def favourites(request):
     
     if request.user.is_authenticated:
         if request.POST:
             hidden_bookId = request.POST['hidden_bookId']
 
             if hidden_bookId.isnumeric() == True:
-                book_from_database = True
+                book_from_api = False
                 book_id_db = Book.objects.get(book_id=hidden_bookId)
 
-                book_from_api = False
-                book_id_api = None
                 # print(book_id_db)
             
             else:
-                book_from_api = True
+
                 book_id_api = hidden_bookId
 
-                book_from_database = False
-                book_id_db = None
+              
                 # print(book_id_api)
 
             try:
-                favBook = favouriteBook(current_user=request.user, book_id_db=book_id_db, book_from_database=book_from_database, book_id_api=book_id_api, book_from_api=book_from_api)
+                favBook = favouriteBook(current_user=request.user, book_id_db=book_id_db, book_id_api=book_id_api, book_from_api=book_from_api)
                 favBook.save()
                 messages.success(request, 'Added to Favourites!')
+                x = fav_details(request)
 
-                fav_list = favouriteBook.objects.all().filter(current_user=request.user).values()
-
-                for item in fav_list:
-                    print(item['id'])
-                # print(">>>>>>>>>>>",len(fav_list))
-
-                return render(request, "bookReview/userProfile.html")
+                return render(request, "bookReview/userProfile.html", x)
             
             except:
                 messages.warning(request, 'Book already added to favourites !')
-                fav_list = favouriteBook.objects.all().filter(current_user=request.user).values()
-                
-                id_list = []
-                # ---------------------------- not added in try block -> DO THAT LATER -------------------------
-                for i in range(len(fav_list)):
-                    if fav_list[i]['book_from_database'] == True:
-                        id_list.append(fav_list[i]['book_id_db_id'])
-                    else:
-                        id_list.append(fav_list[i]['book_id_api'])
-
-                
-                print(">>>>>>>>>>>",id_list)
-                print(type(id_list[1]))
-                return render(request, "bookReview/userProfile.html")
+                x = fav_details(request)
+                return render(request, "bookReview/userProfile.html", x)
             
             # print(">>>>>>>>>",  hidden_bookId)
     else:
         return redirect('/signin/')
     
+    x = fav_details(request)
+    # print(x)
 
-    return render(request, "bookReview/userProfile.html", {'user':user})
+    return render(request, "bookReview/userProfile.html",x)
