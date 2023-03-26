@@ -1,4 +1,6 @@
 from django.db import models
+from requests import request
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Book(models.Model):
@@ -17,7 +19,7 @@ class Book(models.Model):
 
 
     def __str__(self):
-        return self.title
+        return str(self.book_id)
     
 class Contact(models.Model):
     msg_id = models.AutoField(primary_key=True)
@@ -43,3 +45,15 @@ class UserSignup(models.Model):
     def fullname(self):
         return '{} {}'.format(self.first_name, self.last_name)
     
+
+class favouriteBook(models.Model):
+    current_user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    book_id_db = models.ForeignKey(Book, blank=True, null=True, on_delete=models.CASCADE)
+
+    book_from_api = models.BooleanField(default=False)
+    book_id_api = models.CharField(max_length=30, blank=True, null=True)
+
+    class Meta:
+        unique_together = [['current_user', 'book_id_db'],['current_user', 'book_id_api']]
+       

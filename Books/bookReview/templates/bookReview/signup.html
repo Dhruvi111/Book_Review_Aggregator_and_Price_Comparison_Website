@@ -74,11 +74,15 @@
             <label for="pwd" class="form-label">Create Password</label>
             <input type="password" class="form-control" id="pwd" name="pwd" placeholder="*********" required>
         </div>
+        <div class="col-12">
+            <label for="pwd2" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="pwd2" name="pwd2" placeholder="*********" required>
+        </div>
         <div class="col-12" id="btn-div">
             <button type="submit" class="btn btn-primary ca-btn">Create Account</button>
         </div>
-        <p style="font-size: medium; text-align: right">Already have an account? <a href="{% url 'Login' %}"
-            style="font-size: medium;">Login</a></p>
+        <p style="font-size: medium; text-align: right">Already have an account? <a href="{% url 'SignIn' %}"
+            style="font-size: medium;">SignIn</a></p>
   </form>
 </div>
 {% endblock body %}

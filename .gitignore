@@ -8,4 +8,4 @@ venvpc/
 # Dhruvi(pc)
 
 */__pycache__/*
-
+*.pyc

@@ -1,10 +1,12 @@
 import requests
-from django.shortcuts import render, HttpResponse
-from .models import Book, Contact, UserSignup
+from django.shortcuts import redirect, render, HttpResponse
+from .models import Book, Contact, favouriteBook
 from math import ceil
 from django.contrib import messages
 from bs4 import BeautifulSoup
-    
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout 
+import re
 
 # Create your views here.
 def api(query, data):
@@ -51,20 +53,7 @@ def api(query, data):
                 arr3 = volInfo['categories']
                 category.append(arr3)
             else:
-                category.append(["Category Info Not Available"])
-
-            # ISBN
-            # if ('industryIdentifiers' in volInfo):
-            #     isbn_type = volInfo['industryIdentifiers'][0]['type']
-            #     if isbn_type == "ISBN_13" or isbn_type == "ISBN_10":
-            #         arr4 = volInfo['industryIdentifiers'][0]['identifier']
-            #         isbn.append(arr4)
-                
-            #     else:
-            #         isbn.append('isbn not found')
-            # else:
-            #     isbn.append("industry identifiers unavailable")
-
+                category.append(["Category Info Not Available"])  
            
             #id
             if ('id' in list_items[i]):
@@ -87,6 +76,10 @@ def api(query, data):
 
 def specificBook(data):
     json_data = data.json()
+
+    book_id_api = json_data['id']
+    # print(book_api_id)
+
     volInfo = json_data['volumeInfo']
     if('title' in volInfo):
         title = volInfo['title']
@@ -98,7 +91,7 @@ def specificBook(data):
 
         if ' ' in title:
             title_for_bmarks = title_for_url.replace(' ', '-')
-            print(title_for_bmarks)
+            # print(title_for_bmarks)
         else:
             title_for_bmarks = title
 
@@ -108,7 +101,7 @@ def specificBook(data):
     if('authors' in volInfo):    
         author_list = volInfo['authors']
     else:
-        author_list = ["Oopsie! Author Info Not Available"]
+        author_list = ["Oopsie! Author Info Not Availab le"]
     
     if('publisher' in volInfo):
         publisher = volInfo['publisher']
@@ -165,7 +158,7 @@ def specificBook(data):
     # print(isbn13)
 
 
-    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks}
+    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_api': book_id_api}
 
     return display
 
@@ -251,9 +244,7 @@ def details(request):
     return render(request, "bookReview/details.html", y)
 
 
-# for detailed view (Landing page)
-def detailsHome(request):
-    id = request.GET.get('bookId')
+def specificBookDB(request, id):
     
     book = Book.objects.filter(book_id=id)    # gives queryset
     bookInfo = book.values()     # gives all the values for a particular queryset
@@ -268,7 +259,7 @@ def detailsHome(request):
 
         if ' ' in title:
             title_for_bmarks = title_for_url.replace(' ', '-')
-            print(title_for_bmarks)
+            # print(title_for_bmarks)
         else:
             title_for_bmarks = title
         
@@ -282,27 +273,68 @@ def detailsHome(request):
         isbn10 = val['isbn_10']
         isbn13 = val['isbn_13']
 
+    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id}
+
+    return display
+# for detailed view (Landing page)
+def detailsHome(request):
+    id = request.GET.get('bookId')
+    x = specificBookDB(request, id)
+    return render(request, "bookReview/detailsHome.html", x)
 
 
-    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks}
-    return render(request, "bookReview/detailsHome.html", display)
+def signin(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        pwd = request.POST.get('pwd')
 
+        user = authenticate(username=username, password=pwd)
 
-def login(request):
+        if user is not None:
+            login(request, user)
+            fname = user.first_name
+            lname = user.last_name
+
+            messages.success(request, 'Logged In sucessfully!')
+            return render(request, "bookReview/login.html")
+            # return render(request, "bookReview/index.html", {'fname': fname, 'lname': lname})
+            # redirct ma proper nai aavtu
+        
+        else:
+            messages.error(request, "Sorry, the login credentials you entered are incorrect. Please try again or reset your password.")
+            return render(request, "bookReview/login.html")
+
     return render(request, "bookReview/login.html")
 
 def signup(request):
     if request.method == "POST":
       # gets the details through 'name' attribute
-      first_name = request.POST.get('fname')
-      last_name = request.POST.get('lname')
-      email = request.POST.get('email')  
-      username= request.POST.get('uname')   
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        email = request.POST.get('email')  
+        username= request.POST.get('uname')  
+        pwd = request.POST.get('pwd')
+        pwd2 = request.POST.get('pwd2')
      
-      user = UserSignup(first_name=first_name,last_name=last_name,username=username, email=email)
-      user.save()
-      messages.success(request, 'Your account has been created sucessfully!')
+    #   user = UserSignup(first_name=first_name,last_name=last_name,username=username, email=email)
+    #   user.save()
+
+        myuser = User.objects.create_user(username, email, pwd)
+        myuser.first_name = fname
+        myuser.last_name = lname
+        myuser.save()
+
+        messages.success(request, 'Your account has been created sucessfully!')
+        return redirect('/signin/')
+
     return render(request, "bookReview/signup.html")
+
+
+def signout(request):
+    logout(request)
+    messages.success(request, 'Logged out sucessfully!')
+    # return redirect('signin')
+    return render(request, "bookReview/login.html")
 
 
 # for pagination -- wont work for previous and next buttons yet
@@ -354,17 +386,22 @@ def BNoble(request):
         if s != None:
             bquote = s.find('blockquote')
             # reviews = bquote.find_all('p')
+            # stars = soup.find_all('div', class_='bv_stars_component_container')
+            # stars = soup.find_all('polygon')
+            # print(">>>>>>>>", stars)
+           
             msg = ""
         else:
             bquote = " "
-            msg = "Couldn't fetch reviews"
-       
-        # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", reviews)
+            msg = "Couldn't fetch reviews"   
 
     else:
         bquote = " "
         msg = "Couldn't find book on Barnes and Noble. Sorry for the inconvenience !"
- 
+    
+
+
+    # print(">>>>>>", bquote)
     bnoble = True
     params = {'test':test, 'title': title, 'author': author, 'isbn_no': isbn_no, 'reviews':bquote , 'msg': msg, 'bnoble': bnoble}
     return render(request, "bookReview/reviews.html", params)
@@ -383,6 +420,7 @@ def Bookmarks(request):
         review_list = s
         msg = ""
         list_length = range(len(s))
+        
     else:
         review_list = []
         list_length = 0
@@ -397,7 +435,7 @@ def Bookmarks(request):
 
     # Sources
     s2 = soup.select("[itemprop='sameAs']")
-    review_source = []
+    review_source = [] 
     for el in s2:
         review_source.append(el.text)
 
@@ -421,7 +459,8 @@ def Goodreads(request):
     url = ' https://www.goodreads.com/search?q={}&ref=nav_sb_noss_l_15'.format(title_GR)
     r = requests.get(url)
     soup = BeautifulSoup(r.content, 'html.parser')
-    s = soup.select("[itemprop='name']")
+    # s = soup.select("[itemprop='name']")
+    s = soup.select("[role='heading']")
     s1 = soup.find_all('a', class_="authorName") 
    
     author_list = []
@@ -443,7 +482,7 @@ def Goodreads(request):
     # print(title_GR)
     # print("title_list[0] == title_GR",title_list[0] == title_GR)
 
-    for i in range(20):
+    for i in range(len(title_list)):
         if title_list[i] == title_GR:
             if author_list[i] == author_GR:
                 href_list = [a['href'] for a in soup.find_all('a', class_="bookTitle", href=True)]
@@ -464,15 +503,18 @@ def Goodreads(request):
         
         names_list = new_soup.find_all('div', class_="ReviewerProfile__name")
         name_text = [a.text for a in names_list]
+
+        # print(new_soup)
         # print(name_text)
 
         review_span = [span.text for span in s1]
+        # print("review-span: ", review_span)  
         review_span.pop(0)
         # length = [len(i) for i in review_span]
         short_reviews = []
         reviewer = []
         for i in range(len(review_span)):
-            if len(review_span[i]) <= 1000:
+            if len(review_span[i]) <= 2000:
                 reviewer.append(name_text[i])
                 short_reviews.append(review_span[i])
                 msg = ""
@@ -481,7 +523,7 @@ def Goodreads(request):
                 # short_reviews = []
                 # reviewer = []
 
-        # print(">>>>>>", reviewer)
+        # print(">>>>>>", short_reviews)
         spans_length = range(len(short_reviews))
 
     else:
@@ -490,8 +532,106 @@ def Goodreads(request):
         spans_length = 0
         short_reviews = []
         reviewer = []
+        # print("else exec") 
     # print(">>>>>>>>", spans)
    
     
     goodreads = True
     return render(request, "bookReview/reviews.html", {'test':test, 'title_GR': title_GR, 'goodreads': goodreads, 'short_reviews': short_reviews, 'spans_length': spans_length, 'reviewer': reviewer, 'msg': msg, 'flag': flag})
+
+
+# ------------------------------ FAVOURITES --------------------------------
+
+def fav_details(request):
+    user = request.user
+    fav_list = favouriteBook.objects.filter(current_user=request.user)
+    api_book_list = fav_list.filter(book_from_api=True).values()
+    db_book_list = fav_list.filter(book_from_api=False).values()
+
+    api_id = []
+    api_books = []
+    title = []
+    author = []
+    image = []
+    for i in range(len(api_book_list)):
+        api_id.append(api_book_list[i]['book_id_api']) 
+
+    for i in range(len(api_id)):
+        data = requests.get("https://www.googleapis.com/books/v1/volumes/" + api_id[i])
+        y = specificBook(data=data)
+        api_books.append(y)
+
+        title.append(api_books[i]['title'])
+        author.append(api_books[i]['author_list'])
+        image.append(api_books[i]['image'])
+
+
+    db_id = []
+    db_books = []
+    title_db = []
+    author_db = []
+    image_db = []
+    for i in range(len(db_book_list)):
+        db_id.append(db_book_list[i]['book_id_db_id'])
+
+    for i in range(len(db_id)):
+        y = specificBookDB(request, id=db_id[i])
+        db_books.append(y)
+
+        title_db.append(db_books[i]['title'])
+        author.append(db_books[i]['author'])
+        image.append(db_books[i]['image'])
+
+
+    title.extend(title_db)
+    author.extend(author_db)
+    image.extend(image_db)
+    api_id.extend(db_id)
+
+    length = range(len(title))
+        
+    # print(">>>>>>>", api_book_list)
+    # print(">>>>>>>", db_book_list)
+    display =  {'length': length, 'api_books': api_books, 'user': user, 'user': user, 'title':title, 'author': author, 'image': image, 'api_id': api_id}
+    return display
+
+
+def favourites(request):
+    
+    if request.user.is_authenticated:
+        if request.POST:
+            hidden_bookId = request.POST['hidden_bookId']
+
+            if hidden_bookId.isnumeric() == True:
+                book_from_api = False
+                book_id_db = Book.objects.get(book_id=hidden_bookId)
+                book_id_api = None
+                # print(book_id_db)
+            
+            else:
+                book_id_db = None
+                book_id_api = hidden_bookId
+                book_from_api =  True
+                # print(book_id_api)
+
+            try:
+                favBook = favouriteBook(current_user=request.user, book_id_db=book_id_db, book_id_api=book_id_api, book_from_api=book_from_api)
+                favBook.save()
+                messages.success(request, 'Added to Favourites!')
+                x = fav_details(request)
+
+                return render(request, "bookReview/userProfile.html", x)
+            
+            except:
+                messages.warning(request, 'Book already added to favourites !')
+                x = fav_details(request)
+                return render(request, "bookReview/userProfile.html", x)
+                
+            # print(">>>>>>>>>",  hidden_bookId)
+    else:
+        return redirect('/signin/')
+    
+    x = fav_details(request)
+    # print(x)
+
+    return render(request, "bookReview/userProfile.html",x)
