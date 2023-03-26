@@ -6,6 +6,7 @@ from django.contrib import messages
 from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout 
+import re
 
 # Create your views here.
 def api(query, data):
@@ -243,9 +244,7 @@ def details(request):
     return render(request, "bookReview/details.html", y)
 
 
-# for detailed view (Landing page)
-def detailsHome(request):
-    id = request.GET.get('bookId')
+def specificBookDB(request, id):
     
     book = Book.objects.filter(book_id=id)    # gives queryset
     bookInfo = book.values()     # gives all the values for a particular queryset
@@ -274,11 +273,14 @@ def detailsHome(request):
         isbn10 = val['isbn_10']
         isbn13 = val['isbn_13']
 
-
-
     display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id}
 
-    return render(request, "bookReview/detailsHome.html", display)
+    return display
+# for detailed view (Landing page)
+def detailsHome(request):
+    id = request.GET.get('bookId')
+    x = specificBookDB(request, id)
+    return render(request, "bookReview/detailsHome.html", x)
 
 
 def signin(request):
@@ -501,6 +503,8 @@ def Goodreads(request):
         
         names_list = new_soup.find_all('div', class_="ReviewerProfile__name")
         name_text = [a.text for a in names_list]
+
+        # print(new_soup)
         # print(name_text)
 
         review_span = [span.text for span in s1]
@@ -519,7 +523,7 @@ def Goodreads(request):
                 # short_reviews = []
                 # reviewer = []
 
-        print(">>>>>>", short_reviews)
+        # print(">>>>>>", short_reviews)
         spans_length = range(len(short_reviews))
 
     else:
@@ -536,21 +540,7 @@ def Goodreads(request):
     return render(request, "bookReview/reviews.html", {'test':test, 'title_GR': title_GR, 'goodreads': goodreads, 'short_reviews': short_reviews, 'spans_length': spans_length, 'reviewer': reviewer, 'msg': msg, 'flag': flag})
 
 
-# Doesn't work
-# def LibraryThing(request):
-#     test = "Google books review page"
-#     title = request.GET.get('t')
-#     url = 'https://www.booksamillion.com/p/Spare/Prince-Harry-Duke-Sussex/9780593593806?id=8788922522560'
-#     r = requests.get(url)
-#     soup = BeautifulSoup(r.content, 'html.parser')  
-#     s = soup.find_all('h2', class_="pr-faceoff-title")
-#     # s = soup.select("[data-workid]")
-#     print(s)
- 
-
-#     libraryThing = True
-#     return render(request, "bookReview/reviews.html", {'test': test, 'libraryThing':libraryThing, 'title': title})
-
+# ------------------------------ FAVOURITES --------------------------------
 
 def fav_details(request):
     user = request.user
@@ -575,42 +565,34 @@ def fav_details(request):
         author.append(api_books[i]['author_list'])
         image.append(api_books[i]['image'])
 
-    api_books_length = range(len(api_books))
 
-    print(title)
-    # contains list of all book ids marked as favourite by a particular user          
-    # id_list = []                
+    db_id = []
+    db_books = []
+    title_db = []
+    author_db = []
+    image_db = []
+    for i in range(len(db_book_list)):
+        db_id.append(db_book_list[i]['book_id_db_id'])
 
-    # for i in range(len(fav_list)):
-    #     if fav_list[i]['book_from_database'] == True:
-    #         id_list.append(fav_list[i]['book_id_db_id'])
-    #     else:
-    #         id_list.append(fav_list[i]['book_id_api'])
+    for i in range(len(db_id)):
+        y = specificBookDB(request, id=db_id[i])
+        db_books.append(y)
 
-    # fav_db = []
-    # for i in range(len(id_list)):
-    #     if type(id_list[i]) ==  int:
-    #         fav_db.append(list(Book.objects.filter(book_id=id_list[i]).values()))
-           
-    #         title = []      
-    #         author = []
-    #         image = []
-    #         bookId = []
-    #         for i in range(len(fav_db)):
-    #             title.append(fav_db[i][0]['title'])
-    #             author.append(fav_db[i][0]['author'])
-    #             image.append(fav_db[i][0]['image'])
-    #             bookId.append(fav_db[i][0]['book_id'])
-    #     else:
-    #         # print(id_list[i])
-    #         # --------------- for api ---------------------
-    #         pass
-                              
-    
+        title_db.append(db_books[i]['title'])
+        author.append(db_books[i]['author'])
+        image.append(db_books[i]['image'])
+
+
+    title.extend(title_db)
+    author.extend(author_db)
+    image.extend(image_db)
+    api_id.extend(db_id)
+
+    length = range(len(title))
+        
     # print(">>>>>>>", api_book_list)
     # print(">>>>>>>", db_book_list)
-    # title_length = range(len(title))
-    display =  {'api_book_length': api_books_length, 'api_books': api_books, 'user': user, 'user': user, 'title':title}
+    display =  {'length': length, 'api_books': api_books, 'user': user, 'user': user, 'title':title, 'author': author, 'image': image, 'api_id': api_id}
     return display
 
 
@@ -623,14 +605,13 @@ def favourites(request):
             if hidden_bookId.isnumeric() == True:
                 book_from_api = False
                 book_id_db = Book.objects.get(book_id=hidden_bookId)
-
+                book_id_api = None
                 # print(book_id_db)
             
             else:
-
+                book_id_db = None
                 book_id_api = hidden_bookId
-
-              
+                book_from_api =  True
                 # print(book_id_api)
 
             try:
@@ -645,7 +626,7 @@ def favourites(request):
                 messages.warning(request, 'Book already added to favourites !')
                 x = fav_details(request)
                 return render(request, "bookReview/userProfile.html", x)
-            
+                
             # print(">>>>>>>>>",  hidden_bookId)
     else:
         return redirect('/signin/')

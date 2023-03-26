@@ -13,38 +13,66 @@
 
 Username : {{user}}<br>
 
-{% for i in api_books_length %}
-    <p>{{title|index:i}}</p>
-{% endfor %}
+{% comment %} {% for i in length  %}
+    {% if 'http' in image|index:i %}
+        <p>{{image|index:i}}</p>
+    {% else %}
+        fraud
+    {% endif %}
+        
 
-{% comment %} <div class="row">
+{% endfor %} {% endcomment %}
+
+ <div class="row">
     <div class="carousel slide" data-bs-ride="carousel">
         <div class="container carousel-inner">
             <div class="carousel-item active">
 
                 <h4 class="mt-5 mb-5" style="text-align:center">Favourites</h4>
 
-                {% for i in title_length %}
-                    {% comment %} <p>{{title|index:i}}</p>
-                    <p>{{author|index:i}}</p> {% endcomment %}
+                {% for i in length %}
 
-                    {% comment %} <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
+                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
                         <div class="card align-items-center pt-3" style="width: 13rem;">
-                            <img src="/media/{{image|index:i}}" class="card-img-top bookImage" alt="Loading image..">
-                            <div class="card-body">
-                                <h5 class="card-title" id="namepr{{i.book_id}}">
+
+                            {% if 'http' in image|index:i %}
+                                <img src="{{image|index:i}}" class="card-img-top bookImage" alt="Loading image..">
+                                <div class="card-body">
+                                    <h5 class="card-title" id="namepr{{i.book_id}}">
+                                        {% if title|index:i|length >= 25 %}
+                                            {{title|index:i|slice:":25"}}...   
+                                        {% else %}
+                                            {{title|index:i}}  
+                                        {% endif %}
+                                        
+                                    </h5>      
+                                    <h6 class="card-text"> 
+                                        {% if author|index:i|join:", "|escape|length >= 25 %}
+                                            {{author | index:i | join:", " | escape | slice:":35"}}...
+                                        {% else %}
+                                            {{author | index:i | join:", "}}
+                                        {% endif %}    
+                                    </h6>
+                                </div> 
+                                <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'Details' %}?id={{api_id|index:i}}'">Details</button>
+
+
+                            {% else%}
+                                <img src="/media/{{image|index:i}}" class="card-img-top bookImage" alt="Loading image.." id="cover{{i.book_id}}">
+                                <div class="card-body ">
+                                <h5 class="card-title">
                                     {% if title|index:i|length >= 25 %}
                                         {{title|index:i|slice:":25"}}...   
                                     {% else %}
                                         {{title|index:i}}  
                                     {% endif %}
-                                    
-                                </h5>      
-                                <h6 class="card-text"> 
-                                    {{author|index:i}}
-                                </h6>
-                            </div> 
-                        <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'DetailsHome' %}?bookId={{bookId|index:i}}'">Details</button>
+                                    </h5>
+                                <h6 class="card-text mb-3">{{author|index:i}}</h6>
+                                </div> 
+                                <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'DetailsHome' %}?bookId={{api_id|index:i}}'">Details</button>
+
+                            {% endif %}
+                            
                         </div>
                     </div>
         
@@ -57,9 +85,9 @@ Username : {{user}}<br>
     
         </div>
     </div>
-</div> {% endcomment %} 
+</div> 
 
-<br>
+<br> 
 <a href="/signout/">Sign out</a>
 
 
