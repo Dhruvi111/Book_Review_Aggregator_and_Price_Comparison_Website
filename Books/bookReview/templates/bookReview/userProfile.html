@@ -5,13 +5,24 @@
 {% block css %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
+<style>
+    .title{
+        padding: 1.5rem;
+        {% comment %} font-size: 25px; {% endcomment %}
+        font-weight: bold;
+        text-align: center;
+        color: #249A90;
+        text-shadow: 2px 2px #A2E9E3;
+    }
 
+</style>
 {% endblock css %}
 
 {% block body %}
 {% load filters %}
 
-Username : {{user}}<br>
+<h3 class="px-4 pt-4">Welcome to Story Shelves!</h3>
+<h4 class="px-4 ">{{user}}<br></h4>
 
 {% comment %} {% for i in length  %}
     {% if 'http' in image|index:i %}
@@ -28,8 +39,8 @@ Username : {{user}}<br>
         <div class="container carousel-inner">
             <div class="carousel-item active">
 
-                <h4 class="mt-5 mb-5" style="text-align:center">Favourites</h4>
-
+                {% comment %} <h4 class="mt-5 mb-5" style="text-align:center">Favourites</h4> {% endcomment %}
+                <h1 class="title">Favourites</h1>
                 {% for i in length %}
 
                      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">

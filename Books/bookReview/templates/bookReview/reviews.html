@@ -5,67 +5,90 @@
 {% block css %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
-
+<style>
+    .content{
+        padding:4.5rem;
+        padding-top: 0;
+        text-align: justify;
+        color: black !important; 
+    }
+    .reviewtitle{
+        padding: 1.5rem;
+        font-size: 35px;
+        font-weight: bold;
+        text-align: center;
+        color: #249A90;
+        text-shadow: 2px 2px #A2E9E3;
+    }
+</style>
 {% endblock css %}
 {% block body %}
-<h1 class="reviewtitle py-3">Reviews</h1>
+{% comment %} <h1 class="reviewtitle py-3">Reviews</h1> {% endcomment %}
 
 {% comment %} ------------------------- BNOBLE -------------------------  {% endcomment %}
+<div class="container">
+    <div class="content">
+        {% if bnoble == True %}
 
-{% if bnoble == True %}
+    {% comment %} <a href="https://www.barnesandnoble.com/w/{{title}}{{author}}/?ean={{isbn_no}}">https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}</a> --> {% endcomment %}
 
-{% comment %} <a href="https://www.barnesandnoble.com/w/{{title}}{{author}}/?ean={{isbn_no}}">https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}</a> --> {% endcomment %}
+    <h1 class="reviewtitle"> Barnes and Noble Reviews</h1>
+
+    <div class="reviewdiv">
+
+        {% load filters %}
+        {% autoescape off %} 
+            <p>{{reviews|index:0}}</p> 
+        {% endautoescape %}
 
 
-<div class="reviewdiv">
+        {% if msg != "" %}
+            <p>{{msg}}</p>
 
-    {% load filters %}
-    {% autoescape off %} 
-        <p>{{reviews|index:0}}</p> 
-    {% endautoescape %}
+            {% comment %} Please visit:  {% endcomment %}
+            {% comment %} <a href="https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}">Barnes and Nobles</a> {% endcomment %}
+        {% endif %}
 
 
-    {% if msg != "" %}
-        <p>{{msg}}</p>
+        {% comment %} ------------------------- BOOKMARKS -------------------------  {% endcomment %}
 
-        {% comment %} Please visit:  {% endcomment %}
-        {% comment %} <a href="https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}">Barnes and Nobles</a> {% endcomment %}
+    {% elif bookmarks == True%}
+    <h1 class="reviewtitle"> Bookmarks Reviews</h1>
+
+            <!-- <a href="https://bookmarks.reviews/reviews/all/{{title}}/">https://bookmarks.reviews/reviews/all/{{title}}/</a> -->
+        
+        {% if list_length != 0 %}
+            {% for i in list_length %} 
+            {% autoescape off %} <p>{{review_list|index:i}}</p>{% endautoescape %} - <b>{{reviewers|index:i}} {{review_source|index:i}}</b>
+            {% endfor %}
+        {% else %}
+            <p>{{msg}}</p>
+        {% endif %}
+
+        {% comment %} ------------------------- GOODREADS -------------------------  {% endcomment %}
+
+    {% elif goodreads == True%}
+        {% comment %} {{test}}
+        {{title_GR}} {% endcomment %}
+        {% comment %} <a href=" https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 "> https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 </a> {% endcomment %}
+        <h1 class="reviewtitle"> Goodreads Reviews</h1>
+
+        {% if spans_length != 0 %}
+            {% for i in spans_length %}
+                <p>{{short_reviews|index:i}}  -  <b>{{reviewer|index:i}}</b></p> 
+            {% endfor %}
+        {% else %}
+            <p>{{msg}}</p>
+        {% endif %}
+
+    {% comment %} ------------------------- AMAZON -------------------------  {% endcomment %}
+    {% elif amazon == True%}
+        <h1 class="reviewtitle"> Amazon Reviews</h1>
+
+        {{test}}
     {% endif %}
-
-
-    {% comment %} ------------------------- BOOKMARKS -------------------------  {% endcomment %}
-
-{% elif bookmarks == True%}
-       
-        <!-- <a href="https://bookmarks.reviews/reviews/all/{{title}}/">https://bookmarks.reviews/reviews/all/{{title}}/</a> -->
-    
-    {% if list_length != 0 %}
-        {% for i in list_length %} 
-        {% autoescape off %} <p>{{review_list|index:i}}</p>{% endautoescape %} - <b>{{reviewers|index:i}} {{review_source|index:i}}</b>
-        {% endfor %}
-    {% else %}
-        <p>{{msg}}</p>
-    {% endif %}
-
-    {% comment %} ------------------------- GOODREADS -------------------------  {% endcomment %}
-
-{% elif goodreads == True%}
-    {% comment %} {{test}}
-    {{title_GR}} {% endcomment %}
-    {% comment %} <a href=" https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 "> https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 </a> {% endcomment %}
-    
-    {% if spans_length != 0 %}
-        {% for i in spans_length %}
-            <p>{{short_reviews|index:i}}  -  <b>{{reviewer|index:i}}</b></p> 
-        {% endfor %}
-    {% else %}
-        <p>{{msg}}</p>
-    {% endif %}
-
-{% comment %} ------------------------- AMAZON -------------------------  {% endcomment %}
-{% elif amazon == True%}
-    {{test}}
-{% endif %}
+    </div>
+</div>
 </div>
 
 {% comment %} {% if scrape_book_prices == True %}
