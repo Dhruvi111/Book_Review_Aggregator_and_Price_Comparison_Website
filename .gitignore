@@ -1,0 +1,11 @@
+env/
+# Dhruvi(laptop)
+venv/
+# Rutu
+fyproj/
+# Krishna
+venvpc/
+# Dhruvi(pc)
+
+*/__pycache__/*
+*.pyc

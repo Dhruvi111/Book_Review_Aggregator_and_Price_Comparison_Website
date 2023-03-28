@@ -1,0 +1,48 @@
+{% extends 'bookReview/basic.html' %}
+
+{% block title %}Story Shelves | Book Details{% endblock title %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
+
+{% endblock css %}
+
+{% block body %}
+
+{% load filters %}
+<div class="detailcontainer">
+    <div class="book-details">
+        <div class="book-cover">
+            <img src="{{image}}" alt="">
+            {% comment %} {{book_id_api}} {% endcomment %}
+           
+            <form action="/userProfile/" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="hidden_bookId" value={{book_id_api}}> 
+                <button class="btn btn-danger my-3">Mark as favourite</button>
+            </form>
+        </div>
+
+        <div class="book-info">
+            <h1 class="book-title"><p><b>{{title}}</b></p></h1>
+            <p class="book-author">Author: {{author_list | join:", "}}</p>
+            <p>Publisher : {{publisher}}</p>
+            <p>Edition / Publish Date : {{edition}}</p>
+            <p>Pages: {{no_pages}}</p>
+            <p>ISBN-10: {{isbn10}}</p>
+            <p>ISBN-13: {{isbn13}}</p>
+            <p class="book-description">Description: {% autoescape off %}{{desc}}{% endautoescape %}</p>
+        </div> 
+
+        <div class="detailreview">
+            <h5>READ REVIEWS FROM :</h5>
+            <button class="btn reviewButton mb-2" onclick="location.href='{% url 'BNoble' %}?no={{isbn13}}&t={{title_for_url}}&a={{author_list|index:0}}'">Barnes & Noble</button>
+            <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Bookmarks' %}?t={{title_for_bmarks}}'">Bookmarks</button>
+            <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Amazon' %}'">Amazon</button>
+            <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Goodreads' %}?t={{title_for_url}}&a={{author_list|index:0}}'">Goodreads</button>
+            {% comment %} <button class="btn reviewButton mb-2" onclick="location.href='{% url 'LibraryThing' %}?t={{title_for_url}}'">LibraryThing</button> {% endcomment %}
+        </div>
+    </div>
+</div>
+{% endblock body %}

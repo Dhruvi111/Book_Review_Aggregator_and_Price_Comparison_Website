@@ -1,0 +1,158 @@
+{% extends 'bookReview/basic.html' %}
+
+{% block title %}Story Shelves | Profile Page{% endblock title %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
+<style>
+    .inner-container{
+        padding: 0 3.5rem;
+    }
+    .x{
+        padding:0;
+        background: #F5FDFC;
+    }
+    .fav-box{
+        border-radius: 1rem;
+        border: 3px solid #A2E9E3;
+    }
+    .fav-title{
+        padding: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        color: #249A90;
+        text-shadow: 2px 2px #A2E9E3;
+    }
+    .wel-msg{
+        text-align: center;
+    }
+    .wel-msg span{
+        text-transform: uppercase;
+        font-weight: bold;
+        text-shadow: 1px 1px #A2E9E3;
+    }
+    .full-name{
+        text-transform: capitalize;
+        color: #e71d36;
+        font-weight: bold;
+    }
+    .username{
+        color:#EC4B5F;
+    }
+    .btn-div{
+        padding-top: 1.5rem;
+        text-align: right;
+    }
+    .signout-btn{
+        background: #e71d36; 
+        color: #fff;
+        border: 2px solid #e71d36;
+    }
+    .signout-btn:hover{
+        background: #fff; 
+        color: #e71d36;
+        font-weight: bold;
+        border: 2px solid #e71d36;
+    }
+
+</style>
+{% endblock css %}
+
+{% block body %}
+{% load filters %}
+
+<div class="container">
+    <div class="inner-container">
+
+        <h3 class="wel-msg px-4 pt-4">Glad to have you back, <span>{{firstname}}!</span> </h3>
+        <h5 class="pb-4 wel-msg"> Let's find your next page-turner.</h5>
+
+        <h4 class="full-name">{{fullname}}<br></h4> 
+        <h6 class="pb-3 username"><i>{{user}}</i></h6>
+        
+        {% comment %} {% for i in length  %}
+            {% if 'http' in image|index:i %}
+                <p>{{image|index:i}}</p>
+            {% else %}
+                fraud
+            {% endif %}
+                
+
+        {% endfor %} {% endcomment %}
+
+        <div class="row">
+            <div class="carousel slide" data-bs-ride="carousel">
+                <div class="container carousel-inner x">
+                    <div class="carousel-item active fav-box">
+
+                        <h1 class="fav-title">Favourites</h1>
+                        {% for i in length %}
+
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
+                                <div class="card align-items-center pt-3" style="width: 13rem;">
+
+                                    {% if 'http' in image|index:i %}
+                                        <img src="{{image|index:i}}" class="card-img-top bookImage" alt="Loading image..">
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="namepr{{i.book_id}}">
+                                                {% if title|index:i|length >= 25 %}
+                                                    {{title|index:i|slice:":25"}}...   
+                                                {% else %}
+                                                    {{title|index:i}}  
+                                                {% endif %}
+                                                
+                                            </h5>      
+                                            <h6 class="card-text"> 
+                                                {% if author|index:i|join:", "|escape|length >= 25 %}
+                                                    {{author | index:i | join:", " | escape | slice:":35"}}...
+                                                {% else %}
+                                                    {{author | index:i | join:", "}}
+                                                {% endif %}    
+                                            </h6>
+                                        </div> 
+                                        <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'Details' %}?id={{api_id|index:i}}'">Details</button>
+
+
+                                    {% else%}
+                                        <img src="/media/{{image|index:i}}" class="card-img-top bookImage" alt="Loading image..">
+                                        <div class="card-body ">
+                                        <h5 class="card-title">
+                                            {% if title|index:i|length >= 25 %}
+                                                {{title|index:i|slice:":25"}}...   
+                                            {% else %}
+                                                {{title|index:i}}  
+                                            {% endif %}
+                                            </h5>
+                                        <h6 class="card-text mb-3">{{author|index:i}}</h6>
+                                        </div> 
+                                        <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'DetailsHome' %}?bookId={{api_id|index:i}}'">Details</button>
+
+                                    {% endif %}
+                                    
+                                </div>
+                            </div>
+                
+                    
+                        {% if forloop.counter|divisibleby:6 and forloop.counter > 0 and not forloop.last%}
+                            <hr class="pb-4">
+                        {% endif %}        
+                        {% endfor %} 
+                    </div>
+            
+                </div>
+            </div>
+        </div> 
+
+        
+        <div class="btn-div">
+        <button class="btn mb-2 signout-btn" onclick="location.href='../signout/'">Sign-out</button>
+        </div>
+        {% comment %} <br>
+        <button type="button" class="btn btn-danger signout-btn"><a href="/signout/">Sign out</a></button> {% endcomment %}
+        
+</div>
+</div>
+
+
+{% endblock body %}

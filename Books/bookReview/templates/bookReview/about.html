@@ -1,0 +1,35 @@
+{% extends 'bookReview/basic.html' %}
+
+{% block title %}Story Shelves | About Us{% endblock title %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
+
+{% endblock css %}
+
+{% block body %}
+{% comment %} style="background: url('/static/bookReview/images/bookbg.jpg') no-repeat left;  overflow: hidden;" {% endcomment %}
+<div class="ct-pageWrapper" id="ct-js-wrapper">
+    <section class="company-heading intro-type" id="parallax-one">
+      <div class="container">
+        <div class="row product-title-info">
+          <div class="col-md-12">
+            <h1>WHAT DRIVES US</h1>
+          </div>
+        </div>
+      </div>
+      <div class="parallax" id="parallax-cta" style="background-image:url('/static/bookReview/images/hero.jpg');"></div>
+    </section>
+    <section class="story-section company-sections ct-u-paddingBoth100 paddingBothHalf noTopMobilePadding" id="section">
+      <div class="container text-center">
+        <div class="col-md-8 col-md-offset-2">
+          <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3">Welcome to our books website! We are a team of avid readers and book lovers who are passionate about connecting people with the stories they love. Our website offers a curated selection of books across genres and interests, so whether you're in the mood for a classic novel or a gripping thriller, we've got you covered.</p>
+          <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3">We believe that books have the power to inspire, educate, and entertain, and we are dedicated to making the reading experience as seamless and enjoyable as possible. Our user-friendly website allows you to browse books with ease.</p>
+          <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3">At our books website, we are committed to promoting literacy and encouraging a love of reading in people of all ages. That's why we offer a variety of resources and programs designed to support readers and help them find their next great read.</p>
+          <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3">Thank you for choosing our books website. We can't wait to help you discover your next favorite book!</p>
+        </div>
+      </div>
+    </section>
+    </div>
+{% endblock body %}

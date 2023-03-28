@@ -1,0 +1,408 @@
+body {
+    font-family: 'Lexend', sans-serif;
+    /* background: linear-gradient(225deg, #F9E7E8ff, #F5DDE5ff, #F7E1F8ff, #E9EEF8ff, #EAEEFFff); */
+    /* background-attachment: fixed; */
+    /* color: #1F867C; */
+    color: #249A90;
+    width: auto;
+    overflow-x: hidden;
+}
+
+/* -------------------------- HEADER / BANNER ------------------------- */
+/* header {
+    background-color: rgb(206, 237, 235);
+} */
+
+.banner {
+    background-size: cover;
+    background-position: center;
+    /* height: 400px; */
+    height: 25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+    color: #fff;
+}
+
+/* -------------------------- NAVBAR ------------------------------ */
+
+.navbar {
+    background: #2EC4B6 !important;
+    height: 60px;
+    font-size: larger;
+}
+
+/* .me-auto {
+    margin-right: 900px !important;
+} */
+
+#navSearch {
+    width: 450px !important;
+    /* display: block; */
+}
+
+.textColorNav {
+    color: #fff !important;
+}
+
+/* ------------------------ LANDING PAGE ------------------------- */
+
+.col-lg-2 {
+    display: inline-block;
+    margin-left: -4px;
+}
+
+.col-lg-2 img {
+    max-width: 130px;
+    height: 209px;
+}
+
+body .carousel-indicators {
+    bottom: 0;
+}
+
+
+body .carousel-control-prev-icon,
+body .carousel-control-next-icon {
+    filter: invert(1);
+    /* padding-top: 20px; */
+
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    top: -90px;
+    /* padding-top: 10px; */
+}
+
+.carousel-control-next {
+    right: -60px;
+    padding-top: 50px;
+}
+
+.carousel-control-prev {
+    left: -60px;
+    padding-top: 50px;
+}
+
+.card {
+    border: none;
+    background: none;
+}
+
+.card-title {
+    text-align: center;
+    /* color: #1d3557; */
+    color: black !important;
+}
+
+.card-text {
+    text-align: center;
+    color: rgb(80, 79, 79) !important;
+}
+
+.category_title {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    color: #249A90;
+    text-shadow: 2px 2px #A2E9E3;
+}
+
+.card-img-top {
+    box-shadow: 2px 2px 5px 4px rgba(46, 196, 182, 0.5);
+}
+
+.card-img-top:hover {
+    box-shadow: 2px 2px 6px 5px rgba(255, 159, 28, 0.5);
+}
+
+.bookImage {
+    border-radius: 7px;
+}
+
+/* ---------------------------- FOOTER ---------------------------- */
+
+.footer {
+    background: #A2E9E3;
+    /* color: #299f94; */
+    color: #1F867C;
+    padding: 12px 0;
+    width: 101%;
+    margin: 30px 0 0 -10px;
+    position: relative;
+}
+
+.footer .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.footer .quick-links h4,
+.footer .contact-info h4,
+.footer .copyright h4 {
+    color: #1F867C;
+    font-size: 16px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block;
+    font-size: 15px;
+    /* vertical-align: middle; */
+}
+
+.footer li {
+    margin-right: 20px;
+}
+
+.footer li:hover {
+    text-decoration: underline;
+}
+
+#footer-content {
+    width: 100%;
+}
+
+.footer a {
+    color: #1F867C;
+    text-decoration: none;
+}
+
+.allButFooter {
+    min-height: calc(100vh - 95px);
+}
+
+/* ----------------------------- DROP-DOWN ------------------------------- */
+
+.dropdown-menu {
+    columns: 5;
+}
+
+
+/* ------------------------ REDUNDANT CHUNK (DOESN'T SEEM TO BE USED ANYWHERE) ---------------------*/
+/* .inner-container {
+    width: 69.7%;
+    float: right;
+    background-color: #fdfdfd;
+    padding: 150px;
+}
+
+.text {
+    font-size: 14px;
+    color: #545454;
+    line-height: 30px;
+    text-align: justify;
+    margin-bottom: 40px;
+} */
+
+
+/* ----------------------------- DETAILS BUTTON ------------------------------ */
+
+.card-hover-button {
+    display: none;
+}
+
+.card:hover .card-text {
+    display: none;
+}
+
+.card:hover .card-body {
+    padding-bottom: 0;
+}
+
+.card:hover .card-hover-button {
+    display: block;
+    text-align: center;
+    background-color: #FF9F1C;
+    color: #fff;
+    border-radius: 20px;
+    /* box-shadow: 2px 2px 3px 2px rgba(255, 159, 28, 0.5); */
+}
+
+
+/* --------------------------- LANDING PAGE CATEGORIES ----------------------------- */
+
+.row {
+    color: #1d3557;
+}
+
+
+/* --------------------------- ABOUT PAGE ----------------------------- */
+.separator-type,
+.title-type,
+.intro-type,
+.content-type .intro-type p {
+    position: relative;
+}
+
+.intro-type .container {
+    padding: 107px 0px 102px 0px !important;
+}
+
+#product-header-section,
+.intro-type .container {
+    padding: 68px 15px 72px !important;
+}
+
+@media (min-width: 1630px) {
+    .container {
+        width: 1630px;
+    }
+}
+
+/* @media (min-width: 1630px) {
+    .container {
+        width: 1630px;
+    }
+} */
+
+/* .parallax {
+    background-attachment: inherit !important;
+} */
+
+.parallax {
+    background-attachment: inherit !important;
+    background-repeat: repeat;
+    background-size: cover;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+    z-index: -10;
+}
+
+.company-heading h1 {
+    padding: 5%;
+    /* margin-bottom: 40px; */
+    /* line-height: 80px; */
+    color: #fff;
+    font-weight: 700 !important;
+    text-align: center;
+}
+
+.ct-u-size18 {
+    font-size: 18px;
+}
+
+.marginTop40 {
+    margin-top: 10px !important;
+}
+
+.ct-u-paddingBoth100 {
+    padding: 2%;
+    padding-bottom: 0;
+}
+
+.col-md-8 {
+    margin-left: 17%;
+}
+
+/* .col-md-12 {
+    margin-left: 3%;
+} */
+
+.allButFooter {
+    min-height: calc(100vh - 95px);
+}
+
+/* --------------------------- BOOK DETAILS ----------------------------- */
+
+
+.detaildesc {
+    font-size: large;
+    /* color: black !important; */
+}
+
+.detailcontainer {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.book-details {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    /* border-radius: 10px; */
+    /* border: #1d3557; */
+    /* border-style: solid; */
+}
+
+.book-cover img {
+    /* max-width: 400px; */
+    width: 170px;
+    height: auto;
+    box-shadow: 2px 2px 2px 2px rgba(46, 196, 182, 0.5);
+}
+
+.book-info {
+    width: 80%;
+    margin-left: 50px;
+    margin-right: 25px;
+    text-align: justify;
+}
+
+.book-title {
+    font-size: 36px;
+    margin-top: 0;
+    color: #249A90;
+    text-shadow: 2px 2px #A2E9E3;
+}
+
+.book-author {
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.book-description {
+    /* font-size: 18px; */
+    line-height: 1.5;
+    width: 500px;
+}
+
+.reviewButton {
+    size: 10px;
+    display: block;
+    background-color: #FF9F1C;
+    border: 2px solid #FF9F1C;
+    width: 170px;
+    color: #fff;
+}
+
+.reviewButton:hover {
+    background-color: #fff;
+    border: 2px solid #FF9F1C;
+    color: #FF9F1C;
+}
+
+.detailreview {
+    padding-left: 20px;
+}
+
+
+.reviewtitle {
+    text-align: center;
+}
+
+.reviewdiv {
+    padding: 20px;
+}
+
+.reviewMsg {
+    text-align: center;
+    font-size: large;
+}

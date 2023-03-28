@@ -1,0 +1,88 @@
+{% extends 'bookReview/basic.html' %}
+
+{% block title %}Story Shelves | Signup{% endblock title %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
+<style>
+    h2{
+        padding: 3rem 0;
+    }
+    .form h3{
+        padding-bottom:1rem;
+    }
+    .form{
+        color: black;
+        width: 60%;
+        box-shadow: 2px 2px 5px 4px rgba(46, 196, 182, 0.5);
+        /*border:.1rem solid rgb(72, 81, 137);*/
+       /* background:#F7E1F8ff; */
+        background: #F5FDFC;
+        padding:2rem;
+        margin: 0 auto;
+    }
+    input[type=text], input[type=email], input[type=password]{
+        background: none;
+        border-radius: 0;
+        border: none;
+        border-bottom: 2px solid rgba(46, 196, 182, 1);
+    }
+    #btn-div{
+        text-align:center;
+    }
+    .ca-btn{
+        background-color: #FF9F1C;
+        border: 2px solid #FF9F1C;
+    }
+    .ca-btn:hover{
+        background-color: #fff;
+        border: 2px solid #FF9F1C;
+        color: #FF9F1C;
+    }
+    @media screen and (max-width: 800px) {
+        .form {
+            width: 90%;
+        }
+      }
+</style>
+{% endblock css %}
+
+{% block body %}
+<div class="container pb-3">
+    <h2 class="text-center" >Join our community of book lovers!</h2>
+    <form class="row g-3 form" action="/signup/" method="POST">
+        <h3 class="text-center" style="color: #249A90; text-shadow: 1.5px 1.5px #7DDCD3;">Sign Up</h3>
+        {% csrf_token %}
+        <div class="col-md-6">
+            <label for="fname" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="fname" name="fname" placeholder="Jerry" required>
+        </div>
+        <div class="col-md-6">
+            <label for="lname" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="lname" name="lname" placeholder="Richards" required>
+        </div>
+        <div class="col-12">
+            <label for="useremail" class="form-label">Email-Id</label>
+            <input type="email" class="form-control" id="useremail" name="email" placeholder="JRichards123@gmail.com" required>
+        </div>
+        <div class="col-12">
+            <label for="uname" class="form-label">Username</label>
+            <input type="text" class="form-control" id="uname" name="uname" placeholder="jerry_985" required>
+        </div>
+        <div class="col-12">
+            <label for="pwd" class="form-label">Create Password</label>
+            <input type="password" class="form-control" id="pwd" name="pwd" placeholder="*********" required>
+        </div>
+        <div class="col-12">
+            <label for="pwd2" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="pwd2" name="pwd2" placeholder="*********" required>
+        </div>
+        <div class="col-12" id="btn-div">
+            <button type="submit" class="btn btn-primary ca-btn">Create Account</button>
+        </div>
+        <p style="font-size: medium; text-align: right">Already have an account? <a href="{% url 'SignIn' %}"
+            style="font-size: medium;">SignIn</a></p>
+  </form>
+</div>
+{% endblock body %}
