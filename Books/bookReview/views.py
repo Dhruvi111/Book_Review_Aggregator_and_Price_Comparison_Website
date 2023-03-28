@@ -544,6 +544,8 @@ def Goodreads(request):
 
 def fav_details(request):
     user = request.user
+    firstname = request.user.get_short_name()
+    fullname = request.user.get_full_name()
     fav_list = favouriteBook.objects.filter(current_user=request.user)
     api_book_list = fav_list.filter(book_from_api=True).values()
     db_book_list = fav_list.filter(book_from_api=False).values()
@@ -592,7 +594,7 @@ def fav_details(request):
         
     # print(">>>>>>>", api_book_list)
     # print(">>>>>>>", db_book_list)
-    display =  {'length': length, 'api_books': api_books, 'user': user, 'user': user, 'title':title, 'author': author, 'image': image, 'api_id': api_id}
+    display =  {'length': length, 'api_books': api_books, 'user': user, 'firstname': firstname, 'fullname': fullname, 'title':title, 'author': author, 'image': image, 'api_id': api_id}
     return display
 
 
