@@ -87,47 +87,60 @@
                     <div class="carousel-item active fav-box">
 
                         <h1 class="fav-title">Favourites</h1>
-                        {% for i in length %}
+                        {% for i in books %}
 
                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
                                 <div class="card align-items-center pt-3" style="width: 13rem;">
-
-                                    {% if 'http' in image|index:i %}
-                                        <img src="{{image|index:i}}" class="card-img-top bookImage" alt="Loading image..">
+                                    {% if 'http' in i.image %}
+                                        <img src="{{i.image}}" class="card-img-top bookImage" alt="Loading image..">
                                         <div class="card-body">
                                             <h5 class="card-title" id="namepr{{i.book_id}}">
-                                                {% if title|index:i|length >= 25 %}
-                                                    {{title|index:i|slice:":25"}}...   
+                                                {% if i.title|length >= 25 %}
+                                                    {{i.title|slice:":25"}}...   
                                                 {% else %}
-                                                    {{title|index:i}}  
+                                                    {{i.title}}  
                                                 {% endif %}
                                                 
                                             </h5>      
                                             <h6 class="card-text"> 
-                                                {% if author|index:i|join:", "|escape|length >= 25 %}
-                                                    {{author | index:i | join:", " | escape | slice:":35"}}...
+                                                {% if i.author|join:", "|escape|length >= 25 %}
+                                                    {{i.author| join:", " | escape | slice:":35"}}...
                                                 {% else %}
-                                                    {{author | index:i | join:", "}}
+                                                    {{i.author| join:", "}}
                                                 {% endif %}    
                                             </h6>
                                         </div> 
-                                        <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'Details' %}?id={{api_id|index:i}}'">Details</button>
+                                        <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'Details' %}?id={{i.book_id_api}}'">Details</button>
+                                        
+                                        <form action="/userProfile/d" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="hidden_bookId" value={{i.book_id_api}}> 
+                                            <button class="btn btn-danger my-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                              </svg></button>
+                                        </form>
 
-
-                                    {% else%}
-                                        <img src="/media/{{image|index:i}}" class="card-img-top bookImage" alt="Loading image..">
+                                    {% else %}
+                                        <img src="/media/{{i.image}}" class="card-img-top bookImage" alt="Loading image..">
                                         <div class="card-body ">
                                         <h5 class="card-title">
-                                            {% if title|index:i|length >= 25 %}
-                                                {{title|index:i|slice:":25"}}...   
+                                            {% if i.title|length >= 25 %}
+                                                {{i.title|slice:":25"}}...   
                                             {% else %}
-                                                {{title|index:i}}  
+                                                {{i.title}}  
                                             {% endif %}
                                             </h5>
-                                        <h6 class="card-text mb-3">{{author|index:i}}</h6>
+                                        <h6 class="card-text mb-3">{{i.author}}</h6>
                                         </div> 
-                                        <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'DetailsHome' %}?bookId={{api_id|index:i}}'">Details</button>
+                                        <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id_db}}'">Details</button>
 
+                                        <form action="/userProfile/d" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="hidden_bookId" value={{i.book_id_db}}> 
+                                            <button class="btn btn-danger my-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                              </svg></button>
+                                        </form>
                                     {% endif %}
                                     
                                 </div>
