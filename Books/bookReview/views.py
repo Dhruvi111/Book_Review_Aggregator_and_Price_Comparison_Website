@@ -543,12 +543,9 @@ def Goodreads(request):
 # ------------------------------ FAVOURITES --------------------------------
 
 def fav_details(request):
-    user = request.user
-    firstname = request.user.get_short_name()
-    fullname = request.user.get_full_name()
     fav_list = favouriteBook.objects.filter(current_user=request.user)
-    api_book_list = fav_list.filter(book_from_api=True).values()
-    db_book_list = fav_list.filter(book_from_api=False).values()
+    api_book_list = fav_list.filter(book_from_api=True)
+    db_book_list = fav_list.filter(book_from_api=False)
 
     global api_id 
     api_id = []
@@ -556,28 +553,30 @@ def fav_details(request):
     title = []
     author = []
     image = []
+    # for i in range(len(api_book_list)):
+    #     api_id.append(api_book_list[i]['book_id_api']) 
 
     for i in range(len(api_book_list)):
-        data = requests.get("https://www.googleapis.com/books/v1/volumes/" + api_book_list[i]['book_id_api'])
+        data = requests.get("https://www.googleapis.com/books/v1/volumes/" + api_book_list[i].book_id_api)
         y = specificBook(data=data)
         api_books.append(y)
 
-    #     title.append(api_books[i]['title'])
-    #     author.append(api_books[i]['author_list'])
-    #     image.append(api_books[i]['image'])
+        # title.append(api_books[i]['title'])
+        # author.append(api_books[i]['author_list'])
+        # image.append(api_books[i]['image'])
 
 
     # db_id = []
-    db_books = []
+    # db_books = []
     # title_db = []
     # author_db = []
     # image_db = []
     # for i in range(len(db_book_list)):
     #     db_id.append(db_book_list[i]['book_id_db_id'])
 
-    for i in range(len(db_book_list)):
-        y = specificBookDB(request, id=db_book_list[i]['id'])
-        db_books.append(y)
+    # for i in range(len(db_id)):
+    #     y = specificBookDB(request, id=db_id[i])
+    #     db_books.append(y)
 
     #     title_db.append(db_books[i]['title'])
     #     author.append(db_books[i]['author'])
@@ -594,13 +593,16 @@ def fav_details(request):
     # print(">>>>>>>", api_book_list)
     # print(">>>>>>>", db_book_list)
     # display =  {'length': length, 'api_books': api_books, 'user': user, 'firstname': firstname, 'fullname': fullname, 'title':title, 'author': author, 'image': image, 'api_id': api_id}
-    api_books.extend(db_books)
-    # print(api_books)
+    api_books.extend(db_book_list)
+    print(api_books)
     return api_books
 
 
 def favourites(request):
-    
+    user = request.user
+    firstname = request.user.get_short_name()
+    fullname = request.user.get_full_name()
+
     if request.user.is_authenticated:
         if request.POST:
             hidden_bookId = request.POST['hidden_bookId']
@@ -623,12 +625,12 @@ def favourites(request):
                 messages.warning(request, 'Added to Favourites!')
                 x = fav_details(request)
 
-                return render(request, "bookReview/userProfile.html", {"books": x})
+                return render(request, "bookReview/userProfile.html", {"books": x, 'user': user, 'firstname': firstname, 'fullname': fullname})
             
             except:
                 messages.warning(request, 'Book already added to favourites !')
                 x = fav_details(request)
-                return render(request, "bookReview/userProfile.html", {"books": x})
+                return render(request, "bookReview/userProfile.html", {"books": x, 'user': user, 'firstname': firstname, 'fullname': fullname})
                 
             # print(">>>>>>>>>",  hidden_bookId)
     else:
@@ -637,21 +639,25 @@ def favourites(request):
     x = fav_details(request)
     # print(x)
 
-    return render(request, "bookReview/userProfile.html",{"books": x})
+    return render(request, "bookReview/userProfile.html",{"books": x, 'user': user, 'firstname': firstname, 'fullname': fullname})
 
 
 def favDelete(request):
-      if request.user.is_authenticated:
+    user = request.user
+    firstname = request.user.get_short_name()
+    fullname = request.user.get_full_name()
+
+    if request.user.is_authenticated:
         if request.POST:
             hidden_bookId = request.POST['hidden_bookId']
 
             if hidden_bookId.isnumeric() == True:
-                # favouriteBook.objects.filter(id=hidden_bookId).delete()
-                pass
+                favouriteBook.objects.filter(book_id_db=hidden_bookId).delete()
+                
             
             else:
                 favouriteBook.objects.filter(book_id_api=hidden_bookId).delete()
 
                 
-        x = fav_details(request)
-        return render(request, "bookReview/userProfile.html",{"books": x})
+    x = fav_details(request)
+    return render(request, "bookReview/userProfile.html",{"books": x, 'user': user, 'firstname': firstname, 'fullname': fullname})

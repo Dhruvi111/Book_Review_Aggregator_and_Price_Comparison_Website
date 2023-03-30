@@ -91,7 +91,8 @@
 
                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
                                 <div class="card align-items-center pt-3" style="width: 13rem;">
-                                    {% if 'http' in i.image %}
+
+                                    {% if 'http' in i.image%}
                                         <img src="{{i.image}}" class="card-img-top bookImage" alt="Loading image..">
                                         <div class="card-body">
                                             <h5 class="card-title" id="namepr{{i.book_id}}">
@@ -104,14 +105,14 @@
                                             </h5>      
                                             <h6 class="card-text"> 
                                                 {% if i.author|join:", "|escape|length >= 25 %}
-                                                    {{i.author| join:", " | escape | slice:":35"}}...
+                                                    {{i.author | join:", " | escape | slice:":35"}}...
                                                 {% else %}
-                                                    {{i.author| join:", "}}
+                                                    {{i.author | join:", "}}
                                                 {% endif %}    
                                             </h6>
                                         </div> 
                                         <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'Details' %}?id={{i.book_id_api}}'">Details</button>
-                                        
+
                                         <form action="/userProfile/d" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="hidden_bookId" value={{i.book_id_api}}> 
@@ -120,17 +121,18 @@
                                               </svg></button>
                                         </form>
 
-                                    {% else %}
-                                        <img src="/media/{{i.image}}" class="card-img-top bookImage" alt="Loading image..">
+                                    {% else%}
+                                
+                                        <img src="/media/{{i.book_id_db.image}}" class="card-img-top bookImage" alt="Loading image..">
                                         <div class="card-body ">
                                         <h5 class="card-title">
-                                            {% if i.title|length >= 25 %}
-                                                {{i.title|slice:":25"}}...   
+                                            {% if i.book_id_db.title|length >= 25 %}
+                                                {{i.book_id_db.title|slice:":25"}}...   
                                             {% else %}
-                                                {{i.title}}  
+                                                {{i.book_id_db.title}}  
                                             {% endif %}
                                             </h5>
-                                        <h6 class="card-text mb-3">{{i.author}}</h6>
+                                        <h6 class="card-text mb-3">{{i.book_id_db.author}}</h6>
                                         </div> 
                                         <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id_db}}'">Details</button>
 
