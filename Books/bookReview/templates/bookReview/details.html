@@ -17,11 +17,21 @@
             <img src="{{image}}" alt="">
             {% comment %} {{book_id_api}} {% endcomment %}
            
-            <form action="/userProfile/" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="hidden_bookId" value={{book_id_api}}> 
-                <button class="btn btn-danger my-3">Mark as favourite</button>
-            </form>
+            {% if fav != True %}
+                <form action="/userProfile/" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="hidden_bookId" value={{book_id_api}}> 
+                    <button class="btn btn-danger my-3">Mark as favourite</button>
+                </form>
+
+            {% else %}
+                <form action="/userProfile/d" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="hidden_bookId" value={{book_id_api}}> 
+                    <img src="/static/bookReview/images/check-mark.png" alt="" style="height:40px; width:40px" class="check-mark mt-3">
+                    <button class="btn btn-danger my-3">Remove from Favourites</button>
+                </form>
+            {% endif %}
         </div>
 
         <div class="book-info">

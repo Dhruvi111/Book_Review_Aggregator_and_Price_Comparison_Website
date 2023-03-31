@@ -74,7 +74,7 @@ def api(query, data):
     return params
 
 
-def specificBook(data):
+def specificBook(request,data):
     json_data = data.json()
 
     book_id_api = json_data['id']
@@ -101,7 +101,7 @@ def specificBook(data):
     if('authors' in volInfo):    
         author_list = volInfo['authors']
     else:
-        author_list = ["Oopsie! Author Info Not Availab le"]
+        author_list = ["Oopsie! Author Info Not Available"]
     
     if('publisher' in volInfo):
         publisher = volInfo['publisher']
@@ -157,8 +157,15 @@ def specificBook(data):
     # print(isbn10)
     # print(isbn13)
 
+     
+    if favouriteBook.objects.filter(book_id_api=book_id_api, current_user=request.user).exists():
+        fav = True
+        # print(fav)
+    else:
+        fav = False
+        # print(fav)
 
-    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_api': book_id_api}
+    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_api': book_id_api, 'fav': fav}
 
     return display
 
@@ -239,8 +246,8 @@ def genre(request, category):
 def details(request): 
     num = request.GET.get('id')
     data = requests.get("https://www.googleapis.com/books/v1/volumes/" + num)
-    y = specificBook(data=data)
-    
+    y = specificBook(request,data=data)
+   
     return render(request, "bookReview/details.html", y)
 
 
@@ -272,14 +279,27 @@ def specificBookDB(request, id):
         desc = val['description']
         isbn10 = val['isbn_10']
         isbn13 = val['isbn_13']
+
+        if favouriteBook.objects.filter(book_id_db=id, current_user=request.user).exists():
+            fav = True
+            # print(fav,title)
+        else:
+            fav = False
+            # print(fav,title)
     
-    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id}
+    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id, 'fav': fav}
 
     return display
 # for detailed view (Landing page)
 def detailsHome(request):
     id = request.GET.get('bookId')
     x = specificBookDB(request, id)
+
+    if favouriteBook.objects.filter(book_id_db=id).exists():
+        fav = True
+    else:
+        fav = False
+    # print(favouriteBook.objects.filter(book_id_db=id).values_list())
     return render(request, "bookReview/detailsHome.html", x)
 
 
@@ -547,7 +567,7 @@ def fav_details(request):
     api_book_list = fav_list.filter(book_from_api=True)
     db_book_list = fav_list.filter(book_from_api=False)
 
-    global api_id 
+    # global api_id 
     api_id = []
     api_books = []
     title = []
@@ -558,7 +578,7 @@ def fav_details(request):
 
     for i in range(len(api_book_list)):
         data = requests.get("https://www.googleapis.com/books/v1/volumes/" + api_book_list[i].book_id_api)
-        y = specificBook(data=data)
+        y = specificBook(request, data=data)
         api_books.append(y)
 
         # title.append(api_books[i]['title'])
@@ -594,16 +614,17 @@ def fav_details(request):
     # print(">>>>>>>", db_book_list)
     # display =  {'length': length, 'api_books': api_books, 'user': user, 'firstname': firstname, 'fullname': fullname, 'title':title, 'author': author, 'image': image, 'api_id': api_id}
     api_books.extend(db_book_list)
-    print(api_books)
+    # print(api_books)
     return api_books
 
 
 def favourites(request):
-    user = request.user
-    firstname = request.user.get_short_name()
-    fullname = request.user.get_full_name()
-
+    
     if request.user.is_authenticated:
+        user = request.user
+        firstname = request.user.get_short_name()
+        fullname = request.user.get_full_name()
+        
         if request.POST:
             hidden_bookId = request.POST['hidden_bookId']
 
