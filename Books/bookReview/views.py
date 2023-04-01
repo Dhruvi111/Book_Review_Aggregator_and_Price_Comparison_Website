@@ -163,7 +163,7 @@ def specificBook(data):
 
     return display
 
-# ------------------------------ PRICES --------------------------------
+# ------------------------------ PRICES WITHOUT LINK --------------------------------
 def price(request):
     # root = "https://www.google.com/"
     book_name = request.GET.get('title')
@@ -191,6 +191,42 @@ def price(request):
         # print(len(prices))
         # price_len = len(prices)
         # return price_len
+    return prices
+
+
+
+# ------------------------------ PRICES WITH LINK --------------------------------
+# def price(request):
+#     # root = "https://www.google.com/"
+#     book_name = request.GET.get('title')
+#     formatted_book_name = book_name.replace(" ", "+")
+
+#     link = f"https://www.google.com/search?q={formatted_book_name}&tbm=shop"
+
+#     req = Request(link, headers={'User-Agent': 'Mozilla/5.0'})
+#     webpage = urlopen(req).read()
+#     prices = []
+#     with requests.Session() as c:
+#         soup = BeautifulSoup(webpage, 'html5lib')
+#         # print(soup)
+#         for item in soup.find_all('div', attrs={'class':'P8xhZc'}):
+#             item = str(item)
+#             # print(item, "\n\n")
+#             pattern = r'q=(.*?)delivery'
+#             result = re.search(pattern, item)
+#             if result:
+#                 specific_name = result.group(1)
+#                 # print(specific_name, "\n\n")
+#                 pattern_new = re.sub(r'">(.*?)¹', ' ', specific_name)
+#                 # print(pattern_new, "\n\n")
+#                 pattern_second = re.sub(r'</span>', "", pattern_new)
+#                 # print(pattern_second, "\n\n")
+#                 pattern_final = re.sub(r'<(.*?)Free', "", pattern_second)
+#                 prices.append(pattern_final)
+#                 # print(pattern_final, "\n\n")
+#         # print(len(prices))
+#         # price_len = len(prices)
+#         # return price_len
     return prices
 
 # for landing page
