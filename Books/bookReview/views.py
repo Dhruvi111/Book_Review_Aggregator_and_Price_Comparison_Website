@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout 
 import re
+from urllib.request import Request, urlopen
 
 # Create your views here.
 def api(query, data):
@@ -162,6 +163,35 @@ def specificBook(data):
 
     return display
 
+# ------------------------------ PRICES --------------------------------
+def price(request):
+    # root = "https://www.google.com/"
+    book_name = request.GET.get('title')
+    formatted_book_name = book_name.replace(" ", "+")
+
+    link = f"https://www.google.com/search?q={formatted_book_name}&tbm=shop"
+
+    req = Request(link, headers={'User-Agent': 'Mozilla/5.0'})
+    webpage = urlopen(req).read()
+    prices = []
+    with requests.Session() as c:
+        soup = BeautifulSoup(webpage, 'html5lib')
+        # print(soup)
+        for item in soup.find_all('div', attrs={'class':'dD8iuc'}): 
+            item = str(item)
+            # print(item)
+            pattern = r'â‚¹(.*?)</div>'
+            result = re.search(pattern, item)
+            if result:
+                specific_name = result.group(1)
+                # print(specific_name)
+                pattern_new = re.sub(r'</span>', '', specific_name)
+                prices.append(pattern_new)
+                # print(pattern_new)
+        # print(len(prices))
+        # price_len = len(prices)
+        # return price_len
+    return prices
 
 # for landing page
 def index(request):
@@ -272,9 +302,12 @@ def specificBookDB(request, id):
         desc = val['description']
         isbn10 = val['isbn_10']
         isbn13 = val['isbn_13']
-    
-    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id}
 
+    price_print = price(request)
+    price_len = range(len(price_print))
+    # print(price_len)
+    # print(price_print)
+    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id, 'price_print': price_print, 'price_len': price_len}
     return display
 # for detailed view (Landing page)
 def detailsHome(request):
