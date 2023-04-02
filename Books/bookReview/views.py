@@ -209,6 +209,7 @@ def price(request):
     with requests.Session() as c:
         soup = BeautifulSoup(webpage, 'html5lib')
         # print(soup)
+        count = 0
         for item in soup.find_all('div', attrs={'class':'P8xhZc'}):
             item = str(item)
             # print(item, "\n\n")
@@ -235,19 +236,36 @@ def price(request):
                 # a = pattern_final.split()
                 # print(a, "\n\n")
 
-                def create_hyperlink(name, url, price):
+                def create_hyperlink(name, url, book_price):
                     hyperlink = '<a href="{0}">{1}</a>'.format(url, name)
-                    return '{0} {1}'.format(price, hyperlink)
+                    return '{0} {1}'.format(book_price, hyperlink)
 
                 website_name = pattern_final.split(' from ')[1]
+                if website_name in ["PokemonCardSeller", "Urdu Bazaar", "Biblio.com-rascal books", "used Etsy", "Read and Rise Book Shop", "BooksTech", "Best Of Used Books", "KoolSkool The Bookstore ", "Apni Kitaben", "Poshmark India - Poshmark", "Online College Street", "Gyaan Store"]:
+                    continue
+
                 url = pattern_final.split(' ')[0]
-                price = ' '.join(pattern_final.split(' ')[1:3])
-                hyperlink_price = create_hyperlink(website_name, url, price)
-                print(hyperlink_price, "\n\n")
-            prices.append(hyperlink_price)
+                book_price = ' '.join(pattern_final.split(' ')[1:3])
+                book_price_used = re.sub(r' from', "", book_price)
+                book_price_used = book_price_used.replace('used', '')
+                book_price_plus = re.sub(r' +', "", book_price_used)
+                book_price_plus = book_price_plus.replace('+', '')
+                book_price_only = re.sub(r' used', "",book_price_plus)
+                book_price_only = float(book_price_only.replace(',', ''))
+                if float(book_price_only) < 800:
+                    hyperlink_price = create_hyperlink(website_name, url, book_price_only)
+                    print(hyperlink_price, "\n\n")
+                    prices.append(hyperlink_price)
+            count +=1
+            if count ==10:
+                break
         # print(len(prices))
         # price_len = len(prices)
         # return price_len
+        for div in soup.find_all('div.book-details'):
+            for a in div.find_all('a'):
+                a.extract()
+
     return prices
 
 # for landing page
