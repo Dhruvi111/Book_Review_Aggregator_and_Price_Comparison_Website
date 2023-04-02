@@ -164,38 +164,6 @@ def specificBook(data):
     return display
 
 # ------------------------------ PRICES WITHOUT LINK --------------------------------
-def price(request):
-    # root = "https://www.google.com/"
-    book_name = request.GET.get('title')
-    formatted_book_name = book_name.replace(" ", "+")
-
-    link = f"https://www.google.com/search?q={formatted_book_name}&tbm=shop"
-
-    req = Request(link, headers={'User-Agent': 'Mozilla/5.0'})
-    webpage = urlopen(req).read()
-    prices = []
-    with requests.Session() as c:
-        soup = BeautifulSoup(webpage, 'html5lib')
-        # print(soup)
-        for item in soup.find_all('div', attrs={'class':'dD8iuc'}): 
-            item = str(item)
-            # print(item)
-            pattern = r'â‚¹(.*?)</div>'
-            result = re.search(pattern, item)
-            if result:
-                specific_name = result.group(1)
-                # print(specific_name)
-                pattern_new = re.sub(r'</span>', '', specific_name)
-                prices.append(pattern_new)
-                # print(pattern_new)
-        # print(len(prices))
-        # price_len = len(prices)
-        # return price_len
-    return prices
-
-
-
-# ------------------------------ PRICES WITH LINK --------------------------------
 # def price(request):
 #     # root = "https://www.google.com/"
 #     book_name = request.GET.get('title')
@@ -209,24 +177,77 @@ def price(request):
 #     with requests.Session() as c:
 #         soup = BeautifulSoup(webpage, 'html5lib')
 #         # print(soup)
-#         for item in soup.find_all('div', attrs={'class':'P8xhZc'}):
+#         for item in soup.find_all('div', attrs={'class':'dD8iuc'}): 
 #             item = str(item)
-#             # print(item, "\n\n")
-#             pattern = r'q=(.*?)delivery'
+#             # print(item)
+#             pattern = r'â‚¹(.*?)</div>'
 #             result = re.search(pattern, item)
 #             if result:
 #                 specific_name = result.group(1)
-#                 # print(specific_name, "\n\n")
-#                 pattern_new = re.sub(r'">(.*?)¹', ' ', specific_name)
-#                 # print(pattern_new, "\n\n")
-#                 pattern_second = re.sub(r'</span>', "", pattern_new)
-#                 # print(pattern_second, "\n\n")
-#                 pattern_final = re.sub(r'<(.*?)Free', "", pattern_second)
-#                 prices.append(pattern_final)
-#                 # print(pattern_final, "\n\n")
+#                 # print(specific_name)
+#                 pattern_new = re.sub(r'</span>', '', specific_name)
+#                 prices.append(pattern_new)
+#                 # print(pattern_new)
 #         # print(len(prices))
 #         # price_len = len(prices)
 #         # return price_len
+#     return prices
+
+
+
+# ------------------------------ PRICES WITH LINK --------------------------------
+def price(request):
+    # root = "https://www.google.com/"
+    book_name = request.GET.get('title')
+    formatted_book_name = book_name.replace(" ", "+")
+
+    link = f"https://www.google.com/search?q={formatted_book_name}&tbm=shop"
+
+    req = Request(link, headers={'User-Agent': 'Mozilla/5.0'})
+    webpage = urlopen(req).read()
+    prices = []
+    with requests.Session() as c:
+        soup = BeautifulSoup(webpage, 'html5lib')
+        # print(soup)
+        for item in soup.find_all('div', attrs={'class':'P8xhZc'}):
+            item = str(item)
+            # print(item, "\n\n")
+            pattern = r'q=(.*?)delivery'
+            result = re.search(pattern, item)
+            if result:
+                specific_name = result.group(1)
+                # print(specific_name, "\n\n")
+                pattern_new = re.sub(r'">(.*?)¹', ' ', specific_name)
+                # print(pattern_new, "\n\n")
+                pattern_second = re.sub(r'</span>', "", pattern_new)
+                # print(pattern_second, "\n\n")
+                pattern_final = re.sub(r'<(.*?)Free', "", pattern_second)
+                # print(pattern_final, "\n\n")
+                # only_link = re.sub(' (.*?)$', "", pattern_final)
+                # # print(only_link, "\n\n")
+
+                # pattern_without_link = re.sub(r'https(.*?) ', "", pattern_final)
+                # # print(pattern_without_link, "\n\n")
+
+                # only_name = re.sub(r'https(.*?)from ', "", pattern_final)
+                # # print(only_name, "\n\n")
+
+                # a = pattern_final.split()
+                # print(a, "\n\n")
+
+                def create_hyperlink(name, url, price):
+                    hyperlink = '<a href="{0}">{1}</a>'.format(url, name)
+                    return '{0} {1}'.format(price, hyperlink)
+
+                website_name = pattern_final.split(' from ')[1]
+                url = pattern_final.split(' ')[0]
+                price = ' '.join(pattern_final.split(' ')[1:3])
+                hyperlink_price = create_hyperlink(website_name, url, price)
+                print(hyperlink_price, "\n\n")
+            prices.append(hyperlink_price)
+        # print(len(prices))
+        # price_len = len(prices)
+        # return price_len
     return prices
 
 # for landing page
