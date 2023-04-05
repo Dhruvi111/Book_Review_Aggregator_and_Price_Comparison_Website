@@ -43,7 +43,29 @@
             <p>ISBN-10: {{isbn10}}</p>
             <p>ISBN-13: {{isbn13}}</p>
             <p class="book-description">Description: {{desc}}</p>
+
+            {% comment %} Review form {% endcomment %}
+            <div id="user-review" >
+                {% if user.is_authenticated %}
+                <form action="{% url 'UserReview' %}?id={{book_id_db}}" method="post">
+                    {% csrf_token %}
+                    <hr>
+                    <div class="form-group">
+                        <label class="control-label" for="message"><h5><b>Add your Review:</b></h5></label>
+                        <div class="">
+                            <textarea class="form-control mt-2" id="message" name="message" placeholder="Please enter your review here..." rows="5" required></textarea>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger btn-sm mt-2" id="review-Submit" onclick="document.getElementById('review-Submit')">Submit</button>
+                </form>
+                {% else %}
+                    <hr>
+                    <h5 id="loginReviewMsg"><b>Please Login To Write A Review !</b></h5>
+                {% endif %}
+            </div>
         </div>
+        
+        
 
         <div class="detailreview">
             <h5>READ REVIEWS FROM :</h5>
@@ -51,8 +73,37 @@
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Bookmarks' %}?t={{title_for_bmarks}}'">Bookmarks</button>
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Amazon' %}'">Amazon</button>
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Goodreads' %}?t={{title_for_url}}&a={{author}}'">Goodreads</button>
-             {% comment %} <button class="btn reviewButton mb-2" onclick="location.href='{% url 'LibraryThing' %}?t={{title_for_url}}'">LibraryThing</button> {% endcomment %}
+           
+            <button class="btn btn-outline-danger mb-2" id="button" onclick="document.getElementById('user-review').scrollIntoView();">Write a Review</button>
         </div>
     </div>
 </div>
+
+{% block js %}
+
+<script>
+    document.getElementById("user-review").style.visibility="hidden";
+    var displayReviewFom = false;
+    $("#button").click(function() { 
+            
+       //$("#user-review").toggle();
+       document.getElementById("user-review").style.visibility="visible";
+        // assumes element with id='button'   
+    });
+
+
+    $("#review-Submit").click(function() {    
+        var x = document.getElementById('message').value;
+        if(x.length > 0) {
+            document.getElementById("user-review").style.visibility="hidden";
+        } else {
+            document.getElementById("user-review").style.visibility="visible";
+        }        
+    }); 
+    
+</script>
+
+{% endblock js %}
+
+
 {% endblock body %}

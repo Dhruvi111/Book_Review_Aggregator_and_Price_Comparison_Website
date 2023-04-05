@@ -104,11 +104,11 @@
                                                 
                                             </h5>      
                                             <h6 class="card-text"> 
-                                                {% if i.author|join:", "|escape|length >= 25 %}
-                                                    {{i.author | join:", " | escape | slice:":35"}}...
+                                                {% if i.author_list|join:", "|escape|length >= 25 %}
+                                                    {{i.author_list| join:", " | escape | slice:":35"}}...
                                                 {% else %}
-                                                    {{i.author | join:", "}}
-                                                {% endif %}    
+                                                    {{i.author_list|join:", "}}
+                                                {% endif %}     
                                             </h6>
                                         </div> 
                                         <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'Details' %}?id={{i.book_id_api}}'">Details</button>

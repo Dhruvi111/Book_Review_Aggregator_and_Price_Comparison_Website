@@ -1,6 +1,6 @@
 import requests
 from django.shortcuts import redirect, render, HttpResponse
-from .models import Book, Contact, favouriteBook
+from .models import Book, Contact, favouriteBook, UserReview
 from math import ceil
 from django.contrib import messages
 from bs4 import BeautifulSoup
@@ -157,13 +157,15 @@ def specificBook(request,data):
     # print(isbn10)
     # print(isbn13)
 
-     
-    if favouriteBook.objects.filter(book_id_api=book_id_api, current_user=request.user).exists():
-        fav = True
-        # print(fav)
+    if request.user.is_authenticated:
+        if favouriteBook.objects.filter(book_id_api=book_id_api, current_user=request.user).exists():
+            fav = True
+            # print(fav)
+        else:
+            fav = False
+            # print(fav)
     else:
-        fav = False
-        # print(fav)
+        fav = None
 
     display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_api': book_id_api, 'fav': fav}
 
@@ -178,25 +180,28 @@ def index(request):
     cats = {item['category'] for item in category_books}
     # print("Cats", cats)
 
-
-    # Display books by subcategory
-    # subcategory_books = Book.objects.values('subcategory', 'book_id')
-    # sub_cats = {item['subcategory'] for item in subcategory_books}
-
     for cat in cats:
         product = Book.objects.filter(category=cat)
+       
         n = len(product)
         nSlides = n//6 + ceil((n/6) - (n//6))
+
+        # productById = product.values_list('book_id')
+        # fav = []
+        # for i in range(len(productById)):
+        #     if favouriteBook.objects.filter(book_id_db=productById[i], current_user=request.user).exists():
+        #         fav.append(True)
+        #     else:
+        #         fav.append(False)
+        # print(fav)
         allBooks.append([product, range(1, nSlides), nSlides])
-    # print("Product", product)
+        # print("Product", product)
+        # print("productById", productById)
     # print("Allbooks", allBooks) 
 
-    # for sub_cat in sub_cats:
-    #     product = Book.objects.filter(subcategory=sub_cat)
-    #     n = len(product)
-    #     nSlides = n//4 + ceil((n/4) - (n//4))
-    #     allBooks.append([product, range(1, nSlides), nSlides])
-    params={'allBooks':allBooks }
+    # print(fav)
+
+    params={'allBooks':allBooks}
     # print(allBooks)
     return render(request, "bookReview/index.html", params)
 
@@ -280,13 +285,35 @@ def specificBookDB(request, id):
         isbn10 = val['isbn_10']
         isbn13 = val['isbn_13']
 
+    if request.user.is_authenticated:
         if favouriteBook.objects.filter(book_id_db=id, current_user=request.user).exists():
             fav = True
             # print(fav,title)
         else:
             fav = False
             # print(fav,title)
-    
+    else: 
+        fav = None
+
+    if UserReview.objects.filter(bookId=id).exists():
+        val = UserReview.objects.filter(bookId=id).values()
+
+        review = []
+        date = []
+        username = []
+        for i in range(len(val)):
+            review.append(val[i]['reviewText'])
+            date.append(val[i]['date'])
+
+        # list ma karaine aagal process karvanu che
+        current_user_id = val[0]['current_user_id']
+        username = (User.objects.get(id=current_user_id))
+        print(username.username)
+        # print(review, date, username)
+        # print(val)
+    else:
+        print(False)
+
     display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id, 'fav': fav}
 
     return display
@@ -295,11 +322,6 @@ def detailsHome(request):
     id = request.GET.get('bookId')
     x = specificBookDB(request, id)
 
-    if favouriteBook.objects.filter(book_id_db=id).exists():
-        fav = True
-    else:
-        fav = False
-    # print(favouriteBook.objects.filter(book_id_db=id).values_list())
     return render(request, "bookReview/detailsHome.html", x)
 
 
@@ -567,52 +589,13 @@ def fav_details(request):
     api_book_list = fav_list.filter(book_from_api=True)
     db_book_list = fav_list.filter(book_from_api=False)
 
-    # global api_id 
-    api_id = []
     api_books = []
-    title = []
-    author = []
-    image = []
-    # for i in range(len(api_book_list)):
-    #     api_id.append(api_book_list[i]['book_id_api']) 
-
+   
     for i in range(len(api_book_list)):
         data = requests.get("https://www.googleapis.com/books/v1/volumes/" + api_book_list[i].book_id_api)
         y = specificBook(request, data=data)
         api_books.append(y)
 
-        # title.append(api_books[i]['title'])
-        # author.append(api_books[i]['author_list'])
-        # image.append(api_books[i]['image'])
-
-
-    # db_id = []
-    # db_books = []
-    # title_db = []
-    # author_db = []
-    # image_db = []
-    # for i in range(len(db_book_list)):
-    #     db_id.append(db_book_list[i]['book_id_db_id'])
-
-    # for i in range(len(db_id)):
-    #     y = specificBookDB(request, id=db_id[i])
-    #     db_books.append(y)
-
-    #     title_db.append(db_books[i]['title'])
-    #     author.append(db_books[i]['author'])
-    #     image.append(db_books[i]['image'])
-
-
-    # title.extend(title_db)
-    # author.extend(author_db)
-    # image.extend(image_db)
-    # api_id.extend(db_id)
-
-    # length = range(len(title))
-    
-    # print(">>>>>>>", api_book_list)
-    # print(">>>>>>>", db_book_list)
-    # display =  {'length': length, 'api_books': api_books, 'user': user, 'firstname': firstname, 'fullname': fullname, 'title':title, 'author': author, 'image': image, 'api_id': api_id}
     api_books.extend(db_book_list)
     # print(api_books)
     return api_books
@@ -682,3 +665,21 @@ def favDelete(request):
                 
     x = fav_details(request)
     return render(request, "bookReview/userProfile.html",{"books": x, 'user': user, 'firstname': firstname, 'fullname': fullname})
+
+
+def userReview(request):
+    if request.user.is_authenticated:
+        if request.POST:
+            id = request.GET.get('id')
+            reviewText = request.POST.get('message')
+            userReview = UserReview(current_user=request.user, bookId=id, reviewText=reviewText)
+            userReview.save()
+
+            if id.isnumeric():
+                x = specificBookDB(request, id)
+                return render(request, "bookReview/detailsHome.html", x)
+            else:
+                data = requests.get("https://www.googleapis.com/books/v1/volumes/" + id)
+                x = specificBook(request, data=data)
+                return render(request, "bookReview/details.html", x)
+            

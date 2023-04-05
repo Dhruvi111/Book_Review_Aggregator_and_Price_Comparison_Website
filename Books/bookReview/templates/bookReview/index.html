@@ -8,7 +8,7 @@
 {% endblock css %}
 
 {% block body %}
-
+{% load filters %}
 {% comment %} <header>
   <div class="banner" style="background-image:url('/static/bookReview/images/pcs.jpg');">
     <div class="banner-content">
@@ -64,7 +64,8 @@
           <div class="carousel-item active">
  
               
-              {% for i in product%}
+              {% for i in product %}
+              
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
                   <div class="card align-items-center pt-3 book" style="width: 12rem;">
                       <img src="/media/{{i.image}}" class="card-img-top bookImage" alt="Loading image.." id="cover{{i.book_id}}">
@@ -78,8 +79,9 @@
                           </h5>
                         <h6 class="card-text mb-3">{{i.author}}</h6>
                       </div>
-                      
+                
                     <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id}}'">Details</button>
+
                   </div>
               </div>
 
