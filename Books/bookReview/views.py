@@ -167,7 +167,29 @@ def specificBook(request,data):
     else:
         fav = None
 
-    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_api': book_id_api, 'fav': fav}
+    if UserReview.objects.filter(bookId=book_id_api).exists():
+        val = UserReview.objects.filter(bookId=book_id_api).values()
+
+        review = []
+        date = []
+        username = []
+
+        for i in range(len(val)):
+            review.append(val[i]['reviewText'])
+            date.append(val[i]['date'])
+            current_user_id = val[i]['current_user_id']
+            username.append((User.objects.get(id=current_user_id)).username)
+        
+        review_length = range(len(review))
+        
+
+    else:
+        review = 0
+        date = 0
+        username = 0
+        review_length = 0
+
+    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_api': book_id_api, 'fav': fav, 'review': review, 'date': date, 'username': username, 'review_length': review_length}
 
     return display
 
@@ -301,22 +323,25 @@ def specificBookDB(request, id):
         review = []
         date = []
         username = []
+
         for i in range(len(val)):
             review.append(val[i]['reviewText'])
             date.append(val[i]['date'])
+            current_user_id = val[i]['current_user_id']
+            username.append((User.objects.get(id=current_user_id)).username)
+        
+        review_length = range(len(review))
 
-        # list ma karaine aagal process karvanu che
-        current_user_id = val[0]['current_user_id']
-        username = (User.objects.get(id=current_user_id))
-        print(username.username)
-        # print(review, date, username)
-        # print(val)
     else:
-        print(False)
+        review = 0
+        date = 0
+        username = 0
+        review_length = 0
 
-    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id, 'fav': fav}
+    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id, 'fav': fav, 'review': review, 'date': date, 'username': username, 'review_length': review_length}
 
     return display
+
 # for detailed view (Landing page)
 def detailsHome(request):
     id = request.GET.get('bookId')

@@ -45,6 +45,21 @@
             <p class="book-description">Description: {% autoescape off %}{{desc}}{% endautoescape %}</p>
 
             {% comment %} Review form {% endcomment %}
+            {% if review_length != 0 %}
+                <hr>
+                <h5><b>Reviews from Story Shelves Members / User Reviews: (change it just a dummy title)</b></h5>
+
+                <div class="displayUserReview">
+                    <hr>
+                    {% for i in review_length %}
+                    <p>{{username|index:i}} - {{date|index:i}}</p>
+                    <p class="pb-2">{{review|index:i}}</p>
+                    {% endfor %}
+                </div>
+                
+            {% endif %}
+
+            
             <div id="user-review" >
                 {% if user.is_authenticated %}
                 <form action="{% url 'UserReview' %}?id={{book_id_api}}" method="post">
