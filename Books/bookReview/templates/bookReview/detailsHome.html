@@ -34,17 +34,20 @@
                 </form>
             {% endif %}
             
-            <table class="book-prices">
-                <tbody>
-            {% for i in price_len %}
-            <tr>
-                <p>
-                {{price_print|index:i|safe}}
-            </tr>
-        </p class ="prices">
-            {% endfor %}
-                    </tbody>
-            </table>
+            <div class="prices-section">
+                <table class="book-prices">
+                    <tbody>
+                        {% for i in price_len %}
+                        <tr>
+                            <p class="prices">
+                            {{price_print|index:i|safe}}
+                            </p>
+                        </tr>
+                        {% comment %} <p class ="prices"> {% endcomment %}
+                        {% endfor %}
+                        </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="book-info">

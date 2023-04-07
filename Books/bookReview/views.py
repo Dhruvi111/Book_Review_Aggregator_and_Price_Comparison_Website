@@ -75,7 +75,7 @@ def api(query, data):
     return params
 
 
-def specificBook(data):
+def specificBook(request, data):
     json_data = data.json()
 
     book_id_api = json_data['id']
@@ -286,7 +286,7 @@ def price(request):
                 book_price_only = float(book_price_only.replace(',', ''))
                 if float(book_price_only) < 800:
                     hyperlink_price = create_hyperlink(website_name, url, book_price_only)
-                    print(hyperlink_price, "\n\n")
+                    # print(hyperlink_price, "\n\n")
                     prices.append(hyperlink_price)
             count +=1
             if count ==10:
@@ -297,7 +297,7 @@ def price(request):
         for div in soup.find_all('div.book-details'):
             for a in div.find_all('a'):
                 a.extract()
-
+    # print(prices)
     return prices
 
 # for landing page
@@ -379,7 +379,7 @@ def genre(request, category):
 def details(request): 
     num = request.GET.get('id')
     data = requests.get("https://www.googleapis.com/books/v1/volumes/" + num)
-    y = specificBook(data=data)
+    y = specificBook(request, data=data)
     
     return render(request, "bookReview/details.html", y)
 
@@ -416,7 +416,7 @@ def specificBookDB(request, id):
     price_print = price(request)
     price_len = range(len(price_print))
     # print(price_len)
-    # print(price_print)
+    print(price_print)
 
     if request.user.is_authenticated:
         if favouriteBook.objects.filter(book_id_db=id, current_user=request.user).exists():
