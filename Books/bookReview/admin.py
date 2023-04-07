@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book, Contact, UserSignup, favouriteBook
+from .models import Book, Contact, UserSignup, favouriteBook, UserReview
 
 # Register your models here.
 @admin.register(Book)
@@ -18,3 +18,6 @@ class UserSignupAdmin(admin.ModelAdmin):
 class favouriteBookAdmin(admin.ModelAdmin):
     list_display = ('current_user', 'book_id_db', 'book_from_api', 'book_id_api')
 
+@admin.register(UserReview)
+class UserReviewAdmin(admin.ModelAdmin):
+    list_display = ('current_user', 'bookId', 'reviewText', 'date')

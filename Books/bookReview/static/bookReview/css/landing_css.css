@@ -401,3 +401,16 @@ body .carousel-control-next-icon {
 .reviewdiv {
     padding: 20px;
 }
+
+.reviewMsg {
+    text-align: center;
+    font-size: large;
+}
+
+#review-Submit {
+    float: right;
+}
+
+#loginReviewMsg {
+    color: #DC3545;
+}
