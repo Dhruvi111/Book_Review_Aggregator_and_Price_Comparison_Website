@@ -11,7 +11,7 @@
 {% endblock css %}
 
 {% block body %}
-
+{% load filters %}
 <div class="detailcontainer">
     <div class="book-details">
         <div class="book-cover">
@@ -23,6 +23,17 @@
                 <button class="btn btn-danger my-3">Mark as favourite</button>
                  
             </form>
+            <table class="book-prices">
+                <tbody>
+            {% for i in price_len %}
+            <tr>
+                <p>
+                {{price_print|index:i|safe}}
+            </tr>
+        </p class ="prices">
+            {% endfor %}
+                    </tbody>
+            </table>
         </div>
 
         <div class="book-info">

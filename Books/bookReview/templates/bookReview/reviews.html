@@ -43,7 +43,7 @@
 
 
         {% if msg != "" %}
-            <p>{{msg}}</p>
+            <p class="reviewMsg">{{msg}}</p>
 
             {% comment %} Please visit:  {% endcomment %}
             {% comment %} <a href="https://www.barnesandnoble.com/w/{{title}} {{author}}/?ean={{isbn_no}}">Barnes and Nobles</a> {% endcomment %}
@@ -62,7 +62,7 @@
             {% autoescape off %} <p>{{review_list|index:i}}</p>{% endautoescape %} - <b>{{reviewers|index:i}} {{review_source|index:i}}</b>
             {% endfor %}
         {% else %}
-            <p>{{msg}}</p>
+            <p class="reviewMsg">{{msg}}</p>
         {% endif %}
 
         {% comment %} ------------------------- GOODREADS -------------------------  {% endcomment %}
@@ -78,7 +78,7 @@
                 <p>{{short_reviews|index:i}}  -  <b>{{reviewer|index:i}}</b></p> 
             {% endfor %}
         {% else %}
-            <p>{{msg}}</p>
+            <p class="reviewMsg">{{msg}}</p>
         {% endif %}
 
     {% comment %} ------------------------- AMAZON -------------------------  {% endcomment %}

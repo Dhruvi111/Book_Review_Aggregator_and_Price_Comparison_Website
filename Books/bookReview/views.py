@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout 
 import re
+from urllib.request import Request, urlopen
 
 # Create your views here.
 def api(query, data):
@@ -162,6 +163,110 @@ def specificBook(data):
 
     return display
 
+# ------------------------------ PRICES WITHOUT LINK --------------------------------
+# def price(request):
+#     # root = "https://www.google.com/"
+#     book_name = request.GET.get('title')
+#     formatted_book_name = book_name.replace(" ", "+")
+
+#     link = f"https://www.google.com/search?q={formatted_book_name}&tbm=shop"
+
+#     req = Request(link, headers={'User-Agent': 'Mozilla/5.0'})
+#     webpage = urlopen(req).read()
+#     prices = []
+#     with requests.Session() as c:
+#         soup = BeautifulSoup(webpage, 'html5lib')
+#         # print(soup)
+#         for item in soup.find_all('div', attrs={'class':'dD8iuc'}): 
+#             item = str(item)
+#             # print(item)
+#             pattern = r'â‚¹(.*?)</div>'
+#             result = re.search(pattern, item)
+#             if result:
+#                 specific_name = result.group(1)
+#                 # print(specific_name)
+#                 pattern_new = re.sub(r'</span>', '', specific_name)
+#                 prices.append(pattern_new)
+#                 # print(pattern_new)
+#         # print(len(prices))
+#         # price_len = len(prices)
+#         # return price_len
+#     return prices
+
+
+
+# ------------------------------ PRICES WITH LINK --------------------------------
+def price(request):
+    # root = "https://www.google.com/"
+    book_name = request.GET.get('title')
+    formatted_book_name = book_name.replace(" ", "+")
+
+    link = f"https://www.google.com/search?q={formatted_book_name}&tbm=shop"
+
+    req = Request(link, headers={'User-Agent': 'Mozilla/5.0'})
+    webpage = urlopen(req).read()
+    prices = []
+    with requests.Session() as c:
+        soup = BeautifulSoup(webpage, 'html5lib')
+        # print(soup)
+        count = 0
+        for item in soup.find_all('div', attrs={'class':'P8xhZc'}):
+            item = str(item)
+            # print(item, "\n\n")
+            pattern = r'q=(.*?)delivery'
+            result = re.search(pattern, item)
+            if result:
+                specific_name = result.group(1)
+                # print(specific_name, "\n\n")
+                pattern_new = re.sub(r'">(.*?)¹', ' ', specific_name)
+                # print(pattern_new, "\n\n")
+                pattern_second = re.sub(r'</span>', "", pattern_new)
+                # print(pattern_second, "\n\n")
+                pattern_final = re.sub(r'<(.*?)Free', "", pattern_second)
+                # print(pattern_final, "\n\n")
+                # only_link = re.sub(' (.*?)$', "", pattern_final)
+                # # print(only_link, "\n\n")
+
+                # pattern_without_link = re.sub(r'https(.*?) ', "", pattern_final)
+                # # print(pattern_without_link, "\n\n")
+
+                # only_name = re.sub(r'https(.*?)from ', "", pattern_final)
+                # # print(only_name, "\n\n")
+
+                # a = pattern_final.split()
+                # print(a, "\n\n")
+
+                def create_hyperlink(name, url, book_price):
+                    hyperlink = '<a href="{0}">{1}</a>'.format(url, name)
+                    return '{0} {1}'.format(book_price, hyperlink)
+
+                website_name = pattern_final.split(' from ')[1]
+                if website_name in ["PokemonCardSeller", "Urdu Bazaar", "Biblio.com-rascal books", "used Etsy", "Read and Rise Book Shop", "BooksTech", "Best Of Used Books", "KoolSkool The Bookstore ", "Apni Kitaben", "Poshmark India - Poshmark", "Online College Street", "Gyaan Store"]:
+                    continue
+
+                url = pattern_final.split(' ')[0]
+                book_price = ' '.join(pattern_final.split(' ')[1:3])
+                book_price_used = re.sub(r' from', "", book_price)
+                book_price_used = book_price_used.replace('used', '')
+                book_price_plus = re.sub(r' +', "", book_price_used)
+                book_price_plus = book_price_plus.replace('+', '')
+                book_price_only = re.sub(r' used', "",book_price_plus)
+                book_price_only = float(book_price_only.replace(',', ''))
+                if float(book_price_only) < 800:
+                    hyperlink_price = create_hyperlink(website_name, url, book_price_only)
+                    print(hyperlink_price, "\n\n")
+                    prices.append(hyperlink_price)
+            count +=1
+            if count ==10:
+                break
+        # print(len(prices))
+        # price_len = len(prices)
+        # return price_len
+        for div in soup.find_all('div.book-details'):
+            for a in div.find_all('a'):
+                a.extract()
+
+    return prices
 
 # for landing page
 def index(request):
@@ -210,7 +315,7 @@ def contact(request):
       text = request.POST.get('text')
       contact = Contact(first_name=first_name,last_name=last_name, email=email,subject=subject, text=text)
       contact.save()
-      messages.success(request, 'Your message has been sent sucessfully!')
+      messages.warning(request, 'Your message has been sent sucessfully!')
     return render(request, "bookReview/contact.html")
 
 
@@ -273,8 +378,11 @@ def specificBookDB(request, id):
         isbn10 = val['isbn_10']
         isbn13 = val['isbn_13']
 
-    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id}
-
+    price_print = price(request)
+    price_len = range(len(price_print))
+    # print(price_len)
+    # print(price_print)
+    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id, 'price_print': price_print, 'price_len': price_len}
     return display
 # for detailed view (Landing page)
 def detailsHome(request):
@@ -295,7 +403,7 @@ def signin(request):
             fname = user.first_name
             lname = user.last_name
 
-            messages.success(request, 'Logged In sucessfully!')
+            messages.warning(request, 'Logged In sucessfully!')
             return render(request, "bookReview/login.html")
             # return render(request, "bookReview/index.html", {'fname': fname, 'lname': lname})
             # redirct ma proper nai aavtu
@@ -324,7 +432,7 @@ def signup(request):
         myuser.last_name = lname
         myuser.save()
 
-        messages.success(request, 'Your account has been created sucessfully!')
+        messages.warning(request, 'Your account has been created sucessfully!')
         return redirect('/signin/')
 
     return render(request, "bookReview/signup.html")
@@ -332,11 +440,11 @@ def signup(request):
 
 def signout(request):
     logout(request)
-    messages.success(request, 'Logged out sucessfully!')
+    messages.warning(request, 'Logged out sucessfully!')
     # return redirect('signin')
     return render(request, "bookReview/login.html")
 
-
+ 
 # for pagination -- wont work for previous and next buttons yet
 # pretty static as of now
 def pages(request, digit):
@@ -544,10 +652,13 @@ def Goodreads(request):
 
 def fav_details(request):
     user = request.user
+    firstname = request.user.get_short_name()
+    fullname = request.user.get_full_name()
     fav_list = favouriteBook.objects.filter(current_user=request.user)
     api_book_list = fav_list.filter(book_from_api=True).values()
     db_book_list = fav_list.filter(book_from_api=False).values()
 
+    global api_id 
     api_id = []
     api_books = []
     title = []
@@ -589,10 +700,10 @@ def fav_details(request):
     api_id.extend(db_id)
 
     length = range(len(title))
-        
+    
     # print(">>>>>>>", api_book_list)
     # print(">>>>>>>", db_book_list)
-    display =  {'length': length, 'api_books': api_books, 'user': user, 'user': user, 'title':title, 'author': author, 'image': image, 'api_id': api_id}
+    display =  {'length': length, 'api_books': api_books, 'user': user, 'firstname': firstname, 'fullname': fullname, 'title':title, 'author': author, 'image': image, 'api_id': api_id}
     return display
 
 
@@ -617,7 +728,7 @@ def favourites(request):
             try:
                 favBook = favouriteBook(current_user=request.user, book_id_db=book_id_db, book_id_api=book_id_api, book_from_api=book_from_api)
                 favBook.save()
-                messages.success(request, 'Added to Favourites!')
+                messages.warning(request, 'Added to Favourites!')
                 x = fav_details(request)
 
                 return render(request, "bookReview/userProfile.html", x)
