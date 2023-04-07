@@ -9,51 +9,50 @@
 
 {% block body %}
 
-{% comment %} <header>
-  <div class="banner" style="background-image:url('/static/bookReview/images/pcs.jpg');">
-    <div class="banner-content">
-      <h1 class="heading">StoryShelves</h1>
-      <p class="header-para">Start your book search today and discover your next favorite read with StoryShelves!</p>
-      <a href="#" class="btn btn-primary header-button">Button for something idk</a>
-    </div>
-  </div>
-</header> {% endcomment %}
-
-
-
 <header>
-  <div id="carouselExampleIndicators" class="carousel slide banner">
+  <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
     </div>
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="/static/bookReview/images/1.png" class="d-block w-100" alt="..." style="height:400px">
+      {% comment %} <div class="carousel-item active" data-bs-interval="4000">
+        <img src="/static/bookReview/images/banner/1.png" class="d-block w-100" alt="main banner">
+      </div>  {% endcomment %}
+      <div class="carousel-item active" data-bs-interval="4000">
+        <video class="img-fluid" autoplay loop muted>
+          <source src="/static/bookReview/images/intro.mp4" type="video/mp4" />
+        </video>
       </div>
-      <div class="carousel-item">
-        <img src="/static/bookReview/images/2.png" class="d-block w-100" alt="..." style="height:400px">
+      <div class="carousel-item" data-bs-interval="3000">
+        <img src="/static/bookReview/images/banner/2022.png" class="d-block w-100" alt="popular books of 2022">
       </div>
-      <div class="carousel-item">
-        <img src="/static/bookReview/images/3.png" class="d-block w-100" alt="..." style="height:400px">
+      <div class="carousel-item" data-bs-interval="3000">
+        <img src="/static/bookReview/images/banner/2021.png" class="d-block w-100" alt="popular books of 2021">
+      </div>
+      <div class="carousel-item" data-bs-interval="3000">
+        <img src="/static/bookReview/images/banner/2020.png" class="d-block w-100" alt="popular books of 2020">
+      </div>
+      <div class="carousel-item" data-bs-interval="3000">
+        <img src="/static/bookReview/images/banner/2019.png" class="d-block w-100" alt="popular books of 2019">
       </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" id="banner-prev" aria-hidden="true"></span>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+      <span id="control-left" class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
     </button>
-
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-      <span class="carousel-control-next-icon" id="banner-next" aria-hidden="true"></span>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+      <span id="control-right" class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
     </button>
-  </div>  
+  </div>
 
 </header>
 
-<div class="container">
-
-  
-    
+<div class="container"> 
   {% for product, range, nSlides in allBooks %}
     <h4 class="my-4 category_title">{{product.0.category | upper}}</h4>
     
@@ -66,9 +65,9 @@
               
               {% for i in product%}
               <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
-                  <div class="card align-items-center pt-3 book" style="width: 12rem;">
+                  <div class="card align-items-center pt-3 book" id="landing-page-card">
                       <img src="/media/{{i.image}}" class="card-img-top bookImage" alt="Loading image.." id="cover{{i.book_id}}">
-                      <div class="card-body ">
+                      <div class="card-body text-center">
                         <h5 class="card-title">
                           {% if i.title|length >= 25 %}
                             {{i.title|slice:":25"}}...
@@ -77,9 +76,10 @@
                           {% endif %}
                           </h5>
                         <h6 class="card-text mb-3">{{i.author}}</h6>
-                      </div>
                       
-                    <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id}}&title={{i.title}}'">Details</button>
+                        <button class="btn card-hover-button pt-1 pb-1 mx-auto" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id}}&title={{i.title}}'">Details</button>
+                      </div> 
+                    {% comment %} <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id}}&title={{i.title}}'">Details</button> {% endcomment %}
                   </div>
               </div>
 

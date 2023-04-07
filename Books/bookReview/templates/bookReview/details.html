@@ -28,7 +28,7 @@
                 <form action="/userProfile/d" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="hidden_bookId" value={{book_id_api}}> 
-                    <img src="/static/bookReview/images/check-mark.png" alt="" style="height:40px; width:40px" class="check-mark mt-3">
+                    <img src="/static/bookReview/images/check-mark.png" alt="" style="height:40px; width:20px" class="check-mark mt-3">
                     <button class="btn btn-danger my-3">Remove from Favourites</button>
                 </form>
             {% endif %}
@@ -36,18 +36,18 @@
 
         <div class="book-info">
             <h1 class="book-title"><p><b>{{title}}</b></p></h1>
-            <p class="book-author">Author: {{author_list | join:", "}}</p>
-            <p>Publisher : {{publisher}}</p>
-            <p>Edition / Publish Date : {{edition}}</p>
-            <p>Pages: {{no_pages}}</p>
-            <p>ISBN-10: {{isbn10}}</p>
-            <p>ISBN-13: {{isbn13}}</p>
-            <p class="book-description">Description: {% autoescape off %}{{desc}}{% endautoescape %}</p>
+            <p class="book-author"><b>Author:</b> {{author_list | join:", "}}</p>
+            <p><b>Publisher :</b> {{publisher}}</p>
+            <p><b>Edition / Publish Date :</b> {{edition}}</p>
+            <p><b>Pages:</b> {{no_pages}}</p>
+            <p><b>ISBN-10:</b> {{isbn10}}</p>
+            <p><b>ISBN-13:</b> {{isbn13}}</p>
+            <p class="book-description"><b>Description:</b> {% autoescape off %}{{desc}}{% endautoescape %}</p>
         
             {% comment %} Review form {% endcomment %}
             {% if review_length != 0 %}
                 <hr>
-                <h5><b>Reviews from Story Shelves Members / User Reviews: (change it just a dummy title)</b></h5>
+                <h5><b>What Our Readers Say: Reviews</b></h5>
 
                 <div class="displayUserReview">
                     <hr>
@@ -86,8 +86,8 @@
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Bookmarks' %}?t={{title_for_bmarks}}'">Bookmarks</button>
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Amazon' %}'">Amazon</button>
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Goodreads' %}?t={{title_for_url}}&a={{author_list|index:0}}'">Goodreads</button>
-           
-            <button class="btn btn-outline-danger mb-2" id="button" onclick="document.getElementById('user-review').scrollIntoView();">Write a Review</button>
+            <hr>
+            <button class="btn btn-outline-danger mb-2" id="button" onclick="document.getElementById('user-review').scrollIntoView();" style="width: 170px;">Write a Review</button>
         </div>
     </div>
 </div>
