@@ -34,6 +34,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
 # Application definition
 
 INSTALLED_APPS = [
+    # 'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
