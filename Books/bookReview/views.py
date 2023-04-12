@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout 
 import re
+from urllib.request import Request, urlopen
 
 # Create your views here.
 def api(query, data):
@@ -74,7 +75,7 @@ def api(query, data):
     return params
 
 
-def specificBook(request,data):
+def specificBook(data):
     json_data = data.json()
 
     book_id_api = json_data['id']
@@ -189,10 +190,115 @@ def specificBook(request,data):
         username = 0
         review_length = 0
 
+
     display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_api': book_id_api, 'fav': fav, 'review': review, 'date': date, 'username': username, 'review_length': review_length}
 
     return display
 
+# ------------------------------ PRICES WITHOUT LINK --------------------------------
+# def price(request):
+#     # root = "https://www.google.com/"
+#     book_name = request.GET.get('title')
+#     formatted_book_name = book_name.replace(" ", "+")
+
+#     link = f"https://www.google.com/search?q={formatted_book_name}&tbm=shop"
+
+#     req = Request(link, headers={'User-Agent': 'Mozilla/5.0'})
+#     webpage = urlopen(req).read()
+#     prices = []
+#     with requests.Session() as c:
+#         soup = BeautifulSoup(webpage, 'html5lib')
+#         # print(soup)
+#         for item in soup.find_all('div', attrs={'class':'dD8iuc'}): 
+#             item = str(item)
+#             # print(item)
+#             pattern = r'â‚¹(.*?)</div>'
+#             result = re.search(pattern, item)
+#             if result:
+#                 specific_name = result.group(1)
+#                 # print(specific_name)
+#                 pattern_new = re.sub(r'</span>', '', specific_name)
+#                 prices.append(pattern_new)
+#                 # print(pattern_new)
+#         # print(len(prices))
+#         # price_len = len(prices)
+#         # return price_len
+#     return prices
+
+
+
+# ------------------------------ PRICES WITH LINK --------------------------------
+def price(request):
+    # root = "https://www.google.com/"
+    book_name = request.GET.get('title')
+    formatted_book_name = book_name.replace(" ", "+")
+
+    link = f"https://www.google.com/search?q={formatted_book_name}&tbm=shop"
+
+    req = Request(link, headers={'User-Agent': 'Mozilla/5.0'})
+    webpage = urlopen(req).read()
+    prices = []
+    with requests.Session() as c:
+        soup = BeautifulSoup(webpage, 'html5lib')
+        # print(soup)
+        count = 0
+        for item in soup.find_all('div', attrs={'class':'P8xhZc'}):
+            item = str(item)
+            # print(item, "\n\n")
+            pattern = r'q=(.*?)delivery'
+            result = re.search(pattern, item)
+            if result:
+                specific_name = result.group(1)
+                # print(specific_name, "\n\n")
+                pattern_new = re.sub(r'">(.*?)¹', ' ', specific_name)
+                # print(pattern_new, "\n\n")
+                pattern_second = re.sub(r'</span>', "", pattern_new)
+                # print(pattern_second, "\n\n")
+                pattern_final = re.sub(r'<(.*?)Free', "", pattern_second)
+                # print(pattern_final, "\n\n")
+                # only_link = re.sub(' (.*?)$', "", pattern_final)
+                # # print(only_link, "\n\n")
+
+                # pattern_without_link = re.sub(r'https(.*?) ', "", pattern_final)
+                # # print(pattern_without_link, "\n\n")
+
+                # only_name = re.sub(r'https(.*?)from ', "", pattern_final)
+                # # print(only_name, "\n\n")
+
+                # a = pattern_final.split()
+                # print(a, "\n\n")
+
+                def create_hyperlink(name, url, book_price):
+                    hyperlink = '<a href="{0}">{1}</a>'.format(url, name)
+                    return '{0} {1}'.format(book_price, hyperlink)
+
+                website_name = pattern_final.split(' from ')[1]
+                if website_name in ["PokemonCardSeller", "Urdu Bazaar", "Biblio.com-rascal books", "used Etsy", "Read and Rise Book Shop", "BooksTech", "Best Of Used Books", "KoolSkool The Bookstore ", "Apni Kitaben", "Poshmark India - Poshmark", "Online College Street", "Gyaan Store"]:
+                    continue
+
+                url = pattern_final.split(' ')[0]
+                book_price = ' '.join(pattern_final.split(' ')[1:3])
+                book_price_used = re.sub(r' from', "", book_price)
+                book_price_used = book_price_used.replace('used', '')
+                book_price_plus = re.sub(r' +', "", book_price_used)
+                book_price_plus = book_price_plus.replace('+', '')
+                book_price_only = re.sub(r' used', "",book_price_plus)
+                book_price_only = float(book_price_only.replace(',', ''))
+                if float(book_price_only) < 800:
+                    hyperlink_price = create_hyperlink(website_name, url, book_price_only)
+                    # print(hyperlink_price, "\n\n")
+                    prices.append(hyperlink_price)
+            count +=1
+            if count ==10:
+                break
+        # print(len(prices))
+        # price_len = len(prices)
+        # return price_len
+        for div in soup.find_all('div.book-details'):
+            for a in div.find_all('a'):
+                a.extract()
+    # print(prices)
+    return prices
 
 # for landing page
 def index(request):
@@ -205,6 +311,7 @@ def index(request):
     for cat in cats:
         product = Book.objects.filter(category=cat)
        
+       
         n = len(product)
         nSlides = n//6 + ceil((n/6) - (n//6))
 
@@ -216,7 +323,18 @@ def index(request):
         #     else:
         #         fav.append(False)
         # print(fav)
+
+        # productById = product.values_list('book_id')
+        # fav = []
+        # for i in range(len(productById)):
+        #     if favouriteBook.objects.filter(book_id_db=productById[i], current_user=request.user).exists():
+        #         fav.append(True)
+        #     else:
+        #         fav.append(False)
+        # print(fav)
         allBooks.append([product, range(1, nSlides), nSlides])
+        # print("Product", product)
+        # print("productById", productById)
         # print("Product", product)
         # print("productById", productById)
     # print("Allbooks", allBooks) 
@@ -273,8 +391,8 @@ def genre(request, category):
 def details(request): 
     num = request.GET.get('id')
     data = requests.get("https://www.googleapis.com/books/v1/volumes/" + num)
-    y = specificBook(request,data=data)
-   
+    y = specificBook(request, data=data)
+    
     return render(request, "bookReview/details.html", y)
 
 
@@ -307,6 +425,11 @@ def specificBookDB(request, id):
         isbn10 = val['isbn_10']
         isbn13 = val['isbn_13']
 
+    price_print = price(request)
+    price_len = range(len(price_print))
+    # print(price_len)
+    print(price_print)
+
     if request.user.is_authenticated:
         if favouriteBook.objects.filter(book_id_db=id, current_user=request.user).exists():
             fav = True
@@ -338,14 +461,15 @@ def specificBookDB(request, id):
         username = 0
         review_length = 0
 
-    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id, 'fav': fav, 'review': review, 'date': date, 'username': username, 'review_length': review_length}
-
+    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id, 'price_print': price_print, 'price_len': price_len, 'fav': fav, 'review': review, 'date': date, 'username': username, 'review_length': review_length}
+   
     return display
 
 # for detailed view (Landing page)
 def detailsHome(request):
     id = request.GET.get('bookId')
     x = specificBookDB(request, id)
+
 
     return render(request, "bookReview/detailsHome.html", x)
 
@@ -613,6 +737,8 @@ def fav_details(request):
     fav_list = favouriteBook.objects.filter(current_user=request.user)
     api_book_list = fav_list.filter(book_from_api=True)
     db_book_list = fav_list.filter(book_from_api=False)
+    api_book_list = fav_list.filter(book_from_api=True)
+    db_book_list = fav_list.filter(book_from_api=False)
 
     api_books = []
    
@@ -707,4 +833,3 @@ def userReview(request):
                 data = requests.get("https://www.googleapis.com/books/v1/volumes/" + id)
                 x = specificBook(request, data=data)
                 return render(request, "bookReview/details.html", x)
-            
