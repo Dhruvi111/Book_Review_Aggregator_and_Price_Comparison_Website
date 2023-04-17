@@ -131,11 +131,7 @@
 
             <div id="user-review" >
                 {% if user.is_authenticated %}
-<<<<<<< HEAD
                 <form action="{% url 'UserReview' %}?id={{book_id_db}}&title={{title}}" method="post">
-=======
-                <form action="{% url 'UserReview' %}?id={{book_id_db}}?title={{title}}" method="post">
->>>>>>> de0e1ab0a727d9419060909d61f5772f7dd9d945
                     {% csrf_token %}
                     <hr>
                     <div class="form-group">
