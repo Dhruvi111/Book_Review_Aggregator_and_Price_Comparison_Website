@@ -45,7 +45,7 @@
                                         {% endif %}    
                                     </h6>
                                 </div> 
-                            <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'Details' %}?id={{identifiers|index:i}}'">Details</button>
+                            <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'Details' %}?id={{identifiers|index:i}}&title={{i.title_for_url}}'">Details</button>
                             </div>
                         </div>
 

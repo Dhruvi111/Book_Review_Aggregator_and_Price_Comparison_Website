@@ -194,6 +194,11 @@ def specificBook(request, data):
         review_length = 0
         primary_key = 0
 
+    # price_print = price(request)
+    # price_len = range(len(price_print))
+    # # print(price_len)
+    # print(price_print)
+
 
     display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_api': book_id_api, 'fav': fav, 'review': review, 'date': date, 'username': username, 'review_length': review_length, 'primary_key': primary_key}
 
