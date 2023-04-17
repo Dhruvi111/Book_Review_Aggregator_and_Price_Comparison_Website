@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout 
 import re
 from urllib.request import Request, urlopen
+# from .forms import UpdateReviewForm
 
 # Create your views here.
 def api(query, data):
@@ -75,7 +76,7 @@ def api(query, data):
     return params
 
 
-def specificBook(data):
+def specificBook(request, data):
     json_data = data.json()
 
     book_id_api = json_data['id']
@@ -174,12 +175,14 @@ def specificBook(data):
         review = []
         date = []
         username = []
-
+        primary_key = []
+        
         for i in range(len(val)):
             review.append(val[i]['reviewText'])
             date.append(val[i]['date'])
             current_user_id = val[i]['current_user_id']
             username.append((User.objects.get(id=current_user_id)).username)
+            primary_key.append(val[i]['reviewId'])
         
         review_length = range(len(review))
         
@@ -189,9 +192,10 @@ def specificBook(data):
         date = 0
         username = 0
         review_length = 0
+        primary_key = 0
 
 
-    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_api': book_id_api, 'fav': fav, 'review': review, 'date': date, 'username': username, 'review_length': review_length}
+    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_api': book_id_api, 'fav': fav, 'review': review, 'date': date, 'username': username, 'review_length': review_length, 'primary_key': primary_key}
 
     return display
 
@@ -310,8 +314,7 @@ def index(request):
 
     for cat in cats:
         product = Book.objects.filter(category=cat)
-       
-       
+           
         n = len(product)
         nSlides = n//6 + ceil((n/6) - (n//6))
 
@@ -323,20 +326,11 @@ def index(request):
         #     else:
         #         fav.append(False)
         # print(fav)
-
-        # productById = product.values_list('book_id')
-        # fav = []
-        # for i in range(len(productById)):
-        #     if favouriteBook.objects.filter(book_id_db=productById[i], current_user=request.user).exists():
-        #         fav.append(True)
-        #     else:
-        #         fav.append(False)
-        # print(fav)
+    
         allBooks.append([product, range(1, nSlides), nSlides])
         # print("Product", product)
         # print("productById", productById)
-        # print("Product", product)
-        # print("productById", productById)
+   
     # print("Allbooks", allBooks) 
 
     # print(fav)
@@ -428,7 +422,7 @@ def specificBookDB(request, id):
     price_print = price(request)
     price_len = range(len(price_print))
     # print(price_len)
-    print(price_print)
+    # print(price_print)
 
     if request.user.is_authenticated:
         if favouriteBook.objects.filter(book_id_db=id, current_user=request.user).exists():
@@ -442,17 +436,20 @@ def specificBookDB(request, id):
 
     if UserReview.objects.filter(bookId=id).exists():
         val = UserReview.objects.filter(bookId=id).values()
+        # print(val)
 
         review = []
         date = []
         username = []
+        primary_key = []
 
         for i in range(len(val)):
             review.append(val[i]['reviewText'])
             date.append(val[i]['date'])
             current_user_id = val[i]['current_user_id']
             username.append((User.objects.get(id=current_user_id)).username)
-        
+            primary_key.append(val[i]['reviewId'])
+
         review_length = range(len(review))
 
     else:
@@ -460,8 +457,9 @@ def specificBookDB(request, id):
         date = 0
         username = 0
         review_length = 0
+        primary_key = 0
 
-    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id, 'price_print': price_print, 'price_len': price_len, 'fav': fav, 'review': review, 'date': date, 'username': username, 'review_length': review_length}
+    display = {'title':title, 'author': author, 'publisher': publisher, 'publish_date': publish_date, 'no_pages': no_pages, 'image': image, 'desc': desc, 'isbn10': isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_db': id, 'price_print': price_print, 'price_len': price_len, 'fav': fav, 'review': review, 'date': date, 'username': username, 'review_length': review_length, 'primary_key': primary_key}
    
     return display
 
@@ -500,24 +498,28 @@ def signin(request):
 def signup(request):
     if request.method == "POST":
       # gets the details through 'name' attribute
-        fname = request.POST.get('fname')
-        lname = request.POST.get('lname')
-        email = request.POST.get('email')  
-        username= request.POST.get('uname')  
-        pwd = request.POST.get('pwd')
-        pwd2 = request.POST.get('pwd2')
-     
-    #   user = UserSignup(first_name=first_name,last_name=last_name,username=username, email=email)
-    #   user.save()
+        try:
+            fname = request.POST.get('fname')
+            lname = request.POST.get('lname')
+            email = request.POST.get('email')  
+            username= request.POST.get('uname')  
+            pwd = request.POST.get('pwd')
+            pwd2 = request.POST.get('pwd2')
+        
+        #   user = UserSignup(first_name=first_name,last_name=last_name,username=username, email=email)
+        #   user.save()
 
-        myuser = User.objects.create_user(username, email, pwd)
-        myuser.first_name = fname
-        myuser.last_name = lname
-        myuser.save()
+            myuser = User.objects.create_user(username, email, pwd)
+            myuser.first_name = fname
+            myuser.last_name = lname
+            myuser.save()
 
-        messages.warning(request, 'Your account has been created sucessfully!')
-        return redirect('/signin/')
-
+            messages.warning(request, 'Your account has been created sucessfully!')
+            return redirect('/signin/')
+      
+        except:
+            messages.error(request, 'The username has already been taken. Please try another one !')
+            return redirect('/signup/')
     return render(request, "bookReview/signup.html")
 
 
@@ -833,3 +835,24 @@ def userReview(request):
                 data = requests.get("https://www.googleapis.com/books/v1/volumes/" + id)
                 x = specificBook(request, data=data)
                 return render(request, "bookReview/details.html", x)
+            
+
+
+def ReviewDelete(request):
+    if request.user.is_authenticated:
+        if request.POST:
+            id = request.GET.get('id')
+
+            pk = request.POST['primary_key']
+            # print(">>>>>>>", pk)
+            UserReview.objects.filter(reviewId=pk, current_user=request.user).delete()
+
+            if id.isnumeric():
+                x = specificBookDB(request, id)
+                return render(request, "bookReview/detailsHome.html", x)
+            else:
+                data = requests.get("https://www.googleapis.com/books/v1/volumes/" + id)
+                x = specificBook(request, data=data)
+                return render(request, "bookReview/details.html", x)
+            
+  

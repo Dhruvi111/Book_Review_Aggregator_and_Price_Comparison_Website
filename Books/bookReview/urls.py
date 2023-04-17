@@ -21,6 +21,7 @@ urlpatterns = [
     path('userProfile/', views.favourites, name="Favourites"),
     path('userProfile/d', views.favDelete, name="FavDelete"),
     path('userReview/', views.userReview, name="UserReview"),
+    path('userReview/d', views.ReviewDelete, name="ReviewDelete"),
     # path('reviewLibraryThing/', views.LibraryThing, name="LibraryThing"), 
     
 ]

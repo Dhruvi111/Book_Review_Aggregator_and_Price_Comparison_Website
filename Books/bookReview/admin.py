@@ -20,5 +20,5 @@ class favouriteBookAdmin(admin.ModelAdmin):
 
 @admin.register(UserReview)
 class UserReviewAdmin(admin.ModelAdmin):
-    list_display = ('current_user', 'bookId', 'reviewText', 'date')
+    list_display = ('reviewId', 'current_user', 'bookId', 'reviewText', 'date')
 

@@ -68,6 +68,7 @@ class favouriteBook(models.Model):
 # ]
 
 class UserReview(models.Model):
+    reviewId = models.AutoField(primary_key=True)
     current_user = models.ForeignKey(User, on_delete=models.CASCADE)
     bookId = models.CharField(max_length=20)
     reviewText = models.TextField(max_length=2000)
