@@ -115,7 +115,7 @@
                                                     {{i.author_list|join:", "}}
                                                 {% endif %}     
                                             </h6>
-                                            <button class="btn card-hover-button pt-1 pb-1 mx-auto my-2" onclick="location.href='{% url 'Details' %}?id={{i.book_id_api}}'">Details</button>
+                                            <button class="btn card-hover-button pt-1 pb-1 mx-auto my-2" onclick="location.href='{% url 'Details' %}?id={{i.book_id_api}}&title={{i.title}}'">Details</button>
                                         </div> 
                                         
                                         <form action="/userProfile/d" method="POST">
@@ -141,7 +141,7 @@
                                             {% endif %}
                                             </h5>
                                         <h6 class="card-text">{{i.book_id_db.author}}</h6>
-                                        <button class="btn card-hover-button pt-1 pb-1 mx-auto my-2" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id_db}}'">Details</button>
+                                        <button class="btn card-hover-button pt-1 pb-1 mx-auto my-2" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id_db}}&title={{i.title}}'">Details</button>
                                         </div> 
                                         
 
