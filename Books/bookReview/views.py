@@ -243,6 +243,13 @@ def price(request):
     req = Request(link, headers={'User-Agent': 'Mozilla/5.0'})
     webpage = urlopen(req).read()
     prices = []
+    price_list = []
+
+    for price in prices:
+        price_listinloop = []
+        price_listinloop.append(price)
+        price_list.append(price_listinloop)
+
     with requests.Session() as c:
         soup = BeautifulSoup(webpage, 'html5lib')
         # print(soup)
@@ -278,7 +285,7 @@ def price(request):
                     return '{0} {1}'.format(book_price, hyperlink)
 
                 website_name = pattern_final.split(' from ')[1]
-                if website_name in ["PokemonCardSeller", "Urdu Bazaar", "Biblio.com-rascal books", "used Etsy", "Read and Rise Book Shop", "BooksTech", "Best Of Used Books", "KoolSkool The Bookstore ", "Apni Kitaben", "Poshmark India - Poshmark", "Online College Street", "Gyaan Store"]:
+                if website_name in ["PokemonCardSeller", "Urdu Bazaar", "Biblio.com-rascal books", "used Etsy", "Read and Rise Book Shop", "BooksTech", "Best Of Used Books", "KoolSkool The Bookstore ", "Apni Kitaben", "Poshmark India - Poshmark", "Online College Street", "Gyaan Store", "Google Play "]:
                     continue
 
                 url = pattern_final.split(' ')[0]
@@ -289,21 +296,27 @@ def price(request):
                 book_price_plus = book_price_plus.replace('+', '')
                 book_price_only = re.sub(r' used', "",book_price_plus)
                 book_price_only = float(book_price_only.replace(',', ''))
-                if float(book_price_only) < 800:
+                if float(book_price_only) < 900:
                     hyperlink_price = create_hyperlink(website_name, url, book_price_only)
                     # print(hyperlink_price, "\n\n")
-                    prices.append(hyperlink_price)
+                    price_list.append(hyperlink_price)
             count +=1
             if count ==10:
                 break
         # print(len(prices))
         # price_len = len(prices)
         # return price_len
-        for div in soup.find_all('div.book-details'):
-            for a in div.find_all('a'):
-                a.extract()
+
+        # for div in soup.find_all('div', attrs={'class': 'book-details'}):
+        #     for a in div.find_all('a'):
+        #         a.extract()
+        p_tags_without_class = soup.find_all('p', attrs={'class': 'book-description'})
+        for p_tag in p_tags_without_class:
+            if p_tag.find('a'):
+                p_tag.find('a').extract()
+        
     # print(prices)
-    return prices
+    return price_list
 
 # for landing page
 def index(request):
