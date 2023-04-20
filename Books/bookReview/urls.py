@@ -19,6 +19,9 @@ urlpatterns = [
     path('reviewAmazon/', views.Amazon, name="Amazon"),
     path('reviewGoodreads/', views.Goodreads, name="Goodreads"),
     path('userProfile/', views.favourites, name="Favourites"),
+    path('userProfile/d', views.favDelete, name="FavDelete"),
+    path('userReview/', views.userReview, name="UserReview"),
+    path('userReview/d', views.ReviewDelete, name="ReviewDelete"),
     # path('reviewLibraryThing/', views.LibraryThing, name="LibraryThing"), 
     
 ]

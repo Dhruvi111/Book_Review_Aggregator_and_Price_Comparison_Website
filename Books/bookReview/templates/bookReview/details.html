@@ -17,22 +17,91 @@
             <img src="{{image}}" alt="">
             {% comment %} {{book_id_api}} {% endcomment %}
            
-            <form action="/userProfile/" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="hidden_bookId" value={{book_id_api}}> 
-                <button class="btn btn-danger my-3">Mark as favourite</button>
-            </form>
+            {% if fav != True %}
+                <form action="/userProfile/" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="hidden_bookId" value={{book_id_api}}> 
+                    <button class="btn btn-danger my-3">Mark as favourite</button>
+                </form>
+
+            {% else %}
+                <form action="/userProfile/d" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="hidden_bookId" value={{book_id_api}}> 
+                    <img src="/static/bookReview/images/check-mark.png" alt="" style="height:40px; width:20px" class="check-mark mt-3">
+                    <button class="btn btn-danger my-3">Remove from Favourites</button>
+                </form>
+            {% endif %}
         </div>
 
         <div class="book-info">
             <h1 class="book-title"><p><b>{{title}}</b></p></h1>
-            <p class="book-author">Author: {{author_list | join:", "}}</p>
-            <p>Publisher : {{publisher}}</p>
-            <p>Edition / Publish Date : {{edition}}</p>
-            <p>Pages: {{no_pages}}</p>
-            <p>ISBN-10: {{isbn10}}</p>
-            <p>ISBN-13: {{isbn13}}</p>
-            <p class="book-description">Description: {% autoescape off %}{{desc}}{% endautoescape %}</p>
+            <p class="book-author"><b>Author:</b> {{author_list | join:", "}}</p>
+            <p><b>Publisher :</b> {{publisher}}</p>
+            <p><b>Edition / Publish Date :</b> {{edition}}</p>
+            <p><b>Pages:</b> {{no_pages}}</p>
+            <p><b>ISBN-10:</b> {{isbn10}}</p>
+            <p><b>ISBN-13:</b> {{isbn13}}</p>
+            <p class="book-description"><b>Description:</b> {% autoescape off %}{{desc}}{% endautoescape %}</p>
+        
+            {% comment %} Review form {% endcomment %}
+            {% if review_length != 0 %}
+                <hr>
+                <h5><b>What Our Readers Say: Reviews</b></h5>
+
+                <div class="displayUserReview">
+                    <hr>
+                    {% for i in review_length %}
+                        {% if username|index:i == user.get_username %}
+                        <table>
+                            
+                            <tr>
+                                <td><p>{{username|index:i}} - {{date|index:i}}</p></td>
+                                
+                                <td>
+                                    <form action="{% url 'ReviewDelete' %}?id={{book_id_api}}&title={{title}}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="primary_key" value="{{primary_key|index:i}}">
+                                        <button class="btn btn-danger btn-sm reviewDelete"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                        </svg></button>
+                                    </form>
+                                </td>
+                            </tr>
+                    
+                            <tr>
+                                <td><p class="pb-2">{{review|index:i}}</p></td>
+                            </tr>
+                        </table>
+
+                        {% else %}
+                            <p>{{username|index:i}} - {{date|index:i}}</p>
+                            <p class="pb-2">{{review|index:i}}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+            {% endif %}
+
+            
+            <div id="user-review" >
+                {% if user.is_authenticated %}
+                <form action="{% url 'UserReview' %}?id={{book_id_api}}" method="post">
+                    {% csrf_token %}
+                    <hr>
+                    <div class="form-group">
+                        <label class="control-label" for="message"><h5><b>Add your Review:</b></h5></label>
+                        <div class="">
+                            <textarea class="form-control mt-2" id="message" name="message" placeholder="Please enter your review here..." rows="5" required></textarea>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger btn-sm mt-2" id="review-Submit" onclick="document.getElementById('review-Submit')">Submit</button>
+                </form>
+                {% else %}
+                    <hr>
+                    <h5 id="loginReviewMsg"><b>Please Login To Write A Review !</b></h5>
+                {% endif %}
+            </div>
         </div> 
 
         <div class="detailreview">
@@ -41,8 +110,36 @@
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Bookmarks' %}?t={{title_for_bmarks}}'">Bookmarks</button>
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Amazon' %}'">Amazon</button>
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Goodreads' %}?t={{title_for_url}}&a={{author_list|index:0}}'">Goodreads</button>
-            {% comment %} <button class="btn reviewButton mb-2" onclick="location.href='{% url 'LibraryThing' %}?t={{title_for_url}}'">LibraryThing</button> {% endcomment %}
+            <hr>
+            <button class="btn btn-outline-danger mb-2" id="button" onclick="document.getElementById('user-review').scrollIntoView();" style="width: 170px;">Write a Review</button>
         </div>
     </div>
 </div>
+
+{% block js %}
+
+<script>
+    document.getElementById("user-review").style.visibility="hidden";
+    var displayReviewFom = false;
+    $("#button").click(function() { 
+            
+       //$("#user-review").toggle();
+       document.getElementById("user-review").style.visibility="visible";
+        // assumes element with id='button'   
+    });
+
+
+    $("#review-Submit").click(function() {    
+        var x = document.getElementById('message').value;
+        if(x.length > 0) {
+            document.getElementById("user-review").style.visibility="hidden";
+        } else {
+            document.getElementById("user-review").style.visibility="visible";
+        }        
+    }); 
+    
+</script>
+
+{% endblock js %}
+
 {% endblock body %}

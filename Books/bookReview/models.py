@@ -1,6 +1,7 @@
 from django.db import models
 from requests import request
 from django.contrib.auth.models import User
+from datetime import datetime
 
 # Create your models here.
 class Book(models.Model):
@@ -57,3 +58,22 @@ class favouriteBook(models.Model):
     class Meta:
         unique_together = [['current_user', 'book_id_db'],['current_user', 'book_id_api']]
        
+
+# RATE_CHOICES = [
+#     (1, '1-Trash'),
+#     (2, '2-Bad'),
+#     (3, '3-OK'),
+#     (4, '4-Good'),
+#     (5, '5-Excellent')
+# ]
+
+class UserReview(models.Model):
+    reviewId = models.AutoField(primary_key=True)
+    current_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bookId = models.CharField(max_length=20)
+    reviewText = models.TextField(max_length=2000)
+    date = models.DateField(default=datetime.now)
+    # rating = models.PositiveSmallIntegerField(choices=RATE_CHOICES)
+
+    def __str__(self):
+        return str(self.current_user)
