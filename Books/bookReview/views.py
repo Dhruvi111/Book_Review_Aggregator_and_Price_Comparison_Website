@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout 
 import re
 from urllib.request import Request, urlopen
+from django.views.decorators.cache import cache_control
+@cache_control(no_cache=True, must_revalidate=True, max_age=0)
 # from .forms import UpdateReviewForm
 
 # Create your views here.
@@ -289,7 +291,7 @@ def price(request):
                     return '{0} {1}'.format(book_price, hyperlink)
 
                 website_name = pattern_final.split(' from ')[1]
-                if website_name in ["PokemonCardSeller", "Urdu Bazaar", "Biblio.com-rascal books", "used Etsy", "Read and Rise Book Shop", "BooksTech", "Best Of Used Books", "KoolSkool The Bookstore ", "Apni Kitaben", "Poshmark India - Poshmark", "Online College Street", "Gyaan Store", "Google Play "]:
+                if website_name in ["PokemonCardSeller", "biblio.co.uk/bookseller_info.ph ...", "The Manan ", "Biblio.com - St Vinnie's ...", "Urdu Bazaar", "Biblio.com-rascal books", "used Etsy", "Read and Rise Book Shop", "BooksTech", "Best Of Used Books", "KoolSkool The Bookstore ", "Apni Kitaben", "Poshmark India - Poshmark", "Online College Street", "Gyaan Store", "Google Play ", "Biblio.com - KnC Books", "The Peppy Store"]:
                     continue
 
                 url = pattern_final.split(' ')[0]
@@ -300,13 +302,13 @@ def price(request):
                 book_price_plus = book_price_plus.replace('+', '')
                 book_price_only = re.sub(r' used', "",book_price_plus)
                 book_price_only = float(book_price_only.replace(',', ''))
-                if float(book_price_only) < 900:
+                if float(book_price_only) < 500:
                     hyperlink_price = create_hyperlink(website_name, url, book_price_only)
                     # print(hyperlink_price, "\n\n")
                     price_list.append(hyperlink_price)
-            count +=1
-            if count ==10:
-                break
+            # count +=1
+            # if count ==10:
+            #     break
         # print(len(prices))
         # price_len = len(prices)
         # return price_len
@@ -314,11 +316,11 @@ def price(request):
         # for div in soup.find_all('div', attrs={'class': 'book-details'}):
         #     for a in div.find_all('a'):
         #         a.extract()
-        p_tags_without_class = soup.find_all('p', attrs={'class': 'book-description'})
-        for p_tag in p_tags_without_class:
-            if p_tag.find('a'):
-                p_tag.find('a').extract()
-        
+        for tag in soup.find_all():
+            if tag.name != 'p' or 'class' not in tag.attrs or 'prices' not in tag.attrs['class']:
+                for a in tag.find_all('a'):
+                    no_anchor = a.decompose()
+                    print(no_anchor)
     # print(prices)
     return price_list
 
