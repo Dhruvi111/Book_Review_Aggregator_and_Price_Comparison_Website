@@ -549,22 +549,25 @@ def signout(request):
 
  
 # for pagination -- wont work for previous and next buttons yet
-# pretty static as of now
 def pages(request, digit):
     index = digit
+    for_totalItems = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + genre +"&printType=books")
+    returned_result = api(query=genre, data=for_totalItems)
+    totalItems = returned_result['results']
 
     if index == -1:
-        pass  
+        i = request.GET.get('i')
+        # prev_index = i - 36                                                                                                                                                                              
     if index == 1:
-        startIndex = "0"
-        print("index=1")
-    elif index == 2:
         startIndex = "36"
-        print("index=2")
+        # print("index=1")
+    elif index == 2:
+        startIndex = "73"
+        # print("index=2")
 
     elif index == 3:
-        startIndex = "71"
-        print("index 3")
+        startIndex = "109"
+        # print("index 3")
 
     data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + genre + "&startIndex=" + startIndex +"&printType=books&maxResults=36")
     x = api(query=genre, data=data)
