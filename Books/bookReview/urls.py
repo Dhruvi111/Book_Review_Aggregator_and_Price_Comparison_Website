@@ -7,6 +7,7 @@ urlpatterns = [
     path('about/', views.about, name="About"),
     path('contact/', views.contact, name="Contact"),
     path('search/', views.search, name="Search"),
+    path('searchOption/', views.searchInput, name="SearchOption"),
     path('genre/<str:category>/', views.genre, name="Genre"),
     path('signin/', views.signin, name="SignIn"),
     path('signup/', views.signup, name="Signup"),

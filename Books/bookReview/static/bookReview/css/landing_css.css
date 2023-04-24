@@ -195,8 +195,12 @@ body .carousel-control-next-icon {
 
 /* ----------------------------- DROP-DOWN ------------------------------- */
 
-.dropdown-menu {
+.genre-dropdown {
     columns: 5;
+}
+
+#selectedText {
+    margin-right: 10px;
 }
 
 

@@ -353,6 +353,7 @@ def index(request):
 
     # print(fav)
 
+    global params
     params={'allBooks':allBooks}
     # print(allBooks)
     return render(request, "bookReview/index.html", params)
@@ -379,10 +380,32 @@ def contact(request):
 
 
 # for search page
+def searchInput(request):
+    global searchInputText 
+    try:
+        searchInputText = request.GET.get('arg')
+    except:
+        searchInputText = ''
+    # return redirect('/?arg=%s' % searchInputText)
+    return render(request, "bookReview/index.html", params)
+
 def search(request):
     # The API provides maximum 40 results -- search by booknames
     query = request.GET.get('text')
-    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query + "&printType=books&maxResults=36")
+
+    # print(searchInputText)
+    if searchInputText == 't':
+        data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query + "&printType=books&maxResults=36")
+
+    elif searchInputText == 'a':
+        data = requests.get("https://www.googleapis.com/books/v1/volumes?q=inauthor:" + query + "&printType=books&maxResults=36")
+
+    elif searchInputText == 'i':
+        data = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + query + "&printType=books&maxResults=36")
+
+    else:
+        data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query + "&printType=books&maxResults=36")
+
 
     x = api(query=query, data=data)  # x has the value of params
     return render(request, "bookReview/search.html", x)

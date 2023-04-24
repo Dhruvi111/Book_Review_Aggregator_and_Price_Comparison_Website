@@ -53,7 +53,7 @@
               >
                 Browse
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu genre-dropdown">
                 <li><a class="dropdown-item" href="{% url 'Genre' 'Adult' %}" >Adult</a></li>
                 <li><a class="dropdown-item" href="{% url 'Genre' 'Anthology' %}">Anthology</a></li>
                 <li><a class="dropdown-item" href="{% url 'Genre' 'Art' %}">Art</a></li>
@@ -99,6 +99,16 @@
 
          
           <form class="d-flex " role="search" action="/search">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" id="selectedText" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Title
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item options" href="{% url 'SearchOption'%}?arg=t">Title</a></li>
+                <li><a class="dropdown-item options" href="{% url 'SearchOption'%}?arg=a">Author</a></li>
+                <li><a class="dropdown-item options" href="{% url 'SearchOption'%}?arg=i">ISBN</a></li>
+              </ul>
+            </div>
               <input
                 class="form-control me-2"
                 type="search"
@@ -216,11 +226,20 @@
 
     {% block js %}{% endblock js %}
 
-      {% comment %} <script>
-        $(document).ready(function(){
+      <script>
+        {% comment %} $(document).ready(function(){
           $('[data-bs-toggle="tooltip"]').tooltip();
-        });
-      </script> {% endcomment %}
+        }); {% endcomment %}
+
+        let selectedText = document.getElementById("selectedText")
+        let options = document.getElementsByClassName("options");
+
+        for(option of options) {
+          option.onclick = function() {
+            selectedText.innerHTML = this.innerHTML;
+          }
+        }
+      </script> 
 
       
     
