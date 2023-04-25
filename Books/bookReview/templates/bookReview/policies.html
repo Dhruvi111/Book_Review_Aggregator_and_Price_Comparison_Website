@@ -1,0 +1,51 @@
+{% extends 'bookReview/basic.html' %}
+
+{% block title %}Story Shelves | Policies{% endblock title %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
+
+{% endblock css %}
+
+{% block body %}
+{% comment %} style="background: url('/static/bookReview/images/bookbg.jpg') no-repeat left;  overflow: hidden;" {% endcomment %}
+<div class="ct-pageWrapper" id="ct-js-wrapper">
+    <section class="company-heading intro-type" id="parallax-one">
+      <div class="container">
+        <div class="row product-title-info">
+          <div class="col-md-12">
+            <h1>POLICIES</h1>
+          </div>
+        </div>
+      </div>
+      <div class="parallax" id="parallax-cta" style="background-image:url('/static/bookReview/images/hero.jpg');"></div>
+    </section>
+    <section class="story-section company-sections ct-u-paddingBoth100 paddingBothHalf noTopMobilePadding" id="section">
+      <div class="container text-center">
+        <div class="col-md-8 col-md-offset-2">
+            <div>
+          <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3"><b>Policy</b></p>
+          <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3">Thank you for visiting our website, which provides you with a review aggregator and price comparison service for various products. We want to ensure that our visitors have the best possible experience while using our website, and we have outlined our policies below to ensure that everyone understands the rules and guidelines for using our site.</p>
+          </div>
+          <div>
+          <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3"><b>Disclaimer of Liability</b></p>
+          <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3">In no event will we be liable for any loss or damage including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of our website.</p>
+        </div>
+        <div>
+          <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3"><b>Third-Party Sites</b></p>
+          <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3">Our website may contain links to third-party websites that are not owned or controlled by us. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites. You acknowledge and agree that we shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods or services available on or through any such third-party websites.</p>
+        </div>
+        <div>
+            <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3"><b>Reviews and Ratings</b></p>
+            <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3">Our website provides reviews and ratings of various products from different sources. We make every effort to ensure that these reviews and ratings are accurate and up-to-date, but we cannot guarantee their accuracy or completeness. We are not responsible for any errors or omissions in these reviews and ratings, and we do not endorse or recommend any particular product or brand.</p>
+        </div>
+        <div>
+            <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3"><b>Price Comparison</b></p>
+            <p align="justify" class="ct-u-size18 ct-u-fontWeight300 marginTop40 pb-3">Our website provides price comparison information for various products from different sources. We make every effort to ensure that this information is accurate and up-to-date, but we cannot guarantee its accuracy or completeness. We are not responsible for any errors or omissions in this price comparison information, and we do not endorse or recommend any particular seller or product.</p>
+        </div>
+        </div>
+      </div>
+    </section>
+    </div>
+{% endblock body %}
