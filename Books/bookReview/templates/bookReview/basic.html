@@ -14,6 +14,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend&display=swap" rel="stylesheet">
+
+    {% comment %} icons {% endcomment %}
+    <script src="https://kit.fontawesome.com/e0f7517cb9.js" crossorigin="anonymous"></script>
     {% load static %}
     <link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}"> 
     {% block css %}{% endblock css %}
@@ -222,7 +225,17 @@
     crossorigin="anonymous"
     ></script>
 
-    {% block js %}{% endblock js %}
+    {% block js %}
+    <script>
+      var info_messages = document.getElementsByClassName('alert');
+  
+      setTimeout(function(){
+          for (var i = 0; i < info_messages.length; i ++) {
+              info_messages[i].setAttribute('style', 'display:none !important');
+          }
+      }, 15000);
+  </script>
+    {% endblock js %}
 
       <script>
         {% comment %} $(document).ready(function(){

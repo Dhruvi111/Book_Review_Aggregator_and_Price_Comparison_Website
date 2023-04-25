@@ -19,7 +19,7 @@
       <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
     </div>
     <div class="carousel-inner">
-      {% comment %} <div class="carousel-item active" data-bs-interval="4000">
+      {% comment %} <div class="carousel-item active" >
         <img src="/static/bookReview/images/banner/1.png" class="d-block w-100" alt="main banner">
       </div>  {% endcomment %}
       <div class="carousel-item active" data-bs-interval="4000">
@@ -40,11 +40,11 @@
         <img src="/static/bookReview/images/banner/2019.png" class="d-block w-100" alt="popular books of 2019">
       </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+    <button class="carousel-control-prev" id="banner-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
       <span id="control-left" class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+    <button class="carousel-control-next" id="banner-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
       <span id="control-right" class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
@@ -91,10 +91,10 @@
       </div>
     </div> 
 
-    <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-bs-slide="prev">
+    <a class="carousel-control-prev" id="home-prev" href="#demo{{forloop.counter}}" data-bs-slide="prev">
       <span class="carousel-control-prev-icon"></span>
     </a>
-    <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-bs-slide="next">
+    <a class="carousel-control-next" id="home-next" href="#demo{{forloop.counter}}" data-bs-slide="next">
       <span class="carousel-control-next-icon"></span>
     </a>
   </div> 
