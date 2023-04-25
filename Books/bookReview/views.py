@@ -287,7 +287,7 @@ def price(request):
                 def create_hyperlink(name, url, book_price):
                     name = name.split('<')[0] if '<span' in name else name
                     hyperlink = '<a href="{0}">{1}</a>'.format(url, name)
-                    print(">>>>",name)
+                    # print(">>>>",name)
                     return '{0} {1}'.format(book_price, hyperlink)
 
                 website_name = pattern_final.split(' from ')[1]
@@ -321,7 +321,7 @@ def price(request):
             if p_tag.find('a'):
                 p_tag.find('a').extract()
         
-    print(price_list)
+    # print(price_list)
     return price_list
 
 # for landing page
@@ -576,29 +576,29 @@ def signout(request):
 
  
 # for pagination -- wont work for previous and next buttons yet
-def pages(request, digit):
-    index = digit
-    for_totalItems = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + genre +"&printType=books")
-    returned_result = api(query=genre, data=for_totalItems)
-    totalItems = returned_result['results']
+# def pages(request, digit):
+#     index = digit
+#     for_totalItems = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + genre +"&printType=books")
+#     returned_result = api(query=genre, data=for_totalItems)
+#     totalItems = returned_result['results']
 
-    if index == -1:
-        i = request.GET.get('i')
-        # prev_index = i - 36                                                                                                                                                                              
-    if index == 1:
-        startIndex = "36"
-        # print("index=1")
-    elif index == 2:
-        startIndex = "73"
-        # print("index=2")
+#     if index == -1:
+#         i = request.GET.get('i')
+#         # prev_index = i - 36                                                                                                                                                                              
+#     if index == 1:
+#         startIndex = "36"
+#         # print("index=1")
+#     elif index == 2:
+#         startIndex = "73"
+#         # print("index=2")
 
-    elif index == 3:
-        startIndex = "109"
-        # print("index 3")
+#     elif index == 3:
+#         startIndex = "109"
+#         # print("index 3")
 
-    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + genre + "&startIndex=" + startIndex +"&printType=books&maxResults=36")
-    x = api(query=genre, data=data)
-    return render(request, "bookReview/page.html", x)
+#     data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + genre + "&startIndex=" + startIndex +"&printType=books&maxResults=36")
+#     x = api(query=genre, data=data)
+#     return render(request, "bookReview/page.html", x)
 
 
 def BNoble(request):  
@@ -750,19 +750,17 @@ def Goodreads(request):
 
         review_span = [span.text for span in s1]
         # print("review-span: ", review_span)  
-        review_span.pop(0)
+        if review_span:
+            review_span.pop(0)
         # length = [len(i) for i in review_span]
         short_reviews = []
         reviewer = []
+        msg = "No reviews found at the moment, Please try again by refreshing the page!"
         for i in range(len(review_span)):
             if len(review_span[i]) <= 2000:
                 reviewer.append(name_text[i])
                 short_reviews.append(review_span[i])
                 msg = ""
-            else:
-                msg = "no reviews found"
-                # short_reviews = []
-                # reviewer = []
 
         # print(">>>>>>", short_reviews)
         spans_length = range(len(short_reviews))
@@ -778,6 +776,7 @@ def Goodreads(request):
    
     
     goodreads = True
+    # print("msg: ", msg)
     return render(request, "bookReview/reviews.html", {'test':test, 'title_GR': title_GR, 'goodreads': goodreads, 'short_reviews': short_reviews, 'spans_length': spans_length, 'reviewer': reviewer, 'msg': msg, 'flag': flag})
 
 
