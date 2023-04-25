@@ -77,6 +77,9 @@
             {% for i in spans_length %}
                 <p>{{short_reviews|index:i}}  -  <b>{{reviewer|index:i}}</b></p> 
             {% endfor %}
+            {% if msg == "No reviews found at the moment, Please try again by refreshing the page!" %}
+                <p class="reviewMsg">{{msg}}</p>
+            {% endif %}
         {% else %}
             <p class="reviewMsg">{{msg}}</p>
         {% endif %}

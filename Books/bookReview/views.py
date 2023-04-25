@@ -287,7 +287,9 @@ def price(request):
                 # print(a, "\n\n")
 
                 def create_hyperlink(name, url, book_price):
+                    name = name.split('<')[0] if '<span' in name else name
                     hyperlink = '<a href="{0}">{1}</a>'.format(url, name)
+                    # print(">>>>",name)
                     return '{0} {1}'.format(book_price, hyperlink)
 
                 website_name = pattern_final.split(' from ')[1]
@@ -316,12 +318,21 @@ def price(request):
         # for div in soup.find_all('div', attrs={'class': 'book-details'}):
         #     for a in div.find_all('a'):
         #         a.extract()
+<<<<<<< HEAD
         for tag in soup.find_all():
             if tag.name != 'p' or 'class' not in tag.attrs or 'prices' not in tag.attrs['class']:
                 for a in tag.find_all('a'):
                     no_anchor = a.decompose()
                     print(no_anchor)
     # print(prices)
+=======
+        p_tags_without_class = soup.find_all('p', attrs={'class': 'book-description'})
+        for p_tag in p_tags_without_class:
+            if p_tag.find('a'):
+                p_tag.find('a').extract()
+        
+    # print(price_list)
+>>>>>>> dhruvi2
     return price_list
 
 # for landing page
@@ -355,6 +366,7 @@ def index(request):
 
     # print(fav)
 
+    global params
     params={'allBooks':allBooks}
     # print(allBooks)
     return render(request, "bookReview/index.html", params)
@@ -381,10 +393,34 @@ def contact(request):
 
 
 # for search page
+def searchInput(request):
+    # global searchInputText 
+    # try:
+    #     searchInputText = request.GET.get('arg')
+    # except:
+    #     searchInputText = ''
+    # # return redirect('/?arg=%s' % searchInputText)
+    # return render(request, "bookReview/index.html", params)
+    pass
+
 def search(request):
     # The API provides maximum 40 results -- search by booknames
     query = request.GET.get('text')
-    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query + "&printType=books&maxResults=36")
+    searchInputText = request.GET.get('searchBy')
+    print(">>>>>>>>>>>>",searchInputText)
+
+    if searchInputText == 't':
+        data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query + "&printType=books&maxResults=36")
+
+    elif searchInputText == 'a':
+        data = requests.get("https://www.googleapis.com/books/v1/volumes?q=inauthor:" + query + "&printType=books&maxResults=36")
+
+    elif searchInputText == 'i':
+        data = requests.get("https://www.googleapis.com/books/v1/volumes?q=isbn:" + query + "&printType=books&maxResults=36")
+
+    else:
+        data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query + "&printType=books&maxResults=36")
+
 
     x = api(query=query, data=data)  # x has the value of params
     return render(request, "bookReview/search.html", x)
@@ -551,26 +587,29 @@ def signout(request):
 
  
 # for pagination -- wont work for previous and next buttons yet
-# pretty static as of now
-def pages(request, digit):
-    index = digit
+# def pages(request, digit):
+#     index = digit
+#     for_totalItems = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + genre +"&printType=books")
+#     returned_result = api(query=genre, data=for_totalItems)
+#     totalItems = returned_result['results']
 
-    if index == -1:
-        pass  
-    if index == 1:
-        startIndex = "0"
-        print("index=1")
-    elif index == 2:
-        startIndex = "36"
-        print("index=2")
+#     if index == -1:
+#         i = request.GET.get('i')
+#         # prev_index = i - 36                                                                                                                                                                              
+#     if index == 1:
+#         startIndex = "36"
+#         # print("index=1")
+#     elif index == 2:
+#         startIndex = "73"
+#         # print("index=2")
 
-    elif index == 3:
-        startIndex = "71"
-        print("index 3")
+#     elif index == 3:
+#         startIndex = "109"
+#         # print("index 3")
 
-    data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + genre + "&startIndex=" + startIndex +"&printType=books&maxResults=36")
-    x = api(query=genre, data=data)
-    return render(request, "bookReview/page.html", x)
+#     data = requests.get("https://www.googleapis.com/books/v1/volumes?q=subject:" + genre + "&startIndex=" + startIndex +"&printType=books&maxResults=36")
+#     x = api(query=genre, data=data)
+#     return render(request, "bookReview/page.html", x)
 
 
 def BNoble(request):  
@@ -722,19 +761,17 @@ def Goodreads(request):
 
         review_span = [span.text for span in s1]
         # print("review-span: ", review_span)  
-        review_span.pop(0)
+        if review_span:
+            review_span.pop(0)
         # length = [len(i) for i in review_span]
         short_reviews = []
         reviewer = []
+        msg = "No reviews found at the moment, Please try again by refreshing the page!"
         for i in range(len(review_span)):
             if len(review_span[i]) <= 2000:
                 reviewer.append(name_text[i])
                 short_reviews.append(review_span[i])
                 msg = ""
-            else:
-                msg = "no reviews found"
-                # short_reviews = []
-                # reviewer = []
 
         # print(">>>>>>", short_reviews)
         spans_length = range(len(short_reviews))
@@ -750,6 +787,7 @@ def Goodreads(request):
    
     
     goodreads = True
+    # print("msg: ", msg)
     return render(request, "bookReview/reviews.html", {'test':test, 'title_GR': title_GR, 'goodreads': goodreads, 'short_reviews': short_reviews, 'spans_length': spans_length, 'reviewer': reviewer, 'msg': msg, 'flag': flag})
 
 

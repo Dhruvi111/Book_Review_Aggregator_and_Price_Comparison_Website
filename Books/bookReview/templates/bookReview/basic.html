@@ -53,7 +53,7 @@
               >
                 Browse
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu genre-dropdown">
                 <li><a class="dropdown-item" href="{% url 'Genre' 'Adult' %}" >Adult</a></li>
                 <li><a class="dropdown-item" href="{% url 'Genre' 'Anthology' %}">Anthology</a></li>
                 <li><a class="dropdown-item" href="{% url 'Genre' 'Art' %}">Art</a></li>
@@ -99,6 +99,14 @@
 
          
           <form class="d-flex " role="search" action="/search">
+            <div class="search-dropdown" style="padding-right: 7px;">
+              <select class="form-select selectedOption" aria-label="" name="searchBy">
+                  <option class="options" value="t" selected>Title</option>
+                  <option class="options" value="a">Author</option>
+                  <option class="options" value="i">ISBN</option>
+              </select>
+            </div>
+
               <input
                 class="form-control me-2"
                 type="search"
@@ -216,11 +224,20 @@
 
     {% block js %}{% endblock js %}
 
-      {% comment %} <script>
-        $(document).ready(function(){
+      <script>
+        {% comment %} $(document).ready(function(){
           $('[data-bs-toggle="tooltip"]').tooltip();
-        });
-      </script> {% endcomment %}
+        }); {% endcomment %}
+
+        {% comment %} let selectedText = document.getElementById("selectedText")
+        let options = document.getElementsByClassName("options");
+
+        for(option of options) {
+          option.onclick = function() {
+            selectedText.innerHTML = this.innerHTML;
+          }
+        } {% endcomment %}
+      </script> 
 
       
     
