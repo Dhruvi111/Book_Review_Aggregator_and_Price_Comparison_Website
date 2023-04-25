@@ -904,4 +904,12 @@ def ReviewDelete(request):
                 x = specificBook(request, data=data)
                 return render(request, "bookReview/details.html", x)
             
-  
+
+def rules(request):
+    return render(request, "bookReview/rules.html")
+
+def policies(request):
+    return render(request, "bookReview/policies.html")
+
+def terms(request):
+    return render(request, "bookReview/terms.html")

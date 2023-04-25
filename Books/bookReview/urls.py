@@ -23,6 +23,9 @@ urlpatterns = [
     path('userProfile/d', views.favDelete, name="FavDelete"),
     path('userReview/', views.userReview, name="UserReview"),
     path('userReview/d', views.ReviewDelete, name="ReviewDelete"),
+    path('rules/', views.rules , name="Rules"),
+    path('policies/', views.policies , name="Policies"),
+    path('terms/', views.terms , name="Terms"),
     # path('reviewLibraryThing/', views.LibraryThing, name="LibraryThing"), 
     
 ]
