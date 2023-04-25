@@ -63,7 +63,7 @@
             <p><b>Pages:</b> <span class="detail-value">{{no_pages}} </span></p>
             <p><b>ISBN-10:</b> <span class="detail-value">{{isbn10}} </span></p>
             <p><b>ISBN-13:</b> <span class="detail-value">{{isbn13}} </span></p>
-            <p class="book-description"><b>Description:</b> <span class="detail-value">{% autoescape off %}{{desc}}{% endautoescape %}</span></p>
+            <p class="book-description"><b>Description:</b>{% autoescape off %}<span class="detail-value">{{desc}}</span>{% endautoescape %}</p>
         
             {% comment %} Review form {% endcomment %}
             {% if review_length != 0 %}

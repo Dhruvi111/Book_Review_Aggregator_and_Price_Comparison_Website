@@ -66,7 +66,7 @@
     }
     .uf-card-text{
         color: rgb(80, 79, 79) !important;
-        height: 1.25rem;
+        height: 2.50rem;
     }
     .uf-detail-btn{
         display: block;
@@ -147,9 +147,6 @@
                                                     {{i.author_list|join:", "}}
                                                 {% endif %}     
                                             </h6>
-<<<<<<< HEAD
-                                            <button class="btn card-hover-button pt-1 pb-1 mx-auto my-2" onclick="location.href='{% url 'Details' %}?id={{i.book_id_api}}&title={{i.title}}'">Details</button>
-=======
                                             <table class="mx-auto">
                                                 <tbody>
                                                 <tr>
@@ -171,7 +168,6 @@
                                                 </tbody>
                                                 </table>
                                             
->>>>>>> origin/k1
                                         </div> 
                                    
                                     {% else%}
@@ -185,11 +181,6 @@
                                                 {{i.book_id_db.title}}  
                                             {% endif %}
                                             </h5>
-<<<<<<< HEAD
-                                        <h6 class="card-text">{{i.book_id_db.author}}</h6>
-                                        <button class="btn card-hover-button pt-1 pb-1 mx-auto my-2" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id_db}}&title={{i.book_id_db.title}}'">Details</button>
-                                        </div> 
-=======
                                         <h6 class="uf-card-text">{{i.book_id_db.author}}</h6>
                                         <table class="mx-auto">
                                             <tbody>
@@ -212,7 +203,6 @@
                                             </tr>
                                             </tbody>
                                             </table>
->>>>>>> origin/k1
                                         
                                         </div> 
                                     

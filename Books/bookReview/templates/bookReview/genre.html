@@ -19,11 +19,7 @@
                     {% for i in length %} 
                         {% load filters %}
                         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
-<<<<<<< HEAD
-                            <div class="card d-flex align-items-center pt-3" style="width: 13rem;">
-=======
                             <div class="card align-items-center" id="genre-page-card">
->>>>>>> origin/k1
                                 <img src="{{pic|index:i}}" class="card-img-top bookImage" alt="Loading image..">
                                 <div class="card-body">
                                     <h5 class="card-title" id="namepr{{i.book_id}}">
@@ -41,13 +37,9 @@
                                             {{author | index:i | join:", "}}
                                         {% endif %}    
                                     </h6>
-                                    <button class="btn card-hover-button pt-1 pb-1 mx-auto" onclick="location.href='{% url 'Details' %}?id={{identifiers|index:i}}&title={{i.title_for_url}}'">Details</button>
+                                    <button class="btn card-hover-button pt-1 pb-1 mx-auto" onclick="location.href='{% url 'Details' %}?id={{identifiers|index:i}}&title={{titles|index:i}}'">Details</button>
                                 </div> 
-<<<<<<< HEAD
-                            <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'Details' %}?id={{identifiers|index:i}}&title={{titles|index:i}}'">Details</button>
-=======
                             {% comment %} <button class="btn card-hover-button pt-1 pb-1" onclick="location.href='{% url 'Details' %}?id={{identifiers|index:i}}&title={{i.title_for_url}}'">Details</button> {% endcomment %}
->>>>>>> origin/k1
                             </div>
                         </div>
 
