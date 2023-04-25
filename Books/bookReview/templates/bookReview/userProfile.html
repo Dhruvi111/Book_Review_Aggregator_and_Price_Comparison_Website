@@ -151,7 +151,7 @@
                                                 <tbody>
                                                 <tr>
                                                 <td class="td-detail">
-                                                    <button class="btn uf-detail-btn mx-auto" onclick="location.href='{% url 'Details' %}?id={{i.book_id_api}}'">Details</button>
+                                                    <button class="btn uf-detail-btn mx-auto" onclick="location.href='{% url 'Details' %}?id={{i.book_id_api}}&title={{i.title}}'">Details</button>
                                                 </td>
                                                 <td class="td-delete">
                                                     <form action="/userProfile/d" method="POST">
@@ -186,7 +186,8 @@
                                             <tbody>
                                             <tr>
                                             <td class="td-detail">
-                                                <button class="btn uf-detail-btn mx-auto" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id_db}}'">Details</button>
+                                                <button class="btn uf-detail-btn mx-auto" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id_db}}&title={{i.book_id_db.title}}'">Details</button>
+                                                {% comment %} <button class="btn uf-detail-btn mx-auto" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id_db}}'">Details</button> {% endcomment %}
                                             </td>
                                             <td class="td-delete">
                                                 <form action="/userProfile/d" method="POST">

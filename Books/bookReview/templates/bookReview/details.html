@@ -5,7 +5,22 @@
 {% block css %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href= "{% static 'bookReview/css/landing_css.css' %}">
-
+<style>
+    #delete-btn{
+        font-size: 14px;
+        border: 2px solid #DC3545;
+        border-radius: 15px;
+    }
+    #delete-btn:hover{
+        background-color: #fff;
+        border: 2px solid #DC3545;
+        color: #DC3545;
+        font-weight: bold;  
+    }
+    .detail-value{
+        color: rgb(80, 79, 79);
+    }
+</style>
 {% endblock css %}
 
 {% block body %}
@@ -28,21 +43,27 @@
                 <form action="/userProfile/d" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="hidden_bookId" value={{book_id_api}}> 
-                    <img src="/static/bookReview/images/check-mark.png" alt="" style="height:40px; width:20px" class="check-mark mt-3">
-                    <button class="btn btn-danger my-3">Remove from Favourites</button>
+                    <table class="mx-auto">
+                        <tbody>
+                            <tr>
+                                <td class="px-2"><i class="fa-solid fa-heart-circle-check fa-2xl"></i></td>
+                                <td class="px-2"><button class="btn btn-danger my-3" id="delete-btn">Remove</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </form>
             {% endif %}
         </div>
 
         <div class="book-info">
             <h1 class="book-title"><p><b>{{title}}</b></p></h1>
-            <p class="book-author"><b>Author:</b> {{author_list | join:", "}}</p>
-            <p><b>Publisher :</b> {{publisher}}</p>
-            <p><b>Edition / Publish Date :</b> {{edition}}</p>
-            <p><b>Pages:</b> {{no_pages}}</p>
-            <p><b>ISBN-10:</b> {{isbn10}}</p>
-            <p><b>ISBN-13:</b> {{isbn13}}</p>
-            <p class="book-description"><b>Description:</b> {% autoescape off %}{{desc}}{% endautoescape %}</p>
+            <p class="book-author"><b>Author:</b> <span class="detail-value">{{author_list | join:", "}}</span></p>
+            <p><b>Publisher :</b> <span class="detail-value">{{publisher}}</span></p>
+            <p><b>Edition / Publish Date :</b> <span class="detail-value">{{edition}}</span></p>
+            <p><b>Pages:</b> <span class="detail-value">{{no_pages}} </span></p>
+            <p><b>ISBN-10:</b> <span class="detail-value">{{isbn10}} </span></p>
+            <p><b>ISBN-13:</b> <span class="detail-value">{{isbn13}} </span></p>
+            <p class="book-description"><b>Description:</b> <span class="detail-value">{% autoescape off %}{{desc}}{% endautoescape %}</span></p>
         
             {% comment %} Review form {% endcomment %}
             {% if review_length != 0 %}
@@ -108,10 +129,10 @@
             <h5>READ REVIEWS FROM :</h5>
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'BNoble' %}?no={{isbn13}}&t={{title_for_url}}&a={{author_list|index:0}}'">Barnes & Noble</button>
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Bookmarks' %}?t={{title_for_bmarks}}'">Bookmarks</button>
-            <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Amazon' %}'">Amazon</button>
+            {% comment %} <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Amazon' %}'">Amazon</button> {% endcomment %}
             <button class="btn reviewButton mb-2" onclick="location.href='{% url 'Goodreads' %}?t={{title_for_url}}&a={{author_list|index:0}}'">Goodreads</button>
             <hr>
-            <button class="btn btn-outline-danger mb-2" id="button" onclick="document.getElementById('user-review').scrollIntoView();" style="width: 170px;">Write a Review</button>
+            <button class="btn btn-outline-danger mb-2" id="button" onclick="document.getElementById('user-review').scrollIntoView();" style="width: 170px; font-size: 18px;border: 3px solid #DC3545">Write a Review</button>
         </div>
     </div>
 </div>

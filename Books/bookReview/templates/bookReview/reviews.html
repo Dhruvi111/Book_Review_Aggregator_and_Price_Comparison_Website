@@ -10,7 +10,7 @@
         padding:4.5rem;
         padding-top: 0;
         text-align: justify;
-        color: black !important; 
+        color: rgb(80, 79, 79) !important; 
     }
     .reviewtitle{
         padding: 1.5rem;
@@ -67,7 +67,7 @@
 
         {% comment %} ------------------------- GOODREADS -------------------------  {% endcomment %}
 
-    {% elif goodreads == True%}
+        {% elif goodreads == True%}
         {% comment %} {{test}}
         {{title_GR}} {% endcomment %}
         {% comment %} <a href=" https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 "> https://www.goodreads.com/search?q={{title_GR}}&ref=nav_sb_noss_l_15 </a> {% endcomment %}
@@ -82,11 +82,11 @@
         {% endif %}
 
     {% comment %} ------------------------- AMAZON -------------------------  {% endcomment %}
-    {% elif amazon == True%}
+    {% comment %} {% elif amazon == True%}
         <h1 class="reviewtitle"> Amazon Reviews</h1>
 
         {{test}}
-    {% endif %}
+    {% endif %} {% endcomment %}
     </div>
 </div>
 </div>
