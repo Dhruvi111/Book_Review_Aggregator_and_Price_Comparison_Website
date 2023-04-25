@@ -20,6 +20,33 @@
     .detail-value{
         color: rgb(80, 79, 79);
     }
+    .review-table{
+        width: 100%;
+        background: #F5FDFC;
+        border: 2px solid #A2E9E3;
+        padding: 0 2rem 1rem;
+    }
+    .review-del-td{
+        width: 95px;
+        text-align: right;
+        padding-top: 0;
+        padding-right: 8px;
+    }
+    .review-date{
+        font-size: 14px;
+    }
+    .review-text{
+        color: rgb(80, 79, 79);
+        margin-bottom: 0;
+    }
+    .reviewDelete {
+        padding: 0;
+        font-weight: bold;
+        width: 80px;
+        font-size: 12px;
+        border-radius: 20px;
+        border: 3px solid #DC3545;
+    }
 </style>
 {% endblock css %}
 
@@ -53,6 +80,23 @@
                     </table>
                 </form>
             {% endif %}
+            <div class="prices-section py-3">
+                <h5><b>PRICE</b></h5>
+                <table class="book-prices">
+                    <tbody>
+                        {% if price_len != 0 %}
+                            {% for i in price_len %}
+                            <tr>
+                                <p class="prices">
+                                Rs. {{price_print|index:i|safe}}
+                                </p>
+                            </tr>
+                            {% comment %} <p class ="prices"> {% endcomment %}
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="book-info">
@@ -71,33 +115,40 @@
                 <h5><b>What Our Readers Say: Reviews</b></h5>
 
                 <div class="displayUserReview">
-                    <hr>
+                    <br>
                     {% for i in review_length %}
                         {% if username|index:i == user.get_username %}
-                        <table>
+                        <table class="review-table">
                             
                             <tr>
-                                <td><p>{{username|index:i}} - {{date|index:i}}</p></td>
+                                <td><p class="my-1 mx-2"><b>{{username|index:i}}</b> - <span class="review-date">{{date|index:i}}</span></p></td>
                                 
-                                <td>
+                                <td class="review-del-td">
                                     <form action="{% url 'ReviewDelete' %}?id={{book_id_api}}&title={{title}}" method="post">
                                         {% csrf_token %}
                                         <input type="hidden" name="primary_key" value="{{primary_key|index:i}}">
-                                        <button class="btn btn-danger btn-sm reviewDelete"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                        </svg></button>
+                                        <button class="btn btn-outline-danger btn-sm reviewDelete">
+                                            Delete
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
                     
                             <tr>
-                                <td><p class="pb-2">{{review|index:i}}</p></td>
+                                <td><p class="review-text my-1 mx-2">{{review|index:i}}</p></td>
                             </tr>
                         </table>
-
+                        <br>
                         {% else %}
-                            <p>{{username|index:i}} - {{date|index:i}}</p>
-                            <p class="pb-2">{{review|index:i}}</p>
+                        <table class="review-table">
+                            <tr>
+                                <td><p class="my-1 mx-2"><b>{{username|index:i}}</b> - <span class="review-date">{{date|index:i}}</span></p></td>
+                            </tr>
+                            <tr>
+                                <td><p class="review-text my-1 mx-2">{{review|index:i}}</p></td>
+                            </tr>
+                        </table>
+                        <br>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -122,6 +173,7 @@
                     <hr>
                     <h5 id="loginReviewMsg"><b>Please Login To Write A Review !</b></h5>
                 {% endif %}
+
             </div>
         </div> 
 

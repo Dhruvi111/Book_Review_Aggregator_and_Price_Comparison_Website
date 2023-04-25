@@ -78,7 +78,7 @@ def api(query, data):
     return params
 
 
-def specificBook(request, data):
+def specificBook(request, data, execute_price_code=True):
     json_data = data.json()
 
     book_id_api = json_data['id']
@@ -161,6 +161,13 @@ def specificBook(request, data):
     # print(isbn10)
     # print(isbn13)
 
+    if execute_price_code:
+        price_print = price(request)
+        price_len = range(len(price_print))
+    else:
+        price_print = 0
+        price_len = 0
+
     if request.user.is_authenticated:
         if favouriteBook.objects.filter(book_id_api=book_id_api, current_user=request.user).exists():
             fav = True
@@ -202,7 +209,7 @@ def specificBook(request, data):
     # print(price_print)
 
 
-    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_api': book_id_api, 'fav': fav, 'review': review, 'date': date, 'username': username, 'review_length': review_length, 'primary_key': primary_key}
+    display = {'title': title, 'author_list': author_list, 'publisher': publisher, 'edition':edition, 'desc':desc, 'image': image, 'no_pages': no_pages, 'isbn10':isbn10, 'isbn13': isbn13, 'title_for_url': title_for_url, 'title_for_bmarks': title_for_bmarks, 'book_id_api': book_id_api,  'price_print': price_print, 'price_len': price_len, 'fav': fav, 'review': review, 'date': date, 'username': username, 'review_length': review_length, 'primary_key': primary_key}
 
     return display
 
@@ -241,90 +248,94 @@ def specificBook(request, data):
 # ------------------------------ PRICES WITH LINK --------------------------------
 def price(request):
     # root = "https://www.google.com/"
+
     book_name = request.GET.get('title')
-    formatted_book_name = book_name.replace(" ", "+")
+    if book_name != None:
+        formatted_book_name = book_name.replace(" ", "+")
 
-    link = f"https://www.google.com/search?q={formatted_book_name}&tbm=shop"
+        link = f"https://www.google.com/search?q={formatted_book_name}&tbm=shop"
 
-    req = Request(link, headers={'User-Agent': 'Mozilla/5.0'})
-    webpage = urlopen(req).read()
-    prices = []
-    price_list = []
+        req = Request(link, headers={'User-Agent': 'Mozilla/5.0'})
+        webpage = urlopen(req).read()
+        prices = []
+        price_list = []
 
-    for price in prices:
-        price_listinloop = []
-        price_listinloop.append(price)
-        price_list.append(price_listinloop)
+        for price in prices:
+            price_listinloop = []
+            price_listinloop.append(price)
+            price_list.append(price_listinloop)
 
-    with requests.Session() as c:
-        soup = BeautifulSoup(webpage, 'html5lib')
-        # print(soup)
-        count = 0
-        for item in soup.find_all('div', attrs={'class':'P8xhZc'}):
-            item = str(item)
-            # print(item, "\n\n")
-            pattern = r'q=(.*?)delivery'
-            result = re.search(pattern, item)
-            if result:
-                specific_name = result.group(1)
-                # print(specific_name, "\n\n")
-                pattern_new = re.sub(r'">(.*?)¹', ' ', specific_name)
-                # print(pattern_new, "\n\n")
-                pattern_second = re.sub(r'</span>', "", pattern_new)
-                # print(pattern_second, "\n\n")
-                pattern_final = re.sub(r'<(.*?)Free', "", pattern_second)
-                # print(pattern_final, "\n\n")
-                # only_link = re.sub(' (.*?)$', "", pattern_final)
-                # # print(only_link, "\n\n")
+        with requests.Session() as c:
+            soup = BeautifulSoup(webpage, 'html5lib')
+            # print(soup)
+            count = 0
+            for item in soup.find_all('div', attrs={'class':'P8xhZc'}):
+                item = str(item)
+                # print(item, "\n\n")
+                pattern = r'q=(.*?)delivery'
+                result = re.search(pattern, item)
+                if result:
+                    specific_name = result.group(1)
+                    # print(specific_name, "\n\n")
+                    pattern_new = re.sub(r'">(.*?)¹', ' ', specific_name)
+                    # print(pattern_new, "\n\n")
+                    pattern_second = re.sub(r'</span>', "", pattern_new)
+                    # print(pattern_second, "\n\n")
+                    pattern_final = re.sub(r'<(.*?)Free', "", pattern_second)
+                    # print(pattern_final, "\n\n")
+                    # only_link = re.sub(' (.*?)$', "", pattern_final)
+                    # # print(only_link, "\n\n")
 
-                # pattern_without_link = re.sub(r'https(.*?) ', "", pattern_final)
-                # # print(pattern_without_link, "\n\n")
+                    # pattern_without_link = re.sub(r'https(.*?) ', "", pattern_final)
+                    # # print(pattern_without_link, "\n\n")
 
-                # only_name = re.sub(r'https(.*?)from ', "", pattern_final)
-                # # print(only_name, "\n\n")
+                    # only_name = re.sub(r'https(.*?)from ', "", pattern_final)
+                    # # print(only_name, "\n\n")
 
-                # a = pattern_final.split()
-                # print(a, "\n\n")
+                    # a = pattern_final.split()
+                    # print(a, "\n\n")
 
-                def create_hyperlink(name, url, book_price):
-                    name = name.split('<')[0] if '<span' in name else name
-                    hyperlink = '<a href="{0}">{1}</a>'.format(url, name)
-                    # print(">>>>",name)
-                    return '{0} {1}'.format(book_price, hyperlink)
+                    def create_hyperlink(name, url, book_price):
+                        name = name.split('<')[0] if '<span' in name else name
+                        hyperlink = '<a href="{0}">{1}</a>'.format(url, name)
+                        # print(">>>>",name)
+                        return '{0} {1}'.format(book_price, hyperlink)
 
-                website_name = pattern_final.split(' from ')[1]
-                if website_name in ["PokemonCardSeller", "biblio.co.uk/bookseller_info.ph ...", "The Manan ", "Biblio.com - St Vinnie's ...", "Urdu Bazaar", "Biblio.com-rascal books", "used Etsy", "Read and Rise Book Shop", "BooksTech", "Best Of Used Books", "KoolSkool The Bookstore ", "Apni Kitaben", "Poshmark India - Poshmark", "Online College Street", "Gyaan Store", "Google Play ", "Biblio.com - KnC Books", "The Peppy Store"]:
-                    continue
+                    website_name = pattern_final.split(' from ')[1]
+                    # if website_name in ["PokemonCardSeller", "biblio.co.uk/bookseller_info.ph ...", "The Manan ", "Biblio.com - St Vinnie's ...", "Urdu Bazaar", "Biblio.com-rascal books", "used Etsy", "Read and Rise Book Shop", "BooksTech", "Best Of Used Books", "KoolSkool The Bookstore ", "Apni Kitaben", "Poshmark India - Poshmark", "Online College Street", "Gyaan Store", "Google Play ", "Biblio.com - KnC Books", "The Peppy Store"]:
+                    #     continue
 
-                url = pattern_final.split(' ')[0]
-                book_price = ' '.join(pattern_final.split(' ')[1:3])
-                book_price_used = re.sub(r' from', "", book_price)
-                book_price_used = book_price_used.replace('used', '')
-                book_price_plus = re.sub(r' +', "", book_price_used)
-                book_price_plus = book_price_plus.replace('+', '')
-                book_price_only = re.sub(r' used', "",book_price_plus)
-                book_price_only = float(book_price_only.replace(',', ''))
-                if float(book_price_only) < 500:
-                    hyperlink_price = create_hyperlink(website_name, url, book_price_only)
-                    # print(hyperlink_price, "\n\n")
-                    price_list.append(hyperlink_price)
-            # count +=1
-            # if count ==10:
-            #     break
-        # print(len(prices))
-        # price_len = len(prices)
-        # return price_len
+                    url = pattern_final.split(' ')[0]
+                    book_price = ' '.join(pattern_final.split(' ')[1:3])
+                    book_price_used = re.sub(r' from', "", book_price)
+                    book_price_used = book_price_used.replace('used', '')
+                    book_price_plus = re.sub(r' +', "", book_price_used)
+                    book_price_plus = book_price_plus.replace('+', '')
+                    book_price_only = re.sub(r' used', "",book_price_plus)
+                    book_price_only = float(book_price_only.replace(',', ''))
+                    if float(book_price_only) < 500:
+                        hyperlink_price = create_hyperlink(website_name, url, book_price_only)
+                        # print(hyperlink_price, "\n\n")
+                        price_list.append(hyperlink_price)
+                # count +=1
+                # if count ==10:
+                #     break
+            # print(len(prices))
+            # price_len = len(prices)
+            # return price_len
 
-        # for div in soup.find_all('div', attrs={'class': 'book-details'}):
-        #     for a in div.find_all('a'):
-        #         a.extract()
-        p_tags_without_class = soup.find_all('p', attrs={'class': 'book-description'})
-        for p_tag in p_tags_without_class:
-            if p_tag.find('a'):
-                p_tag.find('a').extract()
-        
-    # print(price_list)
-    return price_list
+            # for div in soup.find_all('div', attrs={'class': 'book-details'}):
+            #     for a in div.find_all('a'):
+            #         a.extract()
+            p_tags_without_class = soup.find_all('p', attrs={'class': 'book-description'})
+            for p_tag in p_tags_without_class:
+                if p_tag.find('a'):
+                    p_tag.find('a').extract()
+            
+        # print(price_list)
+        return price_list
+    else:
+        return redirect('/userProfile/')
 
 # for landing page
 def index(request):
@@ -531,9 +542,9 @@ def signin(request):
             fname = user.first_name
             lname = user.last_name
 
-            # messages.success(request, 'Logged In sucessfully!')
+            messages.success(request, 'Logged In sucessfully!')
             # return render(request, "bookReview/login.html")
-            return redirect('/userProfile/')
+            return redirect('/')
         
         else:
             messages.error(request, "Something is wrong, Please try again")
@@ -798,7 +809,7 @@ def fav_details(request):
    
     for i in range(len(api_book_list)):
         data = requests.get("https://www.googleapis.com/books/v1/volumes/" + api_book_list[i].book_id_api)
-        y = specificBook(request, data=data)
+        y = specificBook(request, data=data, execute_price_code=False)
         api_books.append(y)
 
     api_books.extend(db_book_list)
@@ -885,7 +896,7 @@ def userReview(request):
                 return render(request, "bookReview/detailsHome.html", x)
             else:
                 data = requests.get("https://www.googleapis.com/books/v1/volumes/" + id)
-                x = specificBook(request, data=data)
+                x = specificBook(request, data=data, execute_price_code=False)
                 return render(request, "bookReview/details.html", x)
             
 

@@ -23,26 +23,24 @@
 .detail-value{
     color: rgb(80, 79, 79);
 }
-
-{% comment %} tr{
-    border: 1px solid black;
-} {% endcomment %}
-table{
+.review-table{
     width: 100%;
     background: #F5FDFC;
-    border-radius: 2rem;
-    border: 3px solid #A2E9E3;
+    border: 2px solid #A2E9E3;
     padding: 0 2rem 1rem;
 }
 .review-del-td{
+    width: 95px;
     text-align: right;
     padding-top: 0;
+    padding-right: 8px;
 }
 .review-date{
     font-size: 14px;
 }
 .review-text{
     color: rgb(80, 79, 79);
+    margin-bottom: 0;
 }
 .reviewDelete {
     padding: 0;
@@ -51,8 +49,6 @@ table{
     font-size: 12px;
     border-radius: 20px;
     border: 3px solid #DC3545;
-    /*display: flex;
-    align-items: flex-end;*/
 }
 </style>
 {% endblock css %}
@@ -127,9 +123,9 @@ table{
                     {% comment %} <p>{{username|index:i}} - {{date|index:i}}</p> {% endcomment %}
                         {% if username|index:i == user.get_username %}
 
-                            <table>  
+                            <table class="review-table">  
                                 <tr>
-                                    <td><p><b>{{username|index:i}}</b> - <span class="review-date">{{date|index:i}}</span></p></td>
+                                    <td><p class="my-1 mx-2"><b>{{username|index:i}}</b> - <span class="review-date">{{date|index:i}}</span></p></td>
                                     
                                     <td class="review-del-td">
                                         <form action="{% url 'ReviewDelete' %}?id={{book_id_db}}&title={{title}}" method="post">
@@ -143,13 +139,23 @@ table{
                                 </tr>  
                                 
                                 <tr class="my-2">
-                                    <td><p class="review-text">{{review|index:i}}</p></td>
+                                    <td><p class="review-text my-1 mx-2">{{review|index:i}}</p></td>
                                 </tr>
                             </table>
+                            <br>
 
                         {% else %}
-                            <p>{{username|index:i}} - {{date|index:i}}</p>
-                            <p class="pb-2">{{review|index:i}}</p>
+                            <!-- <p>{{username|index:i}} - {{date|index:i}}</p> -->
+                            <!-- <p class="pb-2">{{review|index:i}}</p> -->
+                            <table class="review-table">
+                                <tr>
+                                    <td><p class="my-1 mx-2"><b>{{username|index:i}}</b> - <span class="review-date">{{date|index:i}}</span></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p class="review-text my-1 mx-2">{{review|index:i}}</p></td>
+                                </tr>
+                            </table>
+                            <br>
                         {% endif %}
                     {% endfor %}
                 </div>
