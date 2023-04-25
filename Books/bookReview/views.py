@@ -9,7 +9,6 @@ from django.contrib.auth import authenticate, login, logout
 import re
 from urllib.request import Request, urlopen
 from django.views.decorators.cache import cache_control
-@cache_control(no_cache=True, must_revalidate=True, max_age=0)
 # from .forms import UpdateReviewForm
 
 # Create your views here.
