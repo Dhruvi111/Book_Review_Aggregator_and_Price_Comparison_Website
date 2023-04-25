@@ -285,7 +285,9 @@ def price(request):
                 # print(a, "\n\n")
 
                 def create_hyperlink(name, url, book_price):
+                    name = name.split('<')[0] if '<span' in name else name
                     hyperlink = '<a href="{0}">{1}</a>'.format(url, name)
+                    print(">>>>",name)
                     return '{0} {1}'.format(book_price, hyperlink)
 
                 website_name = pattern_final.split(' from ')[1]
@@ -319,7 +321,7 @@ def price(request):
             if p_tag.find('a'):
                 p_tag.find('a').extract()
         
-    # print(prices)
+    print(price_list)
     return price_list
 
 # for landing page
@@ -381,19 +383,21 @@ def contact(request):
 
 # for search page
 def searchInput(request):
-    global searchInputText 
-    try:
-        searchInputText = request.GET.get('arg')
-    except:
-        searchInputText = ''
-    # return redirect('/?arg=%s' % searchInputText)
-    return render(request, "bookReview/index.html", params)
+    # global searchInputText 
+    # try:
+    #     searchInputText = request.GET.get('arg')
+    # except:
+    #     searchInputText = ''
+    # # return redirect('/?arg=%s' % searchInputText)
+    # return render(request, "bookReview/index.html", params)
+    pass
 
 def search(request):
     # The API provides maximum 40 results -- search by booknames
     query = request.GET.get('text')
+    searchInputText = request.GET.get('searchBy')
+    print(">>>>>>>>>>>>",searchInputText)
 
-    # print(searchInputText)
     if searchInputText == 't':
         data = requests.get("https://www.googleapis.com/books/v1/volumes?q=intitle:" + query + "&printType=books&maxResults=36")
 

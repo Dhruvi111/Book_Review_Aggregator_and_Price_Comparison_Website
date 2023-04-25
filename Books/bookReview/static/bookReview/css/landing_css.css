@@ -199,10 +199,6 @@ body .carousel-control-next-icon {
     columns: 5;
 }
 
-#selectedText {
-    margin-right: 10px;
-}
-
 
 /* ------------------------ REDUNDANT CHUNK (DOESN'T SEEM TO BE USED ANYWHERE) ---------------------*/
 /* .inner-container {
