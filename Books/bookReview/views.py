@@ -318,21 +318,12 @@ def price(request):
         # for div in soup.find_all('div', attrs={'class': 'book-details'}):
         #     for a in div.find_all('a'):
         #         a.extract()
-<<<<<<< HEAD
-        for tag in soup.find_all():
-            if tag.name != 'p' or 'class' not in tag.attrs or 'prices' not in tag.attrs['class']:
-                for a in tag.find_all('a'):
-                    no_anchor = a.decompose()
-                    print(no_anchor)
-    # print(prices)
-=======
         p_tags_without_class = soup.find_all('p', attrs={'class': 'book-description'})
         for p_tag in p_tags_without_class:
             if p_tag.find('a'):
                 p_tag.find('a').extract()
         
     # print(price_list)
->>>>>>> dhruvi2
     return price_list
 
 # for landing page
