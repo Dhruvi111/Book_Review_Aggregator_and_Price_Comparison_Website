@@ -11,10 +11,6 @@ body {
 }
 
 /* -------------------------- HEADER / BANNER ------------------------- */
-/* header {
-    background-color: rgb(206, 237, 235);
-} */
-
 .banner {
     background-size: cover;
     background-position: center;
@@ -32,6 +28,14 @@ body {
 
 #control-right {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
+
+#banner-prev {
+    left: -60px;
+}
+
+#banner-next {
+    right: -60px;
 }
 
 /* -------------------------- NAVBAR ------------------------------ */
@@ -82,17 +86,16 @@ body .carousel-control-next-icon {
 .carousel-control-next,
 .carousel-control-prev {
     top: -90px;
-    /* padding-top: 10px; */
-}
-
-.carousel-control-next {
-    right: -60px;
     padding-top: 50px;
 }
 
-.carousel-control-prev {
-    left: -60px;
-    padding-top: 50px;
+/* change */
+#home-prev {
+    left: -95px;
+}
+
+#home-next {
+    right: -80px;
 }
 
 .card {
@@ -134,6 +137,13 @@ body .carousel-control-next-icon {
 
 .bookImage {
     border-radius: 7px;
+}
+
+/* ---------------------------- GENRE PAGE ---------------------------- */
+
+#genre-page-card {
+    width: 12rem;
+    height: 24rem;
 }
 
 /* ---------------------------- FOOTER ---------------------------- */

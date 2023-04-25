@@ -1,3 +1,4 @@
+from django import forms
 import requests
 from django.shortcuts import redirect, render, HttpResponse
 from .models import Book, Contact, favouriteBook, UserReview
@@ -502,13 +503,12 @@ def signin(request):
             fname = user.first_name
             lname = user.last_name
 
-            messages.warning(request, 'Logged In sucessfully!')
-            return render(request, "bookReview/login.html")
-            # return render(request, "bookReview/index.html", {'fname': fname, 'lname': lname})
-            # redirct ma proper nai aavtu
+            # messages.success(request, 'Logged In sucessfully!')
+            # return render(request, "bookReview/login.html")
+            return redirect('/userProfile/')
         
         else:
-            messages.error(request, "Sorry, the login credentials you entered are incorrect. Please try again or reset your password.")
+            messages.error(request, "Something is wrong, Please try again")
             return render(request, "bookReview/login.html")
 
     return render(request, "bookReview/login.html")
@@ -527,23 +527,27 @@ def signup(request):
         #   user = UserSignup(first_name=first_name,last_name=last_name,username=username, email=email)
         #   user.save()
 
-            myuser = User.objects.create_user(username, email, pwd)
-            myuser.first_name = fname
-            myuser.last_name = lname
-            myuser.save()
-
-            messages.warning(request, 'Your account has been created sucessfully!')
-            return redirect('/signin/')
+            if pwd != pwd2:
+                messages.warning(request, "Password does not match")
+            else:
+                myuser = User.objects.create_user(username, email, pwd)
+                myuser.first_name = fname
+                myuser.last_name = lname
+                myuser.save()
+                
+                messages.success(request, 'Your account has been created sucessfully!')
+                return redirect('/signin/')
+            
       
         except:
-            messages.error(request, 'The username has already been taken. Please try another one !')
+            messages.error(request, 'Something is wrong, Please try again')
             return redirect('/signup/')
     return render(request, "bookReview/signup.html")
 
 
 def signout(request):
     logout(request)
-    messages.warning(request, 'Logged out sucessfully!')
+    messages.info(request, "Keep on reading and don't forget to log back in for more!")
     # return redirect('signin')
     return render(request, "bookReview/login.html")
 

@@ -60,7 +60,40 @@
         width: 12rem;
         {% comment %} height: 25.5rem; {% endcomment %}
     }
-
+    .uf-card-title{
+        color: black !important;
+        height: 3rem;
+    }
+    .uf-card-text{
+        color: rgb(80, 79, 79) !important;
+        height: 1.25rem;
+    }
+    .uf-detail-btn{
+        display: block;
+        text-align: center;
+        background-color: #FF9F1C;
+        color: #fff;
+        border-radius: 20px;
+    }
+    .uf-detail-btn:hover{
+        border: 2px solid #ff9f1c;
+        background-color: #FFF;
+        color: #ff9f1c;
+    }
+    .uf-del-btn{
+        border: 2px solid #e71d36;
+        border-radius: 20px;
+    }
+    table, td{
+        /*border: 1px solid black;*/
+        text-align: center;
+    }
+    .td-detail{
+        padding-right: .5rem;
+    }
+    .td-delete{
+        padding-left: .5rem;
+    }
 </style>
 {% endblock css %}
 
@@ -100,58 +133,78 @@
                                     {% if 'http' in i.image%}
                                         <img src="{{i.image}}" class="card-img-top bookImage" alt="Loading image..">
                                         <div class="card-body text-center">
-                                            <h5 class="card-title" id="namepr{{i.book_id}}">
+                                            <h5 class="uf-card-title" id="namepr{{i.book_id}}">
                                                 {% if i.title|length >= 25 %}
                                                     {{i.title|slice:":25"}}...   
                                                 {% else %}
                                                     {{i.title}}  
-                                                {% endif %}
-                                                
+                                                {% endif %} 
                                             </h5>      
-                                            <h6 class="card-text"> 
+                                            <h6 class="uf-card-text"> 
                                                 {% if i.author_list|join:", "|escape|length >= 25 %}
                                                     {{i.author_list| join:", " | escape | slice:":35"}}...
                                                 {% else %}
                                                     {{i.author_list|join:", "}}
                                                 {% endif %}     
                                             </h6>
-                                            <button class="btn card-hover-button pt-1 pb-1 mx-auto my-2" onclick="location.href='{% url 'Details' %}?id={{i.book_id_api}}'">Details</button>
+                                            <table class="mx-auto">
+                                                <tbody>
+                                                <tr>
+                                                <td class="td-detail">
+                                                    <button class="btn uf-detail-btn mx-auto" onclick="location.href='{% url 'Details' %}?id={{i.book_id_api}}'">Details</button>
+                                                </td>
+                                                <td class="td-delete">
+                                                    <form action="/userProfile/d" method="POST">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="hidden_bookId" value={{i.book_id_api}}> 
+                                                        <button class="btn btn-outline-danger uf-del-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                                          </svg>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                                </tr>
+                                                </tbody>
+                                                </table>
+                                            
                                         </div> 
-                                        
-                                        <form action="/userProfile/d" method="POST">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="hidden_bookId" value={{i.book_id_api}}> 
-                                            <button class="btn btn-danger my-3">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                              </svg>
-                                            </button>
-                                        </form>
-                                        
-
+                                   
                                     {% else%}
                                 
                                         <img src="/media/{{i.book_id_db.image}}" class="card-img-top bookImage" alt="Loading image..">
                                         <div class="card-body text-center">
-                                        <h5 class="card-title">
+                                        <h5 class="uf-card-title">
                                             {% if i.book_id_db.title|length >= 25 %}
                                                 {{i.book_id_db.title|slice:":25"}}...   
                                             {% else %}
                                                 {{i.book_id_db.title}}  
                                             {% endif %}
                                             </h5>
-                                        <h6 class="card-text">{{i.book_id_db.author}}</h6>
-                                        <button class="btn card-hover-button pt-1 pb-1 mx-auto my-2" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id_db}}'">Details</button>
-                                        </div> 
+                                        <h6 class="uf-card-text">{{i.book_id_db.author}}</h6>
+                                        <table class="mx-auto">
+                                            <tbody>
+                                            <tr>
+                                            <td class="td-detail">
+                                                <button class="btn uf-detail-btn mx-auto" onclick="location.href='{% url 'DetailsHome' %}?bookId={{i.book_id_db}}'">Details</button>
+                                            </td>
+                                            <td class="td-delete">
+                                                <form action="/userProfile/d" method="POST">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="hidden_bookId" value={{i.book_id_db}}> 
+                                                    <button class="btn btn-outline-danger uf-del-btn">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                                      </svg>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                            </tr>
+                                            </tbody>
+                                            </table>
                                         
-
-                                        <form action="/userProfile/d" method="POST">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="hidden_bookId" value={{i.book_id_db}}> 
-                                            <button class="btn btn-danger my-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                              </svg></button>
-                                        </form>
+                                        </div> 
+                                    
                                     {% endif %}
                                     
                                 </div>

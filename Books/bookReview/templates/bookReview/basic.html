@@ -214,7 +214,17 @@
     crossorigin="anonymous"
     ></script>
 
-    {% block js %}{% endblock js %}
+    {% block js %}
+    <script>
+      var info_messages = document.getElementsByClassName('alert');
+  
+      setTimeout(function(){
+          for (var i = 0; i < info_messages.length; i ++) {
+              info_messages[i].setAttribute('style', 'display:none !important');
+          }
+      }, 15000);
+  </script>
+    {% endblock js %}
 
       {% comment %} <script>
         $(document).ready(function(){
